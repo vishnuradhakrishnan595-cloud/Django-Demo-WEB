@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MiniShop - Edit customer profile">
+
+    <title>MiniShop - Edit Profile</title>
+
+
+    <!-- =====================================================
+         TAILWIND CSS
+    ====================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ====================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        apple: {
+                            black: "#1d1d1f",
+                            gray: "#6e6e73",
+                            light: "#f5f5f7",
+                            border: "#d2d2d7"
+                        }
+
+                    },
+
+                    boxShadow: {
+
+                        "apple":
+                            "0 4px 20px rgba(0,0,0,0.08)",
+
+                        "apple-lg":
+                            "0 12px 40px rgba(0,0,0,0.10)"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- =====================================================
+         STYLE
+    ====================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "SF Pro Text",
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s ease-out;
+        }
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .fade-in {
+            animation: fadeIn 0.7s ease-out;
+        }
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+
+        }
+
+        input,
+        textarea {
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+
+        }
+
+        input:focus,
+        textarea:focus {
+
+            border-color: #1d1d1f !important;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(29, 29, 31, 0.08);
+
+        }
+
+        .upload-box {
+
+            transition:
+                background-color 0.2s ease,
+                border-color 0.2s ease;
+
+        }
+
+        .upload-box:hover {
+
+            background-color: #fafafa;
+            border-color: #999;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="bg-[#f5f5f7] text-[#1d1d1f] min-h-screen">
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================== -->
+
+<nav
+    class="bg-white/95 backdrop-blur-xl
+           border-b border-[#d2d2d7]
+           sticky top-0 z-50"
+>
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+        <div class="h-16 flex items-center justify-between">
+
+
+            <!-- =================================================
+                 LOGO
+            ================================================== -->
+
+            <a
+                href="{% url 'user_home' %}"
+                class="flex items-center gap-3 group"
+            >
+
+                <!-- Logo -->
+
+                <div
+                    class="w-9 h-9
+                           bg-[#1d1d1f]
+                           text-white
+                           rounded-xl
+                           flex items-center justify-center
+                           font-semibold
+                           text-lg
+                           shadow-sm
+                           group-hover:scale-105
+                           transition"
+                >
+                    M
+                </div>
+
+
+                <span
+                    class="text-xl
+                           font-semibold
+                           tracking-tight
+                           text-[#1d1d1f]"
+                >
+                    MiniShop
+                </span>
+
+            </a>
+
+
+            <!-- =================================================
+                 DESKTOP NAVIGATION
+            ================================================== -->
+
+            <div
+                class="hidden md:flex
+                       items-center
+                       gap-1"
+            >
+
+                <a
+                    href="{% url 'user_home' %}"
+                    class="px-4 py-2
+                           text-sm
+                           text-[#6e6e73]
+                           rounded-full
+                           hover:bg-[#f5f5f7]
+                           hover:text-[#1d1d1f]
+                           transition"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="{% url 'user_products' %}"
+                    class="px-4 py-2
+                           text-sm
+                           text-[#6e6e73]
+                           rounded-full
+                           hover:bg-[#f5f5f7]
+                           hover:text-[#1d1d1f]
+                           transition"
+                >
+                    Products
+                </a>
+
+
+                <a
+                    href="{% url 'cart' %}"
+                    class="px-4 py-2
+                           text-sm
+                           text-[#6e6e73]
+                           rounded-full
+                           hover:bg-[#f5f5f7]
+                           hover:text-[#1d1d1f]
+                           transition"
+                >
+                    Cart
+                </a>
+
+
+                <a
+                    href="{% url 'orders' %}"
+                    class="px-4 py-2
+                           text-sm
+                           text-[#6e6e73]
+                           rounded-full
+                           hover:bg-[#f5f5f7]
+                           hover:text-[#1d1d1f]
+                           transition"
+                >
+                    Orders
+                </a>
+
+
+                <!-- Active -->
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="px-4 py-2
+                           text-sm
+                           font-medium
+                           text-[#1d1d1f]
+                           bg-[#f5f5f7]
+                           rounded-full"
+                >
+                    Profile
+                </a>
+
+
+                <!-- Logout -->
+
+                <a
+                    href="{% url 'user_logout' %}"
+                    class="ml-3
+                           px-4 py-2
+                           text-sm
+                           font-medium
+                           text-white
+                           bg-[#1d1d1f]
+                           rounded-full
+                           hover:bg-black
+                           transition"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN
+========================================================== -->
+
+<main class="max-w-3xl mx-auto px-5 sm:px-6 py-12 md:py-16">
+
+
+    <!-- =====================================================
+         PAGE INTRO
+    ====================================================== -->
+
+    <div class="text-center mb-10 fade-in">
+
+        <p
+            class="text-sm
+                   font-medium
+                   text-[#6e6e73]
+                   uppercase
+                   tracking-widest
+                   mb-3"
+        >
+            Account Settings
+        </p>
+
+
+        <h1
+            class="text-4xl
+                   md:text-5xl
+                   font-semibold
+                   tracking-tight
+                   text-[#1d1d1f]"
+        >
+            Edit Profile
+        </h1>
+
+
+        <p
+            class="text-[#6e6e73]
+                   text-base
+                   md:text-lg
+                   mt-4"
+        >
+            Update your personal information.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         PROFILE CARD
+    ====================================================== -->
+
+    <div
+        class="fade-up
+               bg-white
+               rounded-3xl
+               border border-[#d2d2d7]
+               shadow-apple-lg
+               overflow-hidden"
+    >
+
+
+        <!-- =================================================
+             PROFILE HEADER
+        ================================================== -->
+
+        <div
+            class="relative
+                   bg-[#1d1d1f]
+                   px-6
+                   md:px-10
+                   py-10
+                   text-center
+                   overflow-hidden"
+        >
+
+            <!-- Decorative circles -->
+
+            <div
+                class="absolute
+                       w-48 h-48
+                       rounded-full
+                       bg-white/[0.03]
+                       -top-24
+                       -right-16"
+            ></div>
+
+
+            <div
+                class="absolute
+                       w-40 h-40
+                       rounded-full
+                       bg-white/[0.03]
+                       -bottom-24
+                       -left-16"
+            ></div>
+
+
+            <!-- =================================================
+                 PROFILE IMAGE
+            ================================================== -->
+
+            <div
+                class="relative
+                       w-28
+                       h-28
+                       mx-auto"
+            >
+
+                {% if profile.image %}
+
+                    <img
+                        src="{{ profile.image.url }}"
+                        alt="{{ user.name }}"
+                        class="w-full
+                               h-full
+                               rounded-full
+                               object-cover
+                               border-4
+                               border-white
+                               shadow-xl"
+                    >
+
+                {% else %}
+
+                    <div
+                        class="w-full
+                               h-full
+                               rounded-full
+                               bg-white
+                               text-[#1d1d1f]
+                               flex
+                               items-center
+                               justify-center
+                               text-4xl
+                               font-semibold
+                               border-4
+                               border-white
+                               shadow-xl"
+                    >
+
+                        {{ user.name|first|upper }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Edit indicator -->
+
+                <div
+                    class="absolute
+                           bottom-1
+                           right-1
+                           w-8
+                           h-8
+                           rounded-full
+                           bg-white
+                           border-2
+                           border-[#1d1d1f]
+                           flex
+                           items-center
+                           justify-center
+                           shadow-md"
+                >
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 text-[#1d1d1f]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.232 5.232l3.536 3.536M4 20h4l10.5-10.5a2.121 2.121 0 10-3-3L5 17v3z"
+                        />
+
+                    </svg>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <h2
+                class="relative
+                       text-white
+                       text-2xl
+                       md:text-3xl
+                       font-semibold
+                       tracking-tight
+                       mt-5"
+            >
+                {{ user.name }}
+            </h2>
+
+
+            <!-- SUBTITLE -->
+
+            <p
+                class="relative
+                       text-white/60
+                       text-sm
+                       mt-2"
+            >
+                MiniShop Customer
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="p-6 sm:p-8 md:p-10"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =================================================
+                 PROFILE PHOTO
+            ================================================== -->
+
+            <div class="mb-8">
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-[#1d1d1f]
+                           mb-3"
+                >
+                    Profile Picture
+                </label>
+
+
+                <div
+                    class="upload-box
+                           border
+                           border-dashed
+                           border-[#d2d2d7]
+                           rounded-2xl
+                           p-5
+                           bg-[#f5f5f7]"
+                >
+
+                    <div
+                        class="flex
+                               flex-col
+                               sm:flex-row
+                               sm:items-center
+                               gap-4"
+                    >
+
+
+                        <!-- Upload Icon -->
+
+                        <div
+                            class="w-12
+                                   h-12
+                                   rounded-xl
+                                   bg-white
+                                   border
+                                   border-[#d2d2d7]
+                                   flex
+                                   items-center
+                                   justify-center
+                                   flex-shrink-0"
+                        >
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5 text-[#1d1d1f]"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="flex-1">
+
+                            <input
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                                class="w-full
+                                       text-sm
+                                       text-[#6e6e73]
+                                       file:mr-4
+                                       file:py-2
+                                       file:px-4
+                                       file:rounded-full
+                                       file:border-0
+                                       file:bg-[#1d1d1f]
+                                       file:text-white
+                                       file:font-medium
+                                       file:cursor-pointer
+                                       hover:file:bg-black
+                                       cursor-pointer"
+                            >
+
+                            <p
+                                class="text-xs
+                                       text-[#6e6e73]
+                                       mt-2"
+                            >
+                                JPG, PNG or other supported image format.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PERSONAL INFORMATION
+            ================================================== -->
+
+            <div class="mb-8">
+
+                <div
+                    class="flex
+                           items-center
+                           gap-3
+                           mb-5"
+                >
+
+                    <div
+                        class="h-px
+                               flex-1
+                               bg-[#d2d2d7]"
+                    ></div>
+
+                    <span
+                        class="text-xs
+                               font-semibold
+                               uppercase
+                               tracking-widest
+                               text-[#6e6e73]"
+                    >
+                        Personal Information
+                    </span>
+
+                    <div
+                        class="h-px
+                               flex-1
+                               bg-[#d2d2d7]"
+                    ></div>
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <div class="mb-5">
+
+                    <label
+                        for="name"
+                        class="block
+                               text-sm
+                               font-semibold
+                               text-[#1d1d1f]
+                               mb-2"
+                    >
+                        Full Name
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ user.name }}"
+                        required
+                        class="w-full
+                               px-4
+                               py-3.5
+                               bg-white
+                               border
+                               border-[#d2d2d7]
+                               rounded-xl
+                               text-[#1d1d1f]
+                               placeholder-[#86868b]
+                               focus:outline-none"
+                        placeholder="Enter your name"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="mb-5">
+
+                    <label
+                        for="email"
+                        class="block
+                               text-sm
+                               font-semibold
+                               text-[#1d1d1f]
+                               mb-2"
+                    >
+                        Email Address
+                    </label>
+
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ user.email }}"
+                        required
+                        class="w-full
+                               px-4
+                               py-3.5
+                               bg-white
+                               border
+                               border-[#d2d2d7]
+                               rounded-xl
+                               text-[#1d1d1f]
+                               placeholder-[#86868b]
+                               focus:outline-none"
+                        placeholder="Enter your email"
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div>
+
+                    <label
+                        for="phone"
+                        class="block
+                               text-sm
+                               font-semibold
+                               text-[#1d1d1f]
+                               mb-2"
+                    >
+                        Phone Number
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value="{{ profile.phone }}"
+                        class="w-full
+                               px-4
+                               py-3.5
+                               bg-white
+                               border
+                               border-[#d2d2d7]
+                               rounded-xl
+                               text-[#1d1d1f]
+                               placeholder-[#86868b]
+                               focus:outline-none"
+                        placeholder="Enter your phone number"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DELIVERY INFORMATION
+            ================================================== -->
+
+            <div class="mb-8">
+
+                <div
+                    class="flex
+                           items-center
+                           gap-3
+                           mb-5"
+                >
+
+                    <div
+                        class="h-px
+                               flex-1
+                               bg-[#d2d2d7]"
+                    ></div>
+
+                    <span
+                        class="text-xs
+                               font-semibold
+                               uppercase
+                               tracking-widest
+                               text-[#6e6e73]"
+                    >
+                        Delivery Information
+                    </span>
+
+                    <div
+                        class="h-px
+                               flex-1
+                               bg-[#d2d2d7]"
+                    ></div>
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div>
+
+                    <label
+                        for="address"
+                        class="block
+                               text-sm
+                               font-semibold
+                               text-[#1d1d1f]
+                               mb-2"
+                    >
+                        Address
+                    </label>
+
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        rows="4"
+                        class="w-full
+                               px-4
+                               py-3.5
+                               bg-white
+                               border
+                               border-[#d2d2d7]
+                               rounded-xl
+                               text-[#1d1d1f]
+                               placeholder-[#86868b]
+                               focus:outline-none
+                               resize-none"
+                        placeholder="Enter your delivery address"
+                    >{{ profile.address }}</textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 BUTTONS
+            ================================================== -->
+
+            <div
+                class="pt-6
+                       border-t
+                       border-[#d2d2d7]
+                       flex
+                       flex-col-reverse
+                       sm:flex-row
+                       gap-3"
+            >
+
+
+                <!-- CANCEL -->
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="flex-1
+                           text-center
+                           bg-white
+                           border
+                           border-[#d2d2d7]
+                           text-[#1d1d1f]
+                           font-medium
+                           py-3.5
+                           px-6
+                           rounded-full
+                           hover:bg-[#f5f5f7]
+                           transition
+                           duration-200"
+                >
+                    Cancel
+                </a>
+
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    class="flex-1
+                           bg-[#1d1d1f]
+                           hover:bg-black
+                           text-white
+                           font-medium
+                           py-3.5
+                           px-6
+                           rounded-full
+                           transition
+                           duration-200
+                           shadow-sm
+                           hover:shadow-md"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 SECURITY NOTE
+            ================================================== -->
+
+            <div
+                class="mt-6
+                       flex
+                       items-start
+                       gap-3
+                       p-4
+                       rounded-2xl
+                       bg-[#f5f5f7]"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5
+                           text-[#6e6e73]
+                           flex-shrink-0
+                           mt-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v2h8z"
+                    />
+
+                </svg>
+
+
+                <p
+                    class="text-xs
+                           leading-5
+                           text-[#6e6e73]"
+                >
+                    Your account information is used only to provide
+                    your MiniShop shopping experience and delivery
+                    services.
+                </p>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer
+    class="border-t
+           border-[#d2d2d7]
+           bg-white
+           mt-10"
+>
+
+    <div
+        class="max-w-7xl
+               mx-auto
+               px-5
+               py-8
+               text-center"
+    >
+
+        <p
+            class="text-sm
+                   text-[#6e6e73]"
+        >
+            © 2026 MiniShop. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

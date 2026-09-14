@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MiniShop shopping cart">
+
+    <title>MiniShop - Cart</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ===================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         TAILWIND CSS
+    ===================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ===================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        apple: {
+
+                            black: "#1d1d1f",
+
+                            gray: "#6e6e73",
+
+                            light: "#f5f5f7",
+
+                            border: "#d2d2d7"
+
+                        }
+
+                    },
+
+                    boxShadow: {
+
+                        apple:
+                            "0 2px 10px rgba(0,0,0,0.05)",
+
+                        appleLg:
+                            "0 8px 30px rgba(0,0,0,0.08)"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ===================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            background: #f5f5f7;
+
+            color: #1d1d1f;
+
+        }
+
+        ::selection {
+
+            background: #1d1d1f;
+
+            color: white;
+
+        }
+
+        .nav-link {
+
+            transition:
+                color 0.2s ease,
+                opacity 0.2s ease;
+
+        }
+
+        .nav-link:hover {
+
+            color: #000;
+
+        }
+
+        .product-card {
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+        .product-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.07);
+
+        }
+
+        .quantity-input {
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+        .quantity-input:focus {
+
+            border-color: #1d1d1f;
+
+            box-shadow:
+                0 0 0 2px rgba(29,29,31,0.08);
+
+        }
+
+        .checkout-button {
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
+
+        }
+
+        .checkout-button:hover {
+
+            background: #000;
+
+            transform: translateY(-1px);
+
+        }
+
+        .checkout-button:active {
+
+            transform: translateY(0);
+
+        }
+
+        .remove-button {
+
+            transition:
+                color 0.2s ease;
+
+        }
+
+        .remove-button:hover {
+
+            color: #000;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-apple-border">
+
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
+        <div class="h-16 flex items-center justify-between">
+
+
+            <!-- LOGO -->
+
+            <a
+                href="{% url 'user_home' %}"
+                class="flex items-center gap-3"
+            >
+
+                <div
+                    class="w-9 h-9
+                           rounded-full
+                           bg-apple-black
+                           text-white
+                           flex
+                           items-center
+                           justify-center
+                           text-sm
+                           font-semibold"
+                >
+
+                    M
+
+                </div>
+
+                <span
+                    class="text-lg
+                           font-semibold
+                           tracking-tight
+                           text-apple-black"
+                >
+
+                    MiniShop
+
+                </span>
+
+            </a>
+
+
+            <!-- DESKTOP NAVIGATION -->
+
+            <div class="hidden md:flex items-center gap-8">
+
+                <a
+                    href="{% url 'user_home' %}"
+                    class="nav-link text-sm text-apple-gray"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="{% url 'user_products' %}"
+                    class="nav-link text-sm text-apple-gray"
+                >
+                    Products
+                </a>
+
+                <a
+                    href="{% url 'cart' %}"
+                    class="nav-link text-sm font-medium text-apple-black"
+                >
+                    Cart
+                </a>
+
+                <a
+                    href="{% url 'orders' %}"
+                    class="nav-link text-sm text-apple-gray"
+                >
+                    Orders
+                </a>
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="nav-link text-sm text-apple-gray"
+                >
+                    Profile
+                </a>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="flex items-center gap-3">
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="hidden sm:flex
+                           w-9
+                           h-9
+                           rounded-full
+                           bg-apple-light
+                           border
+                           border-apple-border
+                           items-center
+                           justify-center
+                           text-sm
+                           font-medium"
+                >
+
+                    {% if user.name %}
+
+                        {{ user.name|first|upper }}
+
+                    {% else %}
+
+                        U
+
+                    {% endif %}
+
+                </a>
+
+
+                <a
+                    href="{% url 'user_logout' %}"
+                    class="hidden sm:block
+                           text-sm
+                           text-apple-gray
+                           hover:text-apple-black
+                           transition"
+                >
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main
+    class="max-w-7xl
+           mx-auto
+           px-5
+           sm:px-6
+           lg:px-8
+           pt-5
+           sm:pt-7
+           pb-10
+           sm:pb-12"
+>
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ===================================================== -->
+
+    <div class="mb-6">
+
+
+        <!-- BREADCRUMB -->
+
+        <div
+            class="flex
+                   items-center
+                   gap-2
+                   text-xs
+                   text-apple-gray
+                   mb-3"
+        >
+
+            <a
+                href="{% url 'user_home' %}"
+                class="hover:text-apple-black transition"
+            >
+                Home
+            </a>
+
+            <span>/</span>
+
+            <span class="text-apple-black">
+                Cart
+            </span>
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <div
+            class="flex
+                   flex-col
+                   sm:flex-row
+                   sm:items-end
+                   sm:justify-between
+                   gap-3"
+        >
+
+            <div>
+
+                <h1
+                    class="text-3xl
+                           sm:text-4xl
+                           font-semibold
+                           tracking-tight
+                           text-apple-black"
+                >
+
+                    Your Cart
+
+                </h1>
+
+                <p
+                    class="mt-2
+                           text-sm
+                           sm:text-base
+                           text-apple-gray"
+                >
+
+                    Review your selected products before checkout.
+
+                </p>
+
+            </div>
+
+
+            <!-- ITEM COUNT -->
+
+            {% if items %}
+
+                <div
+                    class="self-start
+                           sm:self-auto
+                           px-3
+                           py-1.5
+                           rounded-full
+                           bg-white
+                           border
+                           border-apple-border
+                           text-xs
+                           font-medium
+                           text-apple-black"
+                >
+
+                    {{ items|length }} item{{ items|length|pluralize }}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         CART CONTENT
+    ========================================================= -->
+
+    {% if items %}
+
+
+        <div
+            class="grid
+                   grid-cols-1
+                   lg:grid-cols-3
+                   gap-6
+                   lg:gap-8"
+        >
+
+
+            <!-- =================================================
+                 PRODUCT LIST
+            ================================================= -->
+
+            <section class="lg:col-span-2">
+
+
+                <div class="space-y-3">
+
+
+                    {% for item in items %}
+
+
+                        <!-- PRODUCT CARD -->
+
+                        <div
+                            class="product-card
+                                   bg-white
+                                   border
+                                   border-apple-border
+                                   rounded-2xl
+                                   p-4
+                                   sm:p-5
+                                   shadow-apple"
+                        >
+
+                            <div
+                                class="flex
+                                       gap-4
+                                       sm:gap-5"
+                            >
+
+
+                                <!-- PRODUCT IMAGE -->
+
+                                <div
+                                    class="flex-shrink-0
+                                           w-24
+                                           h-28
+                                           sm:w-28
+                                           sm:h-28
+                                           rounded-xl
+                                           bg-apple-light
+                                           overflow-hidden
+                                           border
+                                           border-apple-border"
+                                >
+
+                                    {% if item.product.image %}
+
+                                        <img
+                                            src="{{ item.product.image.url }}"
+                                            alt="{{ item.product.name }}"
+                                            class="w-full
+                                                   h-full
+                                                   object-cover"
+                                        >
+
+                                    {% else %}
+
+                                        <div
+                                            class="w-full
+                                                   h-full
+                                                   flex
+                                                   items-center
+                                                   justify-center
+                                                   text-apple-gray
+                                                   text-xs"
+                                        >
+
+                                            No Image
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- PRODUCT INFORMATION -->
+
+                                <div
+                                    class="flex-1
+                                           min-w-0
+                                           flex
+                                           flex-col"
+                                >
+
+
+                                    <!-- TOP -->
+
+                                    <div
+                                        class="flex
+                                               items-start
+                                               justify-between
+                                               gap-3"
+                                    >
+
+                                        <div class="min-w-0">
+
+                                            <h2
+                                                class="text-base
+                                                       sm:text-lg
+                                                       font-semibold
+                                                       text-apple-black
+                                                       truncate"
+                                            >
+
+                                                {{ item.product.name }}
+
+                                            </h2>
+
+
+                                            {% if item.product.description %}
+
+                                                <p
+                                                    class="mt-1
+                                                           text-xs
+                                                           sm:text-sm
+                                                           text-apple-gray
+                                                           line-clamp-2"
+                                                >
+
+                                                    {{ item.product.description }}
+
+                                                </p>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <!-- PRICE -->
+
+                                        <div
+                                            class="flex-shrink-0
+                                                   text-right"
+                                        >
+
+                                            <p
+                                                class="text-base
+                                                       sm:text-lg
+                                                       font-semibold
+                                                       text-apple-black"
+                                            >
+
+                                                ₹{{ item.subtotal }}
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- SELLER -->
+
+                                    <div
+                                        class="mt-2
+                                               text-xs
+                                               text-apple-gray"
+                                    >
+
+                                        Sold by
+
+                                        <span class="text-apple-black font-medium">
+
+                                            {{ item.product.shop.name }}
+
+                                        </span>
+
+                                    </div>
+
+
+
+                                    <!-- BOTTOM -->
+
+                                    <div
+                                        class="mt-auto
+                                               pt-4
+                                               flex
+                                               flex-wrap
+                                               items-center
+                                               justify-between
+                                               gap-3"
+                                    >
+
+
+                                        <!-- UNIT PRICE -->
+
+                                        <p
+                                            class="text-xs
+                                                   text-apple-gray"
+                                        >
+
+                                            ₹{{ item.product.price }} each
+
+                                        </p>
+
+
+
+                                        <!-- ACTIONS -->
+
+                                        <div
+                                            class="flex
+                                                   items-center
+                                                   gap-4"
+                                        >
+
+
+                                            <!-- QUANTITY -->
+
+                                            <form
+                                                method="POST"
+                                                action="{% url 'update_cart' item.id %}"
+                                                class="flex items-center"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <label
+                                                    for="quantity-{{ item.id }}"
+                                                    class="sr-only"
+                                                >
+                                                    Quantity
+                                                </label>
+
+                                                <input
+                                                    id="quantity-{{ item.id }}"
+                                                    type="number"
+                                                    name="quantity"
+                                                    value="{{ item.quantity }}"
+                                                    min="1"
+                                                    class="quantity-input
+                                                           w-16
+                                                           h-9
+                                                           px-2
+                                                           text-center
+                                                           text-sm
+                                                           bg-white
+                                                           border
+                                                           border-apple-border
+                                                           rounded-lg
+                                                           text-apple-black"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="ml-2
+                                                           h-9
+                                                           px-3
+                                                           rounded-lg
+                                                           border
+                                                           border-apple-border
+                                                           bg-white
+                                                           text-xs
+                                                           font-medium
+                                                           text-apple-black
+                                                           hover:bg-apple-light
+                                                           transition"
+                                                >
+
+                                                    Update
+
+                                                </button>
+
+                                            </form>
+
+
+
+                                            <!-- REMOVE -->
+
+                                            <a
+                                                href="{% url 'remove_from_cart' item.id %}"
+                                                class="remove-button
+                                                       text-xs
+                                                       font-medium
+                                                       text-apple-gray"
+                                            >
+
+                                                Remove
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- CONTINUE SHOPPING -->
+
+                <div class="mt-5">
+
+                    <a
+                        href="{% url 'user_products' %}"
+                        class="inline-flex
+                               items-center
+                               gap-2
+                               text-sm
+                               font-medium
+                               text-apple-black
+                               hover:underline"
+                    >
+
+                        <span>←</span>
+
+                        Continue Shopping
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ORDER SUMMARY
+            ================================================= -->
+
+            <aside>
+
+
+                <div
+                    class="bg-white
+                           border
+                           border-apple-border
+                           rounded-2xl
+                           p-5
+                           sm:p-6
+                           shadow-appleLg
+                           lg:sticky
+                           lg:top-20"
+                >
+
+
+                    <!-- TITLE -->
+
+                    <h2
+                        class="text-lg
+                               font-semibold
+                               text-apple-black"
+                    >
+
+                        Order Summary
+
+                    </h2>
+
+
+
+                    <!-- SUMMARY ROWS -->
+
+                    <div
+                        class="mt-5
+                               space-y-4"
+                    >
+
+
+                        <div
+                            class="flex
+                                   items-center
+                                   justify-between
+                                   text-sm"
+                        >
+
+                            <span class="text-apple-gray">
+
+                                Subtotal
+
+                            </span>
+
+                            <span
+                                class="font-medium
+                                       text-apple-black"
+                            >
+
+                                ₹{{ total }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex
+                                   items-center
+                                   justify-between
+                                   text-sm"
+                        >
+
+                            <span class="text-apple-gray">
+
+                                Delivery
+
+                            </span>
+
+                            <span
+                                class="font-medium
+                                       text-apple-black"
+                            >
+
+                                Free
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex
+                                   items-center
+                                   justify-between
+                                   text-sm"
+                        >
+
+                            <span class="text-apple-gray">
+
+                                Tax
+
+                            </span>
+
+                            <span
+                                class="font-medium
+                                       text-apple-black"
+                            >
+
+                                Included
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DIVIDER -->
+
+                    <div
+                        class="my-5
+                               border-t
+                               border-apple-border"
+                    ></div>
+
+
+
+                    <!-- TOTAL -->
+
+                    <div
+                        class="flex
+                               items-center
+                               justify-between"
+                    >
+
+                        <span
+                            class="text-base
+                                   font-semibold
+                                   text-apple-black"
+                        >
+
+                            Total
+
+                        </span>
+
+                        <span
+                            class="text-xl
+                                   font-semibold
+                                   text-apple-black"
+                        >
+
+                            ₹{{ total }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- CHECKOUT -->
+
+                    <a
+                        href="{% url 'checkout' %}"
+                        class="checkout-button
+                               mt-6
+                               w-full
+                               h-12
+                               rounded-xl
+                               bg-apple-black
+                               text-white
+                               flex
+                               items-center
+                               justify-center
+                               text-sm
+                               font-medium"
+                    >
+
+                        Proceed to Checkout
+
+                    </a>
+
+
+
+                    <!-- SECURITY NOTE -->
+
+                    <div
+                        class="mt-4
+                               text-center"
+                    >
+
+                        <p
+                            class="text-xs
+                                   leading-5
+                                   text-apple-gray"
+                        >
+
+                            Secure checkout · Free delivery
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- =====================================================
+             EMPTY CART
+        ===================================================== -->
+
+        <section
+            class="bg-white
+                   border
+                   border-apple-border
+                   rounded-2xl
+                   shadow-apple
+                   px-6
+                   py-12
+                   sm:py-16
+                   text-center"
+        >
+
+            <!-- ICON -->
+
+            <div
+                class="mx-auto
+                       w-16
+                       h-16
+                       rounded-full
+                       bg-apple-light
+                       border
+                       border-apple-border
+                       flex
+                       items-center
+                       justify-center"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-apple-black"
+                >
+
+                    <circle
+                        cx="9"
+                        cy="21"
+                        r="1"
+                    />
+
+                    <circle
+                        cx="20"
+                        cy="21"
+                        r="1"
+                    />
+
+                    <path
+                        d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L21 6H6"
+                    />
+
+                </svg>
+
+            </div>
+
+
+
+            <!-- TEXT -->
+
+            <h2
+                class="mt-5
+                       text-2xl
+                       font-semibold
+                       tracking-tight
+                       text-apple-black"
+            >
+
+                Your cart is empty
+
+            </h2>
+
+            <p
+                class="mt-2
+                       max-w-md
+                       mx-auto
+                       text-sm
+                       text-apple-gray"
+            >
+
+                You haven't added anything to your cart yet.
+                Explore our products and find something you like.
+
+            </p>
+
+
+
+            <!-- BUTTON -->
+
+            <a
+                href="{% url 'user_products' %}"
+                class="inline-flex
+                       items-center
+                       justify-center
+                       mt-6
+                       h-11
+                       px-6
+                       rounded-xl
+                       bg-apple-black
+                       text-white
+                       text-sm
+                       font-medium
+                       hover:bg-black
+                       transition"
+            >
+
+                Browse Products
+
+            </a>
+
+        </section>
+
+
+    {% endif %}
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer
+    class="bg-apple-black
+           text-white
+           mt-4"
+>
+
+    <div
+        class="max-w-7xl
+               mx-auto
+               px-5
+               sm:px-6
+               lg:px-8
+               py-8"
+    >
+
+        <div
+            class="flex
+                   flex-col
+                   sm:flex-row
+                   items-center
+                   justify-between
+                   gap-4"
+        >
+
+
+            <!-- BRAND -->
+
+            <div class="text-center sm:text-left">
+
+                <p
+                    class="font-semibold
+                           text-sm"
+                >
+
+                    MiniShop
+
+                </p>
+
+                <p
+                    class="mt-1
+                           text-xs
+                           text-gray-400"
+                >
+
+                    Simple. Smart. Shopping.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- LINKS -->
+
+            <div
+                class="flex
+                       items-center
+                       gap-5
+                       text-xs
+                       text-gray-400"
+            >
+
+                <a
+                    href="{% url 'user_home' %}"
+                    class="hover:text-white transition"
+                >
+
+                    Home
+
+                </a>
+
+                <a
+                    href="{% url 'user_products' %}"
+                    class="hover:text-white transition"
+                >
+
+                    Products
+
+                </a>
+
+                <a
+                    href="{% url 'orders' %}"
+                    class="hover:text-white transition"
+                >
+
+                    Orders
+
+                </a>
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="hover:text-white transition"
+                >
+
+                    Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- COPYRIGHT -->
+
+        <div
+            class="mt-6
+                   pt-5
+                   border-t
+                   border-white/10
+                   text-center"
+        >
+
+            <p
+                class="text-xs
+                       text-gray-500"
+            >
+
+                © {% now "Y" %} MiniShop. All rights reserved.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

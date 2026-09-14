@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MiniShop - Register</title>
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Tailwind CSS -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        sans: [
+                            'Inter',
+                            'sans-serif'
+                        ],
+
+                    },
+
+                    colors: {
+
+                        sage: {
+
+                            50: '#f4f7f4',
+                            100: '#e3eae3',
+                            200: '#c5d5c3',
+                            300: '#a3b899',
+                            600: '#4a6042',
+                            800: '#212f1f',
+                            900: '#172215',
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+</head>
+
+
+<body class="bg-[#f8f9fa] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans text-gray-900 antialiased">
+
+
+    <!-- =================================================
+         MAIN CARD
+    ================================================== -->
+
+    <div class="w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col md:flex-row my-auto">
+
+
+        <!-- =================================================
+             LEFT SECTION
+        ================================================== -->
+
+        <div class="md:w-1/2 relative bg-[#212f1f] p-8 md:p-12 flex flex-col justify-between min-h-[320px] md:min-h-[580px] overflow-hidden text-white">
+
+
+            <!-- Background -->
+
+            <div class="absolute inset-0 z-0">
+
+                <img
+                    src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1200&auto=format&fit=crop"
+                    alt="Tech Background"
+                    class="w-full h-full object-cover object-center brightness-[0.45] contrast-[1.05] scale-105"
+                >
+
+                <div class="absolute inset-0 bg-gradient-to-t from-[#172215]/95 via-[#212f1f]/80 to-transparent"></div>
+
+            </div>
+
+
+            <!-- Brand -->
+
+            <div class="relative z-10">
+
+                <a
+                    href="{% url 'index' %}"
+                    class="inline-flex items-center gap-2.5 text-white font-semibold text-base tracking-tight hover:opacity-80 transition"
+                >
+
+                    <span class="w-7 h-7 rounded-lg bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-bold text-sm border border-white/20">
+                        M
+                    </span>
+
+                    <span>
+                        MiniShop
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Hero Content -->
+
+            <div class="relative z-10 space-y-4 my-auto pt-8">
+
+
+                <div class="flex flex-col gap-1 w-7 opacity-80">
+
+                    <span class="w-full h-[2px] bg-white rounded-full"></span>
+
+                    <span class="w-2/3 h-[2px] bg-white rounded-full"></span>
+
+                </div>
+
+
+                <h1 class="text-3xl md:text-4xl font-medium tracking-tight leading-tight text-white">
+
+                    Built for people who
+                    <br>
+
+                    rely on their tech.
+
+                </h1>
+
+
+                <p class="text-xs md:text-sm text-gray-300 font-normal leading-relaxed max-w-xs">
+
+                    Create an account to manage orders,
+                    explore curated devices, and experience
+                    seamless checkout.
+
+                </p>
+
+            </div>
+
+
+            <!-- Bottom -->
+
+            <div class="relative z-10 pt-4 border-t border-white/10 text-[11px] text-gray-400 font-normal">
+
+                Authentic electronics with trusted quality.
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             RIGHT SECTION
+        ================================================== -->
+
+        <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
+
+
+            <!-- Heading -->
+
+            <div class="mb-6">
+
+                <h2 class="text-2xl font-semibold text-gray-900 tracking-tight">
+
+                    Create Account
+
+                </h2>
+
+
+                <p class="text-xs text-gray-500 mt-1">
+
+                    Create your MiniShop user account.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DJANGO MESSAGES
+            ================================================== -->
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="
+
+                        {% if message.tags == 'success' %}
+
+                            bg-green-50 border-green-200 text-green-600
+
+                        {% else %}
+
+                            bg-red-50 border-red-200 text-red-600
+
+                        {% endif %}
+
+                        border text-xs px-4 py-3 rounded-xl mb-6
+                    ">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+
+            <!-- =================================================
+                 REGISTER FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{% url 'register' %}"
+                class="space-y-3.5"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- Full Name -->
+
+                <div>
+
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                        Full Name
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        name="name"
+                        required
+                        autocomplete="name"
+                        placeholder="Enter your name"
+                        class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400"
+                    >
+
+                </div>
+
+
+
+                <!-- Email -->
+
+                <div>
+
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                        Email
+
+                    </label>
+
+
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        autocomplete="email"
+                        placeholder="name@example.com"
+                        class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400"
+                    >
+
+                </div>
+
+
+
+                <!-- Password -->
+
+                <div>
+
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                        Password
+
+                    </label>
+
+
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        minlength="6"
+                        autocomplete="new-password"
+                        placeholder="••••••••"
+                        class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400"
+                    >
+
+                </div>
+
+
+
+                <!-- Confirm Password -->
+
+                <div>
+
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                        Confirm Password
+
+                    </label>
+
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        required
+                        minlength="6"
+                        autocomplete="new-password"
+                        placeholder="••••••••"
+                        class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400"
+                    >
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SUBMIT
+                ================================================== -->
+
+                <button
+                    type="submit"
+                    class="w-full bg-sage-800 hover:bg-sage-900 text-white py-3 rounded-xl font-medium text-xs transition duration-200 shadow-sm hover:shadow active:scale-[0.99] flex items-center justify-center gap-2 mt-4"
+                >
+
+                    Create Account →
+
+                </button>
+
+            </form>
+
+
+
+            <!-- Divider -->
+
+            <div class="relative my-5">
+
+                <div class="absolute inset-0 flex items-center">
+
+                    <div class="w-full border-t border-gray-200"></div>
+
+                </div>
+
+
+                <div class="relative flex justify-center text-[10px] uppercase tracking-wider">
+
+                    <span class="bg-white px-3 text-gray-400 font-medium">
+
+                        or
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Login -->
+
+            <p class="text-center text-xs text-gray-500">
+
+                Already have an account?
+
+                <a
+                    href="{% url 'login' %}"
+                    class="text-sage-800 font-semibold hover:underline"
+                >
+
+                    Login
+
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

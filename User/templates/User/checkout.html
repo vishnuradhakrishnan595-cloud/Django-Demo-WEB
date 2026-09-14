@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MiniShop secure checkout">
+
+    <title>Checkout | MiniShop</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ===================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         TAILWIND
+    ===================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ===================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        apple: {
+
+                            black: "#1d1d1f",
+
+                            gray: "#6e6e73",
+
+                            light: "#f5f5f7",
+
+                            border: "#d2d2d7"
+
+                        }
+
+                    },
+
+                    boxShadow: {
+
+                        apple:
+                            "0 2px 10px rgba(0,0,0,0.05)",
+
+                        appleLg:
+                            "0 8px 30px rgba(0,0,0,0.08)"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ===================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            background: #f5f5f7;
+
+            color: #1d1d1f;
+
+        }
+
+        ::selection {
+
+            background: #1d1d1f;
+
+            color: white;
+
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        .nav-link {
+
+            transition:
+                color 0.2s ease,
+                opacity 0.2s ease;
+
+        }
+
+        .nav-link:hover {
+
+            color: #000;
+
+        }
+
+
+        /* =====================================================
+           INPUTS
+        ===================================================== */
+
+        .apple-input {
+
+            width: 100%;
+
+            border: 1px solid #d2d2d7;
+
+            background: #fff;
+
+            border-radius: 12px;
+
+            padding: 12px 14px;
+
+            color: #1d1d1f;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+        .apple-input:focus {
+
+            border-color: #1d1d1f;
+
+            box-shadow:
+                0 0 0 3px rgba(29,29,31,0.08);
+
+        }
+
+        .apple-input::placeholder {
+
+            color: #a1a1a6;
+
+        }
+
+
+        /* =====================================================
+           PAYMENT
+        ===================================================== */
+
+        .payment-card {
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+
+        }
+
+        .payment-card:hover {
+
+            border-color: #a1a1a6;
+
+            background: #fafafa;
+
+            transform: translateY(-1px);
+
+        }
+
+        .payment-radio:checked + .payment-content {
+
+            border-color: #1d1d1f;
+
+            background: #f5f5f7;
+
+            box-shadow:
+                0 0 0 1px #1d1d1f;
+
+        }
+
+        .payment-radio:checked
+        + .payment-content
+        .payment-check {
+
+            display: flex;
+
+        }
+
+        .payment-details {
+
+            display: none;
+
+        }
+
+        .payment-details.show {
+
+            display: block;
+
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .black-button {
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+        .black-button:hover {
+
+            background: #000;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.15);
+
+        }
+
+        .black-button:active {
+
+            transform: translateY(0);
+
+        }
+
+
+        /* =====================================================
+           ORDER ITEM
+        ===================================================== */
+
+        .order-item {
+
+            transition:
+                background 0.2s ease;
+
+        }
+
+        .order-item:hover {
+
+            background: #fafafa;
+
+        }
+
+
+        /* =====================================================
+           TRUST CARD
+        ===================================================== */
+
+        .trust-card {
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+        .trust-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.06);
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 767px) {
+
+            .mobile-hide {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav
+    class="sticky
+           top-0
+           z-50
+           bg-white/95
+           backdrop-blur-md
+           border-b
+           border-apple-border"
+>
+
+    <div
+        class="max-w-7xl
+               mx-auto
+               px-5
+               sm:px-6
+               lg:px-8"
+    >
+
+        <div
+            class="h-16
+                   flex
+                   items-center
+                   justify-between"
+        >
+
+
+            <!-- LOGO -->
+
+            <a
+                href="{% url 'user_home' %}"
+                class="flex
+                       items-center
+                       gap-3"
+            >
+
+                <div
+                    class="w-9
+                           h-9
+                           rounded-full
+                           bg-apple-black
+                           text-white
+                           flex
+                           items-center
+                           justify-center
+                           text-sm
+                           font-semibold"
+                >
+
+                    M
+
+                </div>
+
+
+                <span
+                    class="text-lg
+                           font-semibold
+                           tracking-tight
+                           text-apple-black"
+                >
+
+                    MiniShop
+
+                </span>
+
+            </a>
+
+
+
+            <!-- NAVIGATION -->
+
+            <div
+                class="hidden
+                       md:flex
+                       items-center
+                       gap-8"
+            >
+
+                <a
+                    href="{% url 'user_home' %}"
+                    class="nav-link
+                           text-sm
+                           text-apple-gray"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="{% url 'user_products' %}"
+                    class="nav-link
+                           text-sm
+                           text-apple-gray"
+                >
+                    Products
+                </a>
+
+
+                <a
+                    href="{% url 'cart' %}"
+                    class="nav-link
+                           text-sm
+                           text-apple-gray"
+                >
+                    Cart
+                </a>
+
+
+                <a
+                    href="{% url 'orders' %}"
+                    class="nav-link
+                           text-sm
+                           text-apple-gray"
+                >
+                    Orders
+                </a>
+
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="nav-link
+                           text-sm
+                           text-apple-gray"
+                >
+                    Profile
+                </a>
+
+            </div>
+
+
+
+            <!-- RIGHT -->
+
+            <div
+                class="flex
+                       items-center
+                       gap-3"
+            >
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="hidden
+                           sm:flex
+                           w-9
+                           h-9
+                           rounded-full
+                           bg-apple-light
+                           border
+                           border-apple-border
+                           items-center
+                           justify-center
+                           text-sm
+                           font-medium"
+                >
+
+                    {% if user.name %}
+
+                        {{ user.name|first|upper }}
+
+                    {% else %}
+
+                        U
+
+                    {% endif %}
+
+                </a>
+
+
+                <a
+                    href="{% url 'user_logout' %}"
+                    class="hidden
+                           sm:block
+                           text-sm
+                           text-apple-gray
+                           hover:text-apple-black
+                           transition"
+                >
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main
+    class="max-w-7xl
+           mx-auto
+           px-5
+           sm:px-6
+           lg:px-8
+           pt-5
+           sm:pt-7
+           pb-10"
+>
+
+
+    <!-- =====================================================
+         BREADCRUMB
+    ===================================================== -->
+
+    <div
+        class="flex
+               items-center
+               gap-2
+               text-xs
+               text-apple-gray
+               mb-3"
+    >
+
+        <a
+            href="{% url 'cart' %}"
+            class="hover:text-apple-black transition"
+        >
+
+            Cart
+
+        </a>
+
+        <span>/</span>
+
+        <span class="text-apple-black">
+
+            Checkout
+
+        </span>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <div
+        class="flex
+               flex-col
+               lg:flex-row
+               lg:items-end
+               lg:justify-between
+               gap-5
+               mb-6"
+    >
+
+        <div>
+
+            <p
+                class="text-xs
+                       font-medium
+                       uppercase
+                       tracking-widest
+                       text-apple-gray"
+            >
+
+                MiniShop Checkout
+
+            </p>
+
+
+            <h1
+                class="mt-1
+                       text-3xl
+                       sm:text-4xl
+                       font-semibold
+                       tracking-tight
+                       text-apple-black"
+            >
+
+                Complete your order.
+
+            </h1>
+
+
+            <p
+                class="mt-2
+                       text-sm
+                       sm:text-base
+                       text-apple-gray"
+            >
+
+                Enter your delivery details and choose a payment method.
+
+            </p>
+
+        </div>
+
+
+        <!-- STEP INDICATOR -->
+
+        <div
+            class="flex
+                   items-center
+                   gap-2
+                   text-xs
+                   text-apple-gray"
+        >
+
+            <span
+                class="w-7
+                       h-7
+                       rounded-full
+                       bg-apple-black
+                       text-white
+                       flex
+                       items-center
+                       justify-center
+                       font-semibold"
+            >
+
+                1
+
+            </span>
+
+            <span>Details</span>
+
+            <span class="text-apple-border">—</span>
+
+            <span
+                class="w-7
+                       h-7
+                       rounded-full
+                       bg-apple-black
+                       text-white
+                       flex
+                       items-center
+                       justify-center
+                       font-semibold"
+            >
+
+                2
+
+            </span>
+
+            <span>Payment</span>
+
+            <span class="text-apple-border">—</span>
+
+            <span
+                class="w-7
+                       h-7
+                       rounded-full
+                       bg-apple-light
+                       border
+                       border-apple-border
+                       flex
+                       items-center
+                       justify-center
+                       font-semibold"
+            >
+
+                3
+
+            </span>
+
+            <span>Done</span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         TRUST STRIP
+    ===================================================== -->
+
+    <div
+        class="grid
+               grid-cols-1
+               sm:grid-cols-3
+               gap-3
+               mb-6"
+    >
+
+
+        <!-- TRUST 1 -->
+
+        <div
+            class="trust-card
+                   bg-white
+                   border
+                   border-apple-border
+                   rounded-xl
+                   px-4
+                   py-3
+                   flex
+                   items-center
+                   gap-3"
+        >
+
+            <div
+                class="w-9
+                       h-9
+                       rounded-full
+                       bg-apple-light
+                       flex
+                       items-center
+                       justify-center"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <rect
+                        width="18"
+                        height="11"
+                        x="3"
+                        y="11"
+                        rx="2"
+                    />
+
+                    <path
+                        d="M7 11V7a5 5 0 0 1 10 0v4"
+                    />
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <p
+                    class="text-xs
+                           font-semibold"
+                >
+
+                    Secure Checkout
+
+                </p>
+
+                <p
+                    class="text-[11px]
+                           text-apple-gray"
+                >
+
+                    Protected payment
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TRUST 2 -->
+
+        <div
+            class="trust-card
+                   bg-white
+                   border
+                   border-apple-border
+                   rounded-xl
+                   px-4
+                   py-3
+                   flex
+                   items-center
+                   gap-3"
+        >
+
+            <div
+                class="w-9
+                       h-9
+                       rounded-full
+                       bg-apple-light
+                       flex
+                       items-center
+                       justify-center"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <path d="M3 7h11v10H3z"/>
+
+                    <path d="M14 10h4l3 3v4h-7z"/>
+
+                    <circle cx="7" cy="19" r="2"/>
+
+                    <circle cx="18" cy="19" r="2"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <p
+                    class="text-xs
+                           font-semibold"
+                >
+
+                    Free Delivery
+
+                </p>
+
+                <p
+                    class="text-[11px]
+                           text-apple-gray"
+                >
+
+                    No extra delivery charge
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TRUST 3 -->
+
+        <div
+            class="trust-card
+                   bg-white
+                   border
+                   border-apple-border
+                   rounded-xl
+                   px-4
+                   py-3
+                   flex
+                   items-center
+                   gap-3"
+        >
+
+            <div
+                class="w-9
+                       h-9
+                       rounded-full
+                       bg-apple-light
+                       flex
+                       items-center
+                       justify-center"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <path
+                        d="M20 12a8 8 0 1 1-2.34-5.66"
+                    />
+
+                    <path
+                        d="M20 4v6h-6"
+                    />
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <p
+                    class="text-xs
+                           font-semibold"
+                >
+
+                    Easy Shopping
+
+                </p>
+
+                <p
+                    class="text-[11px]
+                           text-apple-gray"
+                >
+
+                    Simple and reliable
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MESSAGES
+    ===================================================== -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div
+                class="mb-4
+                       px-4
+                       py-3
+                       rounded-xl
+                       bg-white
+                       border
+                       border-apple-border
+                       text-sm
+                       text-apple-black"
+            >
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+
+    <!-- =====================================================
+         FORM
+    ===================================================== -->
+
+    <form
+        method="POST"
+        action="{% url 'place_order' %}"
+    >
+
+        {% csrf_token %}
+
+
+        <div
+            class="grid
+                   grid-cols-1
+                   lg:grid-cols-3
+                   gap-6
+                   lg:gap-8"
+        >
+
+
+            <!-- =================================================
+                 LEFT
+            ================================================== -->
+
+            <div
+                class="lg:col-span-2
+                       space-y-5"
+            >
+
+
+                <!-- =================================================
+                     DELIVERY
+                ================================================== -->
+
+                <section
+                    class="bg-white
+                           rounded-2xl
+                           border
+                           border-apple-border
+                           shadow-apple
+                           p-5
+                           sm:p-6
+                           lg:p-7"
+                >
+
+                    <div
+                        class="flex
+                               items-start
+                               justify-between
+                               mb-6"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-xs
+                                       font-medium
+                                       uppercase
+                                       tracking-widest
+                                       text-apple-gray"
+                            >
+
+                                Step 01
+
+                            </p>
+
+                            <h2
+                                class="mt-1
+                                       text-xl
+                                       font-semibold"
+                            >
+
+                                Delivery Information
+
+                            </h2>
+
+                            <p
+                                class="mt-1
+                                       text-sm
+                                       text-apple-gray"
+                            >
+
+                                Tell us where your order should be delivered.
+
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="hidden
+                                   sm:flex
+                                   w-10
+                                   h-10
+                                   rounded-full
+                                   bg-apple-light
+                                   border
+                                   border-apple-border
+                                   items-center
+                                   justify-center"
+                        >
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            >
+
+                                <path
+                                    d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"
+                                />
+
+                                <circle
+                                    cx="12"
+                                    cy="10"
+                                    r="2.5"
+                                />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- NAME -->
+
+                    <div class="mb-5">
+
+                        <label
+                            for="name"
+                            class="block
+                                   text-sm
+                                   font-medium
+                                   mb-2"
+                        >
+
+                            Full Name
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ user.name }}"
+                            required
+                            class="apple-input"
+                            placeholder="Enter your full name"
+                        >
+
+                    </div>
+
+
+
+                    <!-- PHONE -->
+
+                    <div class="mb-5">
+
+                        <label
+                            for="phone"
+                            class="block
+                                   text-sm
+                                   font-medium
+                                   mb-2"
+                        >
+
+                            Phone Number
+
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value="{{ profile.phone }}"
+                            required
+                            maxlength="15"
+                            class="apple-input"
+                            placeholder="Enter phone number"
+                        >
+
+                    </div>
+
+
+
+                    <!-- ADDRESS -->
+
+                    <div class="mb-5">
+
+                        <label
+                            for="address"
+                            class="block
+                                   text-sm
+                                   font-medium
+                                   mb-2"
+                        >
+
+                            Delivery Address
+
+                        </label>
+
+                        <textarea
+                            id="address"
+                            name="address"
+                            rows="4"
+                            required
+                            class="apple-input resize-none"
+                            placeholder="House number, street, area, landmark"
+                        >{{ profile.address }}</textarea>
+
+                    </div>
+
+
+
+                    <!-- CITY / PIN -->
+
+                    <div
+                        class="grid
+                               grid-cols-1
+                               sm:grid-cols-2
+                               gap-5"
+                    >
+
+                        <div>
+
+                            <label
+                                for="city"
+                                class="block
+                                       text-sm
+                                       font-medium
+                                       mb-2"
+                            >
+
+                                City
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                required
+                                class="apple-input"
+                                placeholder="Enter city"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label
+                                for="pincode"
+                                class="block
+                                       text-sm
+                                       font-medium
+                                       mb-2"
+                            >
+
+                                PIN Code
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="pincode"
+                                name="pincode"
+                                required
+                                maxlength="6"
+                                pattern="[0-9]{6}"
+                                class="apple-input"
+                                placeholder="Enter 6-digit PIN"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     PAYMENT
+                ================================================== -->
+
+                <section
+                    class="bg-white
+                           rounded-2xl
+                           border
+                           border-apple-border
+                           shadow-apple
+                           p-5
+                           sm:p-6
+                           lg:p-7"
+                >
+
+                    <div
+                        class="flex
+                               items-start
+                               justify-between
+                               mb-6"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-xs
+                                       font-medium
+                                       uppercase
+                                       tracking-widest
+                                       text-apple-gray"
+                            >
+
+                                Step 02
+
+                            </p>
+
+                            <h2
+                                class="mt-1
+                                       text-xl
+                                       font-semibold"
+                            >
+
+                                Payment Method
+
+                            </h2>
+
+                            <p
+                                class="mt-1
+                                       text-sm
+                                       text-apple-gray"
+                            >
+
+                                Choose your preferred payment option.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- COD -->
+
+                    <label
+                        class="block
+                               cursor-pointer
+                               mb-3"
+                    >
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="COD"
+                            checked
+                            class="hidden payment-radio"
+                            onchange="showPayment('COD')"
+                        >
+
+                        <div
+                            class="payment-content
+                                   payment-card
+                                   border
+                                   border-apple-border
+                                   bg-white
+                                   rounded-xl
+                                   p-4
+                                   sm:p-5
+                                   flex
+                                   items-center
+                                   gap-4"
+                        >
+
+                            <div
+                                class="w-11
+                                       h-11
+                                       flex-shrink-0
+                                       rounded-xl
+                                       bg-apple-light
+                                       border
+                                       border-apple-border
+                                       flex
+                                       items-center
+                                       justify-center"
+                            >
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                >
+
+                                    <rect
+                                        width="20"
+                                        height="12"
+                                        x="2"
+                                        y="6"
+                                        rx="2"
+                                    />
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="2"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="flex-1">
+
+                                <p
+                                    class="font-semibold
+                                           text-sm"
+                                >
+
+                                    Cash on Delivery
+
+                                </p>
+
+                                <p
+                                    class="text-xs
+                                           sm:text-sm
+                                           text-apple-gray
+                                           mt-1"
+                                >
+
+                                    Pay when your order arrives.
+
+                                </p>
+
+                            </div>
+
+
+                            <div
+                                class="payment-check
+                                       hidden
+                                       w-6
+                                       h-6
+                                       rounded-full
+                                       bg-apple-black
+                                       text-white
+                                       items-center
+                                       justify-center
+                                       text-xs
+                                       font-bold"
+                            >
+
+                                ✓
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- UPI -->
+
+                    <label
+                        class="block
+                               cursor-pointer
+                               mb-3"
+                    >
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="UPI"
+                            class="hidden payment-radio"
+                            onchange="showPayment('UPI')"
+                        >
+
+
+                        <div
+                            class="payment-content
+                                   payment-card
+                                   border
+                                   border-apple-border
+                                   bg-white
+                                   rounded-xl
+                                   p-4
+                                   sm:p-5
+                                   flex
+                                   items-center
+                                   gap-4"
+                        >
+
+                            <div
+                                class="w-11
+                                       h-11
+                                       flex-shrink-0
+                                       rounded-xl
+                                       bg-apple-light
+                                       border
+                                       border-apple-border
+                                       flex
+                                       items-center
+                                       justify-center"
+                            >
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                >
+
+                                    <rect
+                                        width="16"
+                                        height="20"
+                                        x="4"
+                                        y="2"
+                                        rx="2"
+                                    />
+
+                                    <path d="M8 6h8"/>
+
+                                    <path d="M12 18h.01"/>
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="flex-1">
+
+                                <p
+                                    class="font-semibold
+                                           text-sm"
+                                >
+
+                                    UPI Payment
+
+                                </p>
+
+                                <p
+                                    class="text-xs
+                                           sm:text-sm
+                                           text-apple-gray
+                                           mt-1"
+                                >
+
+                                    Pay using your UPI ID.
+
+                                </p>
+
+                            </div>
+
+
+                            <div
+                                class="payment-check
+                                       hidden
+                                       w-6
+                                       h-6
+                                       rounded-full
+                                       bg-apple-black
+                                       text-white
+                                       items-center
+                                       justify-center
+                                       text-xs
+                                       font-bold"
+                            >
+
+                                ✓
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- UPI DETAILS -->
+
+                        <div
+                            id="upiDetails"
+                            class="payment-details
+                                   mt-3
+                                   bg-apple-light
+                                   border
+                                   border-apple-border
+                                   rounded-xl
+                                   p-5"
+                        >
+
+                            <label
+                                for="upi_id"
+                                class="block
+                                       text-sm
+                                       font-medium
+                                       mb-2"
+                            >
+
+                                UPI ID
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="upi_id"
+                                id="upi_id"
+                                class="apple-input"
+                                placeholder="example@upi"
+                            >
+
+                            <p
+                                class="text-xs
+                                       text-apple-gray
+                                       mt-2"
+                            >
+
+                                Demo payment for MiniShop.
+
+                            </p>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- CARD -->
+
+                    <label
+                        class="block
+                               cursor-pointer"
+                    >
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="CARD"
+                            class="hidden payment-radio"
+                            onchange="showPayment('CARD')"
+                        >
+
+
+                        <div
+                            class="payment-content
+                                   payment-card
+                                   border
+                                   border-apple-border
+                                   bg-white
+                                   rounded-xl
+                                   p-4
+                                   sm:p-5
+                                   flex
+                                   items-center
+                                   gap-4"
+                        >
+
+                            <div
+                                class="w-11
+                                       h-11
+                                       flex-shrink-0
+                                       rounded-xl
+                                       bg-apple-light
+                                       border
+                                       border-apple-border
+                                       flex
+                                       items-center
+                                       justify-center"
+                            >
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                >
+
+                                    <rect
+                                        width="20"
+                                        height="14"
+                                        x="2"
+                                        y="5"
+                                        rx="2"
+                                    />
+
+                                    <line
+                                        x1="2"
+                                        x2="22"
+                                        y1="10"
+                                        y2="10"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="flex-1">
+
+                                <p
+                                    class="font-semibold
+                                           text-sm"
+                                >
+
+                                    Debit / Credit Card
+
+                                </p>
+
+                                <p
+                                    class="text-xs
+                                           sm:text-sm
+                                           text-apple-gray
+                                           mt-1"
+                                >
+
+                                    Pay securely using your card.
+
+                                </p>
+
+                            </div>
+
+
+                            <div
+                                class="payment-check
+                                       hidden
+                                       w-6
+                                       h-6
+                                       rounded-full
+                                       bg-apple-black
+                                       text-white
+                                       items-center
+                                       justify-center
+                                       text-xs
+                                       font-bold"
+                            >
+
+                                ✓
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CARD DETAILS -->
+
+                        <div
+                            id="cardDetails"
+                            class="payment-details
+                                   mt-3
+                                   bg-apple-light
+                                   border
+                                   border-apple-border
+                                   rounded-xl
+                                   p-5"
+                        >
+
+                            <div class="mb-4">
+
+                                <label
+                                    for="card_number"
+                                    class="block
+                                           text-sm
+                                           font-medium
+                                           mb-2"
+                                >
+
+                                    Card Number
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="card_number"
+                                    id="card_number"
+                                    maxlength="19"
+                                    class="apple-input"
+                                    placeholder="1234 5678 9012 3456"
+                                >
+
+                            </div>
+
+
+                            <div
+                                class="grid
+                                       grid-cols-2
+                                       gap-4"
+                            >
+
+                                <div>
+
+                                    <label
+                                        for="expiry"
+                                        class="block
+                                               text-sm
+                                               font-medium
+                                               mb-2"
+                                    >
+
+                                        Expiry
+
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="expiry"
+                                        id="expiry"
+                                        maxlength="5"
+                                        class="apple-input"
+                                        placeholder="MM/YY"
+                                    >
+
+                                </div>
+
+
+                                <div>
+
+                                    <label
+                                        for="cvv"
+                                        class="block
+                                               text-sm
+                                               font-medium
+                                               mb-2"
+                                    >
+
+                                        CVV
+
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        name="cvv"
+                                        id="cvv"
+                                        maxlength="4"
+                                        class="apple-input"
+                                        placeholder="***"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <p
+                                class="text-xs
+                                       text-apple-gray
+                                       mt-3"
+                            >
+
+                                Demo payment only. Do not enter a real card number.
+
+                            </p>
+
+                        </div>
+
+                    </label>
+
+                </section>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RIGHT — ORDER SUMMARY
+            ================================================== -->
+
+            <aside>
+
+                <div
+                    class="bg-white
+                           rounded-2xl
+                           border
+                           border-apple-border
+                           shadow-appleLg
+                           p-5
+                           sm:p-6
+                           lg:sticky
+                           lg:top-20"
+                >
+
+
+                    <!-- SUMMARY HEADER -->
+
+                    <div
+                        class="flex
+                               items-center
+                               justify-between
+                               mb-5"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-xs
+                                       uppercase
+                                       tracking-widest
+                                       font-medium
+                                       text-apple-gray"
+                            >
+
+                                Summary
+
+                            </p>
+
+                            <h2
+                                class="mt-1
+                                       text-xl
+                                       font-semibold"
+                            >
+
+                                Your Order
+
+                            </h2>
+
+                        </div>
+
+
+                        <div
+                            class="w-10
+                                   h-10
+                                   rounded-full
+                                   bg-apple-light
+                                   border
+                                   border-apple-border
+                                   flex
+                                   items-center
+                                   justify-center"
+                        >
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            >
+
+                                <path
+                                    d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"
+                                />
+
+                                <path d="M3 6h18"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         PRODUCTS
+                    ================================================== -->
+
+                    <div
+                        class="space-y-2
+                               max-h-[360px]
+                               overflow-y-auto
+                               pr-1"
+                    >
+
+                        {% for item in items %}
+
+                            <div
+                                class="order-item
+                                       flex
+                                       items-center
+                                       gap-3
+                                       p-3
+                                       rounded-xl"
+                            >
+
+
+                                <!-- PRODUCT IMAGE -->
+
+                                <div
+                                    class="w-14
+                                           h-14
+                                           flex-shrink-0
+                                           rounded-xl
+                                           bg-apple-light
+                                           border
+                                           border-apple-border
+                                           overflow-hidden
+                                           flex
+                                           items-center
+                                           justify-center"
+                                >
+
+                                    {% if item.product.image %}
+
+                                        <img
+                                            src="{{ item.product.image.url }}"
+                                            alt="{{ item.product.name }}"
+                                            class="w-full
+                                                   h-full
+                                                   object-cover"
+                                        >
+
+                                    {% else %}
+
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        >
+
+                                            <rect
+                                                width="18"
+                                                height="18"
+                                                x="3"
+                                                y="3"
+                                                rx="2"
+                                            />
+
+                                            <circle
+                                                cx="8.5"
+                                                cy="8.5"
+                                                r="1.5"
+                                            />
+
+                                            <path
+                                                d="m21 15-5-5L5 21"
+                                            />
+
+                                        </svg>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- PRODUCT INFO -->
+
+                                <div
+                                    class="flex-1
+                                           min-w-0"
+                                >
+
+                                    <p
+                                        class="font-medium
+                                               text-sm
+                                               truncate"
+                                    >
+
+                                        {{ item.product.name }}
+
+                                    </p>
+
+
+                                    <p
+                                        class="text-xs
+                                               text-apple-gray
+                                               mt-1"
+                                    >
+
+                                        Qty: {{ item.quantity }}
+
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- PRICE -->
+
+                                <p
+                                    class="font-semibold
+                                           text-sm
+                                           whitespace-nowrap"
+                                >
+
+                                    ₹{{ item.subtotal }}
+
+                                </p>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         PRICE SUMMARY
+                    ================================================== -->
+
+                    <div
+                        class="mt-4
+                               pt-4
+                               border-t
+                               border-apple-border"
+                    >
+
+                        <div
+                            class="flex
+                                   justify-between
+                                   text-sm
+                                   mb-3"
+                        >
+
+                            <span
+                                class="text-apple-gray"
+                            >
+
+                                Subtotal
+
+                            </span>
+
+                            <span
+                                class="font-medium"
+                            >
+
+                                ₹{{ total }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex
+                                   justify-between
+                                   text-sm
+                                   mb-3"
+                        >
+
+                            <span
+                                class="text-apple-gray"
+                            >
+
+                                Delivery
+
+                            </span>
+
+                            <span
+                                class="font-medium"
+                            >
+
+                                Free
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex
+                                   justify-between
+                                   text-sm
+                                   mb-3"
+                        >
+
+                            <span
+                                class="text-apple-gray"
+                            >
+
+                                Discount
+
+                            </span>
+
+                            <span
+                                class="font-medium"
+                            >
+
+                                ₹0
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="mt-4
+                                   pt-4
+                                   border-t
+                                   border-apple-border
+                                   flex
+                                   items-center
+                                   justify-between"
+                        >
+
+                            <span
+                                class="text-base
+                                       font-semibold"
+                            >
+
+                                Total
+
+                            </span>
+
+
+                            <span
+                                class="text-xl
+                                       font-semibold"
+                            >
+
+                                ₹{{ total }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         PLACE ORDER
+                    ================================================== -->
+
+                    <button
+                        type="submit"
+                        class="black-button
+                               w-full
+                               mt-6
+                               h-12
+                               rounded-xl
+                               bg-apple-black
+                               text-white
+                               font-medium
+                               text-sm"
+                    >
+
+                        Place Order
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'cart' %}"
+                        class="block
+                               text-center
+                               mt-3
+                               h-11
+                               leading-[44px]
+                               rounded-xl
+                               border
+                               border-apple-border
+                               bg-white
+                               text-sm
+                               font-medium
+                               hover:bg-apple-light
+                               transition"
+                    >
+
+                        Back to Cart
+
+                    </a>
+
+
+
+                    <!-- SECURITY -->
+
+                    <div
+                        class="mt-5
+                               pt-4
+                               border-t
+                               border-apple-border
+                               text-center"
+                    >
+
+                        <p
+                            class="text-xs
+                                   text-apple-gray"
+                        >
+
+                            🔒 Secure checkout · Free delivery
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </form>
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer
+    class="bg-apple-black
+           text-white
+           mt-4"
+>
+
+    <div
+        class="max-w-7xl
+               mx-auto
+               px-5
+               sm:px-6
+               lg:px-8
+               py-8"
+    >
+
+        <div
+            class="flex
+                   flex-col
+                   sm:flex-row
+                   items-center
+                   justify-between
+                   gap-4"
+        >
+
+            <div
+                class="text-center
+                       sm:text-left"
+            >
+
+                <p
+                    class="font-semibold
+                           text-sm"
+                >
+
+                    MiniShop
+
+                </p>
+
+                <p
+                    class="mt-1
+                           text-xs
+                           text-gray-400"
+                >
+
+                    Simple. Smart. Shopping.
+
+                </p>
+
+            </div>
+
+
+            <div
+                class="flex
+                       items-center
+                       gap-5
+                       text-xs
+                       text-gray-400"
+            >
+
+                <a
+                    href="{% url 'user_home' %}"
+                    class="hover:text-white transition"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="{% url 'user_products' %}"
+                    class="hover:text-white transition"
+                >
+                    Products
+                </a>
+
+                <a
+                    href="{% url 'orders' %}"
+                    class="hover:text-white transition"
+                >
+                    Orders
+                </a>
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="hover:text-white transition"
+                >
+                    Profile
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="mt-6
+                   pt-5
+                   border-t
+                   border-white/10
+                   text-center"
+        >
+
+            <p
+                class="text-xs
+                       text-gray-500"
+            >
+
+                © {% now "Y" %} MiniShop. All rights reserved.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+    /* =====================================================
+       PAYMENT SWITCH
+    ===================================================== */
+
+    function showPayment(method) {
+
+        const upiDetails =
+            document.getElementById("upiDetails");
+
+        const cardDetails =
+            document.getElementById("cardDetails");
+
+
+        upiDetails.classList.remove("show");
+
+        cardDetails.classList.remove("show");
+
+
+        if (method === "UPI") {
+
+            upiDetails.classList.add("show");
+
+        }
+
+
+        if (method === "CARD") {
+
+            cardDetails.classList.add("show");
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CARD NUMBER FORMAT
+    ===================================================== */
+
+    const cardNumber =
+        document.getElementById("card_number");
+
+
+    if (cardNumber) {
+
+        cardNumber.addEventListener(
+            "input",
+            function () {
+
+                let value =
+                    this.value
+                        .replace(/\D/g, "")
+                        .substring(0, 16);
+
+
+                value =
+                    value
+                        .match(/.{1,4}/g)
+                        ?.join(" ")
+                        || "";
+
+
+                this.value = value;
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       EXPIRY FORMAT
+    ===================================================== */
+
+    const expiry =
+        document.getElementById("expiry");
+
+
+    if (expiry) {
+
+        expiry.addEventListener(
+            "input",
+            function () {
+
+                let value =
+                    this.value
+                        .replace(/\D/g, "")
+                        .substring(0, 4);
+
+
+                if (value.length >= 3) {
+
+                    value =
+                        value.substring(0, 2)
+                        + "/"
+                        + value.substring(2);
+
+                }
+
+
+                this.value = value;
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       INITIAL PAYMENT
+    ===================================================== */
+
+    showPayment("COD");
+
+</script>
+
+
+</body>
+
+</html>

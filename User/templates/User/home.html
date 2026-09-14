@@ -1,0 +1,5361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="description" content="MiniShop - Premium shopping experience">
+
+    <meta name="theme-color" content="#111810">
+
+    <title>MiniShop — Premium Shopping</title>
+
+
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        sans: [
+                            "Inter",
+                            "sans-serif"
+                        ],
+
+                        luxury: [
+                            "Playfair Display",
+                            "serif"
+                        ]
+
+                    },
+
+                    colors: {
+
+                        sage: {
+
+                            50: "#f5f7f4",
+                            100: "#e7ece5",
+                            200: "#d0d9cc",
+                            300: "#aebda7",
+                            400: "#8da084",
+                            500: "#6d805f",
+                            600: "#536747",
+                            700: "#3d4e35",
+                            800: "#293626",
+                            900: "#151e14"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- =========================================================
+         PREMIUM CSS
+    ========================================================== -->
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important;
+                scroll-behavior: auto !important;
+            }
+
+        }
+
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background: #f7f8f6;
+            -webkit-text-size-adjust: 100%;
+        }
+
+
+        img {
+            max-width: 100%;
+        }
+
+
+        ::selection {
+            background: #293626;
+            color: white;
+        }
+
+
+        a:focus-visible,
+        button:focus-visible {
+
+            outline: 2px solid #6d805f;
+            outline-offset: 3px;
+
+        }
+
+
+        /* =========================================================
+           PREMIUM COURIER PRELOADER
+        ========================================================== */
+
+        #preloader {
+
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(circle at 50% 40%,
+                    #354731 0%,
+                    #151e14 42%,
+                    #080d08 100%);
+
+            transition:
+                opacity .8s cubic-bezier(.22, .61, .36, 1),
+                visibility .8s ease;
+
+        }
+
+
+        #preloader.hide {
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+        }
+
+
+        .loader-glow {
+
+            position: absolute;
+
+            width: 520px;
+            height: 520px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(circle,
+                    rgba(174, 189, 167, .13),
+                    transparent 68%);
+
+            filter: blur(10px);
+
+            animation:
+                loaderGlow 3s ease-in-out infinite;
+
+        }
+
+
+        @keyframes loaderGlow {
+
+            0%,
+            100% {
+                transform: scale(.9);
+                opacity: .55;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+        }
+
+
+        .loader-content {
+
+            position: relative;
+            z-index: 5;
+
+            width: min(90%, 440px);
+
+            text-align: center;
+
+            color: white;
+
+        }
+
+
+        .loader-brand {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: clamp(28px, 7vw, 38px);
+
+            letter-spacing: -.04em;
+
+            font-weight: 600;
+
+        }
+
+
+        .loader-tagline {
+
+            margin-top: 7px;
+
+            color: #aebda7;
+
+            font-size: 9px;
+
+            font-weight: 600;
+
+            letter-spacing: .28em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* =========================================================
+           COURIER SCENE
+           SVG runner carrying a parcel, with a moving
+           ground shadow and a bouncing box for depth.
+        ========================================================== */
+
+        .delivery-stage {
+
+            position: relative;
+
+            width: min(80vw, 260px);
+            height: 150px;
+
+            margin: 0 auto 25px;
+
+        }
+
+
+        .delivery-ground {
+
+            position: absolute;
+
+            left: 10px;
+            right: 10px;
+            bottom: 22px;
+
+            height: 1px;
+
+            background:
+                linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, .35),
+                    transparent);
+
+        }
+
+
+        .delivery-shadow {
+
+            position: absolute;
+
+            bottom: 19px;
+            left: 50%;
+
+            width: 46px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0, 0, 0, .45);
+
+            filter: blur(2px);
+
+            animation:
+                deliveryShadow .55s ease-in-out infinite alternate;
+
+        }
+
+
+        @keyframes deliveryShadow {
+
+            from {
+                transform:
+                    translateX(-50%) scale(1);
+                opacity: .55;
+            }
+
+            to {
+                transform:
+                    translateX(-50%) scale(.78);
+                opacity: .3;
+            }
+
+        }
+
+
+        .delivery-runner {
+
+            position: absolute;
+
+            left: 50%;
+
+            bottom: 26px;
+
+            width: 78px;
+            height: 108px;
+
+            transform:
+                translateX(-50%);
+
+            animation:
+                deliveryRun .55s ease-in-out infinite alternate;
+
+        }
+
+
+        @keyframes deliveryRun {
+
+            from {
+                transform:
+                    translateX(-50%) translateY(0) rotate(-2deg);
+            }
+
+            to {
+                transform:
+                    translateX(-50%) translateY(-6px) rotate(2deg);
+            }
+
+        }
+
+
+        /* HEAD */
+
+        .runner-head {
+
+            position: absolute;
+
+            width: 26px;
+            height: 26px;
+
+            top: 3px;
+            left: 24px;
+
+            border-radius: 50%;
+
+            background: #dca77f;
+
+            border: 2px solid rgba(255, 255, 255, .15);
+
+        }
+
+
+        /* CAP */
+
+        .runner-cap {
+
+            position: absolute;
+
+            top: -2px;
+            left: 21px;
+
+            width: 32px;
+            height: 11px;
+
+            border-radius:
+                15px 15px 4px 4px;
+
+            background: #aebda7;
+
+        }
+
+
+        .runner-cap::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 16px;
+            height: 5px;
+
+            left: 15px;
+            bottom: -3px;
+
+            border-radius: 5px;
+
+            background: #8da084;
+
+        }
+
+
+        /* TORSO */
+
+        .runner-body {
+
+            position: absolute;
+
+            top: 29px;
+            left: 20px;
+
+            width: 36px;
+            height: 45px;
+
+            border-radius:
+                13px 13px 9px 9px;
+
+            background:
+                linear-gradient(135deg,
+                    #708364,
+                    #3d4e35);
+
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, .1);
+
+        }
+
+
+        /* PARCEL / SHOPPING BOX */
+
+        .runner-parcel {
+
+            position: absolute;
+
+            width: 33px;
+            height: 33px;
+
+            top: 34px;
+            left: 46px;
+
+            border-radius: 6px;
+
+            background:
+                linear-gradient(145deg,
+                    #eef1ea,
+                    #aebda7);
+
+            box-shadow:
+                0 9px 20px rgba(0, 0, 0, .28);
+
+            transform: rotate(6deg);
+
+            animation:
+                parcelBounce .55s ease-in-out infinite alternate;
+
+        }
+
+
+        @keyframes parcelBounce {
+
+            from {
+                transform: rotate(4deg) translateY(0);
+            }
+
+            to {
+                transform: rotate(9deg) translateY(-3px);
+            }
+
+        }
+
+
+        .runner-parcel::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(90deg,
+                    transparent 46%,
+                    rgba(83, 103, 71, .55) 46%,
+                    rgba(83, 103, 71, .55) 54%,
+                    transparent 54%),
+                linear-gradient(0deg,
+                    transparent 46%,
+                    rgba(83, 103, 71, .55) 46%,
+                    rgba(83, 103, 71, .55) 54%,
+                    transparent 54%);
+
+        }
+
+
+        .runner-parcel::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 15px;
+            height: 7px;
+
+            left: 9px;
+            top: -5px;
+
+            border:
+                2px solid #aebda7;
+
+            border-bottom: 0;
+
+            border-radius:
+                10px 10px 0 0;
+
+        }
+
+
+        /* ARMS */
+
+        .runner-arm {
+
+            position: absolute;
+
+            width: 27px;
+            height: 8px;
+
+            top: 37px;
+
+            border-radius: 8px;
+
+            background: #3d4e35;
+
+            transform-origin: 5px 50%;
+
+        }
+
+
+        .runner-arm.left {
+
+            left: 10px;
+
+            animation:
+                armLeft .55s ease-in-out infinite alternate;
+
+        }
+
+
+        .runner-arm.right {
+
+            left: 44px;
+
+            animation:
+                armRight .55s ease-in-out infinite alternate;
+
+        }
+
+
+        @keyframes armLeft {
+
+            from {
+                transform: rotate(32deg);
+            }
+
+            to {
+                transform: rotate(55deg);
+            }
+
+        }
+
+
+        @keyframes armRight {
+
+            from {
+                transform: rotate(-50deg);
+            }
+
+            to {
+                transform: rotate(-28deg);
+            }
+
+        }
+
+
+        /* LEGS */
+
+        .runner-leg {
+
+            position: absolute;
+
+            width: 8px;
+            height: 36px;
+
+            top: 70px;
+
+            border-radius: 8px;
+
+            background: #263324;
+
+            transform-origin: 50% 0;
+
+        }
+
+
+        .runner-leg.left {
+
+            left: 26px;
+
+            animation:
+                legLeft .55s ease-in-out infinite alternate;
+
+        }
+
+
+        .runner-leg.right {
+
+            left: 41px;
+
+            animation:
+                legRight .55s ease-in-out infinite alternate;
+
+        }
+
+
+        @keyframes legLeft {
+
+            from {
+                transform: rotate(28deg);
+            }
+
+            to {
+                transform: rotate(-35deg);
+            }
+
+        }
+
+
+        @keyframes legRight {
+
+            from {
+                transform: rotate(-35deg);
+            }
+
+            to {
+                transform: rotate(28deg);
+            }
+
+        }
+
+
+        /* SHOES */
+
+        .runner-shoe {
+
+            position: absolute;
+
+            width: 19px;
+            height: 7px;
+
+            border-radius: 8px;
+
+            background: #111810;
+
+            bottom: -2px;
+
+        }
+
+
+        .runner-shoe.left {
+            left: -6px;
+        }
+
+
+        .runner-shoe.right {
+            left: -5px;
+        }
+
+
+        /* SPEED LINES */
+
+        .speed-line {
+
+            position: absolute;
+
+            height: 1px;
+
+            background:
+                linear-gradient(90deg,
+                    transparent,
+                    rgba(174, 189, 167, .65));
+
+            opacity: .6;
+
+            animation:
+                speedLine 1s linear infinite;
+
+        }
+
+
+        .speed-line.one {
+
+            width: 58px;
+            left: 12px;
+            top: 51px;
+
+        }
+
+
+        .speed-line.two {
+
+            width: 38px;
+            left: -4px;
+            top: 73px;
+
+            animation-delay: .25s;
+
+        }
+
+
+        .speed-line.three {
+
+            width: 48px;
+            left: 22px;
+            top: 96px;
+
+            animation-delay: .5s;
+
+        }
+
+
+        @keyframes speedLine {
+
+            from {
+                transform: translateX(0);
+                opacity: 0;
+            }
+
+            30% {
+                opacity: .7;
+            }
+
+            to {
+                transform: translateX(-35px);
+                opacity: 0;
+            }
+
+        }
+
+
+        .loader-progress {
+
+            position: relative;
+
+            width: 100%;
+            height: 2px;
+
+            margin-top: 28px;
+
+            border-radius: 999px;
+
+            overflow: hidden;
+
+            background:
+                rgba(255, 255, 255, .10);
+
+        }
+
+
+        .loader-progress-bar {
+
+            width: 0;
+            height: 100%;
+
+            background:
+                linear-gradient(90deg,
+                    #6d805f,
+                    #d0d9cc,
+                    #8da084);
+
+            animation:
+                loaderProgress 1.65s cubic-bezier(.22, .61, .36, 1) forwards;
+
+        }
+
+
+        @keyframes loaderProgress {
+
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+
+        .loader-status {
+
+            margin-top: 12px;
+
+            color: rgba(255, 255, 255, .42);
+
+            font-size: 9px;
+
+            letter-spacing: .18em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================== */
+
+        .navbar {
+
+            transition:
+                background .3s ease,
+                box-shadow .3s ease;
+
+        }
+
+
+        .navbar.scrolled {
+
+            background: rgba(255, 255, 255, .96);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .06);
+
+        }
+
+
+        .nav-link {
+
+            position: relative;
+
+        }
+
+
+        .nav-link::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: -7px;
+
+            width: 0;
+            height: 1px;
+
+            background: #536747;
+
+            transition:
+                width .3s ease;
+
+        }
+
+
+        .nav-link:hover::after {
+
+            width: 100%;
+
+        }
+
+
+        /* =========================================================
+           PREMIUM / LUXURY HERO
+        ========================================================== */
+
+        .hero-wrapper {
+
+            position: relative;
+
+            height:
+                min(790px, calc(100vh - 74px));
+
+            min-height: 620px;
+
+            overflow: hidden;
+
+            border-radius:
+                0 0 42px 42px;
+
+            background: #0b100b;
+
+            isolation: isolate;
+
+            box-shadow:
+                0 30px 90px rgba(15, 25, 15, .13);
+
+        }
+
+
+        .hero-slide {
+
+            position: absolute;
+
+            inset: 0;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform: scale(1.035);
+
+            transition:
+                opacity .9s ease,
+                transform 1.4s cubic-bezier(.22, .61, .36, 1),
+                visibility .9s ease;
+
+        }
+
+
+        .hero-slide.active {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            transform: scale(1);
+
+        }
+
+
+        .hero-image {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            object-position: center;
+
+            transform: scale(1.025);
+
+            filter:
+                saturate(.9) contrast(1.05) brightness(.98);
+
+        }
+
+
+        .hero-slide.active .hero-image {
+
+            animation:
+                premiumHeroZoom 6.4s cubic-bezier(.2, .6, .2, 1) forwards;
+
+        }
+
+
+        @keyframes premiumHeroZoom {
+
+            from {
+                transform: scale(1.06);
+            }
+
+            to {
+                transform: scale(1);
+            }
+
+        }
+
+
+        /* GOLD-EDGE ACCENT — a single restrained luxury flourish */
+
+        .hero-wrapper::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 12;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, .06);
+
+            border-radius:
+                0 0 42px 42px;
+
+        }
+
+
+        /* =========================================================
+           LUXURY OVERLAY
+        ========================================================== */
+
+        .hero-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+
+                linear-gradient(90deg,
+                    rgba(4, 8, 4, .94) 0%,
+                    rgba(4, 8, 4, .78) 22%,
+                    rgba(4, 8, 4, .43) 46%,
+                    rgba(4, 8, 4, .12) 76%,
+                    rgba(4, 8, 4, .05) 100%);
+
+        }
+
+
+        .hero-bottom-overlay {
+
+            position: absolute;
+
+            inset:
+                auto 0 0 0;
+
+            height: 55%;
+
+            background:
+
+                linear-gradient(to top,
+                    rgba(3, 7, 3, .78),
+                    transparent);
+
+        }
+
+
+        /* =========================================================
+           HERO CONTENT
+        ========================================================== */
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 10;
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .hero-copy {
+
+            opacity: 0;
+
+            transform:
+                translateY(30px);
+
+        }
+
+
+        .hero-slide.active .hero-copy {
+
+            animation:
+                heroContentIn .9s .12s cubic-bezier(.22, .61, .36, 1) forwards;
+
+        }
+
+
+        @keyframes heroContentIn {
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        .hero-label {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            color: #d7dfd3;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            letter-spacing: .34em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .hero-label span {
+
+            width: 42px;
+            height: 1px;
+
+            background: #aebda7;
+
+        }
+
+
+        .hero-title {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-weight: 500;
+
+            letter-spacing: -.065em;
+
+            text-shadow:
+                0 15px 50px rgba(0, 0, 0, .22);
+
+        }
+
+
+        .hero-title em {
+
+            color: #c5d2bf;
+
+            font-style: italic;
+
+        }
+
+
+        .hero-description {
+
+            color:
+                rgba(255, 255, 255, .72);
+
+            font-size: 14px;
+
+            line-height: 1.85;
+
+            max-width: 510px;
+
+        }
+
+
+        /* =========================================================
+           HERO BUTTON
+        ========================================================== */
+
+        .hero-button {
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, .15);
+
+        }
+
+
+        .hero-button::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background: #d0d9cc;
+
+            transform:
+                translateX(-101%);
+
+            transition:
+                transform .45s ease;
+
+        }
+
+
+        .hero-button:hover::before {
+
+            transform:
+                translateX(0);
+
+        }
+
+
+        .hero-button-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        /* =========================================================
+           SECONDARY HERO BUTTON
+        ========================================================== */
+
+        .hero-secondary {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-left: 12px;
+
+            padding:
+                14px 20px;
+
+            border:
+                1px solid rgba(255, 255, 255, .22);
+
+            border-radius: 999px;
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            transition:
+                background .3s ease,
+                border-color .3s ease;
+
+        }
+
+
+        .hero-secondary:hover {
+
+            background:
+                rgba(255, 255, 255, .10);
+
+            border-color:
+                rgba(255, 255, 255, .40);
+
+        }
+
+
+        /* =========================================================
+           HERO FEATURE CARD — 3D TILT
+        ========================================================== */
+
+        .hero-info-card {
+
+            position: absolute;
+
+            right: 5.5%;
+
+            bottom: 105px;
+
+            z-index: 20;
+
+            width: 285px;
+
+            padding: 24px;
+
+            border:
+                1px solid rgba(255, 255, 255, .15);
+
+            border-radius: 25px;
+
+            background:
+                rgba(255, 255, 255, .075);
+
+            backdrop-filter:
+                blur(25px);
+
+            -webkit-backdrop-filter:
+                blur(25px);
+
+            color: white;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, .22);
+
+            transform-style: preserve-3d;
+
+            transform:
+                perspective(900px) rotateX(0deg) rotateY(0deg);
+
+            transition:
+                transform .5s cubic-bezier(.22, .61, .36, 1);
+
+            animation:
+                floatingCard 4s ease-in-out infinite;
+
+        }
+
+
+        @keyframes floatingCard {
+
+            0%,
+            100% {
+                transform:
+                    perspective(900px) translateY(0);
+            }
+
+            50% {
+                transform:
+                    perspective(900px) translateY(-7px);
+            }
+
+        }
+
+
+        .hero-info-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #c5d2bf;
+
+            top: 25px;
+            right: 24px;
+
+            box-shadow:
+                0 0 18px #c5d2bf;
+
+        }
+
+
+        .hero-info-number {
+
+            font-size: 29px;
+
+            font-weight: 700;
+
+            letter-spacing: -.06em;
+
+        }
+
+
+        .hero-card-line {
+
+            width: 100%;
+            height: 1px;
+
+            margin-top: 18px;
+
+            background:
+                rgba(255, 255, 255, .10);
+
+        }
+
+
+        .hero-card-stat {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 13px;
+
+            font-size: 9px;
+
+            color:
+                rgba(255, 255, 255, .48);
+
+        }
+
+
+        .hero-card-stat strong {
+
+            color: white;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================================================
+           HERO NUMBER
+        ========================================================== */
+
+        .hero-slide-number {
+
+            position: absolute;
+
+            right: 5.7%;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            z-index: 15;
+
+            writing-mode:
+                vertical-rl;
+
+            color:
+                rgba(255, 255, 255, .32);
+
+            font-size: 9px;
+
+            letter-spacing: .3em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* =========================================================
+           HERO PAGINATION
+        ========================================================== */
+
+        .hero-pagination {
+
+            position: absolute;
+
+            left: 50%;
+
+            bottom: 31px;
+
+            transform:
+                translateX(-50%);
+
+            z-index: 30;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .pagination-dot {
+
+            position: relative;
+
+            width: 28px;
+            height: 3px;
+
+            border-radius: 999px;
+
+            overflow: hidden;
+
+            background:
+                rgba(255, 255, 255, .25);
+
+            cursor: pointer;
+
+            transition:
+                width .3s ease,
+                background .3s ease;
+
+        }
+
+
+        .pagination-dot.active {
+
+            width: 62px;
+
+            background:
+                rgba(255, 255, 255, .25);
+
+        }
+
+
+        .pagination-dot.active::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 0;
+
+            background: white;
+
+            animation:
+                paginationProgress 3.8s linear forwards;
+
+        }
+
+
+        @keyframes paginationProgress {
+
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+
+        /* =========================================================
+           AUTO SCROLL INDICATOR
+           DISAPPEARS AFTER USER SCROLLS
+        ========================================================== */
+
+        .hero-scroll-indicator {
+
+            position: absolute;
+
+            left: 50%;
+
+            bottom: 78px;
+
+            transform:
+                translateX(-50%);
+
+            z-index: 35;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color:
+                rgba(255, 255, 255, .55);
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            letter-spacing: .24em;
+
+            text-transform: uppercase;
+
+            transition:
+                opacity .45s ease,
+                transform .45s ease;
+
+            animation:
+                scrollIndicatorFloat 2s ease-in-out infinite;
+
+        }
+
+
+        .hero-scroll-indicator.hidden {
+
+            opacity: 0;
+
+            transform:
+                translateX(-50%) translateY(12px);
+
+            pointer-events: none;
+
+        }
+
+
+        .scroll-mouse {
+
+            width: 20px;
+            height: 30px;
+
+            border:
+                1px solid rgba(255, 255, 255, .45);
+
+            border-radius: 999px;
+
+            display: flex;
+
+            justify-content: center;
+
+            padding-top: 6px;
+
+        }
+
+
+        .scroll-mouse::before {
+
+            content: "";
+
+            width: 2px;
+            height: 6px;
+
+            border-radius: 999px;
+
+            background: white;
+
+            animation:
+                scrollWheel 1.5s ease-in-out infinite;
+
+        }
+
+
+        @keyframes scrollWheel {
+
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            80% {
+                transform: translateY(9px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+        }
+
+
+        @keyframes scrollIndicatorFloat {
+
+            0%,
+            100% {
+                margin-bottom: 0;
+            }
+
+            50% {
+                margin-bottom: 5px;
+            }
+
+        }
+
+
+        /* =========================================================
+           SECTION
+        ========================================================== */
+
+        .section-eyebrow {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: #536747;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: .3em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .section-eyebrow::before {
+
+            content: "";
+
+            width: 28px;
+            height: 1px;
+
+            background: #8da084;
+
+        }
+
+
+        .luxury-heading {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            letter-spacing: -.035em;
+
+        }
+
+
+        /* =========================================================
+           3D TILT — shared utility
+           Applied via JS (perspective + rotateX/rotateY based on
+           pointer position). Falls back to a plain hover lift on
+           touch devices where pointer tracking isn't available.
+        ========================================================== */
+
+        .tilt-3d {
+
+            transform-style: preserve-3d;
+
+            transform:
+                perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+
+            transition:
+                transform .5s cubic-bezier(.22, .61, .36, 1),
+                box-shadow .5s ease;
+
+            will-change: transform;
+
+        }
+
+
+        .tilt-3d [data-tilt-layer] {
+
+            transform: translateZ(0);
+
+            transition:
+                transform .5s cubic-bezier(.22, .61, .36, 1);
+
+        }
+
+
+        @media (hover: none) {
+
+            .tilt-3d {
+
+                transform: none !important;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           CATEGORY CARDS
+        ========================================================== */
+
+        .category-card {
+
+            position: relative;
+
+            min-height: 300px;
+
+            overflow: hidden;
+
+            border-radius: 28px;
+
+            background: #151e14;
+
+        }
+
+
+        .category-card:hover {
+
+            box-shadow:
+                0 30px 70px rgba(20, 30, 20, .18);
+
+        }
+
+
+        .category-image {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform .9s ease;
+
+            transform: translateZ(20px) scale(1.001);
+
+        }
+
+
+        .category-card:hover .category-image {
+
+            transform:
+                translateZ(20px) scale(1.09);
+
+        }
+
+
+        .category-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(to top,
+                    rgba(8, 12, 8, .9),
+                    rgba(8, 12, 8, .1) 70%);
+
+        }
+
+
+        .category-content {
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            padding: 28px;
+
+            color: white;
+
+            transform: translateZ(35px);
+
+        }
+
+
+        /* =========================================================
+           BRAND CARDS
+        ========================================================== */
+
+        .brand-card {
+
+            position: relative;
+
+            min-height: 150px;
+
+            background: white;
+
+            border:
+                1px solid #e8ebe7;
+
+            border-radius: 22px;
+
+        }
+
+
+        .brand-card:hover {
+
+            border-color:
+                #d2dbcf;
+
+            box-shadow:
+                0 20px 45px rgba(20, 30, 20, .10);
+
+        }
+
+
+        /* =========================================================
+           PRODUCT CARDS — 3D TILT
+        ========================================================== */
+
+        .product-card {
+
+            background: white;
+
+            border:
+                1px solid #e8ebe7;
+
+            border-radius: 26px;
+
+            overflow: hidden;
+
+        }
+
+
+        .product-card:hover {
+
+            box-shadow:
+                0 25px 55px rgba(20, 30, 20, .12);
+
+        }
+
+
+        .product-image-wrapper {
+
+            position: relative;
+
+            height: 280px;
+
+            overflow: hidden;
+
+            background: #f1f3f0;
+
+        }
+
+
+        .product-image {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform .8s ease;
+
+            transform: translateZ(18px) scale(1.001);
+
+        }
+
+
+        .product-card:hover .product-image {
+
+            transform:
+                translateZ(18px) scale(1.07);
+
+        }
+
+
+        .product-badge {
+
+            position: absolute;
+
+            top: 16px;
+            left: 16px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, .88);
+
+            backdrop-filter:
+                blur(10px);
+
+            color: #293626;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: .12em;
+
+            text-transform: uppercase;
+
+            transform: translateZ(30px);
+
+        }
+
+
+        /* =========================================================
+           LUXURY CTA
+        ========================================================== */
+
+        .luxury-cta {
+
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius: 34px;
+
+            background:
+
+                radial-gradient(circle at 80% 20%,
+                    rgba(174, 189, 167, .20),
+                    transparent 30%),
+
+                linear-gradient(135deg,
+                    #111810,
+                    #293626);
+
+        }
+
+
+        .luxury-cta::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            right: -200px;
+            top: -220px;
+
+            border:
+                1px solid rgba(255, 255, 255, .10);
+
+            border-radius: 50%;
+
+        }
+
+
+        .luxury-cta::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 650px;
+            height: 650px;
+
+            right: -350px;
+            bottom: -450px;
+
+            border:
+                1px solid rgba(255, 255, 255, .07);
+
+            border-radius: 50%;
+
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================== */
+
+        .footer {
+
+            background: #0d130d;
+
+            color: #d9dfd7;
+
+        }
+
+
+        .footer-heading {
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .18em;
+
+            text-transform: uppercase;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .footer-link {
+
+            color: #899287;
+
+            font-size: 12px;
+
+            transition:
+                color .25s ease,
+                transform .25s ease;
+
+        }
+
+
+        .footer-link:hover {
+
+            color: #dce5d8;
+
+            transform:
+                translateX(3px);
+
+        }
+
+
+        .footer-divider {
+
+            border-color:
+                rgba(255, 255, 255, .08);
+
+        }
+
+
+        .footer-social {
+
+            width: 38px;
+            height: 38px;
+
+            border:
+                1px solid rgba(255, 255, 255, .10);
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #a5afa2;
+
+            font-size: 12px;
+
+            transition:
+                background .3s ease,
+                color .3s ease,
+                transform .3s ease;
+
+        }
+
+
+        .footer-social:hover {
+
+            background: white;
+
+            color: #111810;
+
+            transform:
+                translateY(-3px);
+
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+
+            max-height: 0;
+
+            overflow: hidden;
+
+            transition:
+                max-height .4s ease;
+
+        }
+
+
+        .mobile-menu.open {
+
+            max-height: 600px;
+
+        }
+
+
+        /* =========================================================
+           LARGE DESKTOP / WIDE
+        ========================================================== */
+
+        @media (min-width: 1536px) {
+
+            .hero-title {
+
+                font-size: 104px;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================== */
+
+        @media (max-width: 1024px) {
+
+            .hero-info-card {
+
+                right: 4%;
+
+                bottom: 100px;
+
+                width: 250px;
+
+            }
+
+
+            .hero-slide-number {
+
+                display: none;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SMALL TABLET / LARGE PHONE
+        ========================================================== */
+
+        @media (max-width: 900px) {
+
+            .product-image-wrapper {
+
+                height: 240px;
+
+            }
+
+
+            .category-card {
+
+                min-height: 260px;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================== */
+
+        @media (max-width: 767px) {
+
+            .hero-wrapper {
+
+                height: 730px;
+
+                min-height: 730px;
+
+                border-radius:
+                    0 0 28px 28px;
+
+            }
+
+
+            .hero-image {
+
+                object-position:
+                    62% center;
+
+            }
+
+
+            .hero-overlay {
+
+                background:
+
+                    linear-gradient(180deg,
+                        rgba(5, 9, 5, .30) 0%,
+                        rgba(5, 9, 5, .48) 38%,
+                        rgba(5, 9, 5, .94) 100%);
+
+            }
+
+
+            .hero-bottom-overlay {
+
+                height: 62%;
+
+            }
+
+
+            .hero-content {
+
+                align-items: flex-end;
+
+                padding-bottom: 115px;
+
+            }
+
+
+            .hero-copy {
+
+                max-width: 100%;
+
+            }
+
+
+            .hero-label {
+
+                font-size: 8px;
+
+                letter-spacing: .24em;
+
+            }
+
+
+            .hero-label span {
+
+                width: 28px;
+
+            }
+
+
+            .hero-title {
+
+                font-size: 51px;
+
+                line-height: .93;
+
+            }
+
+
+            .hero-description {
+
+                font-size: 13px;
+
+                line-height: 1.75;
+
+                max-width: 350px;
+
+            }
+
+
+            .hero-button {
+
+                margin-top: 22px;
+
+                padding:
+                    13px 21px;
+
+            }
+
+
+            .hero-secondary {
+
+                padding:
+                    12px 15px;
+
+                margin-left: 5px;
+
+            }
+
+
+            .hero-info-card {
+
+                display: none;
+
+            }
+
+
+            .hero-pagination {
+
+                bottom: 28px;
+
+            }
+
+
+            .hero-scroll-indicator {
+
+                display: none;
+
+            }
+
+
+            .category-card {
+
+                min-height: 260px;
+
+            }
+
+
+            .product-image-wrapper {
+
+                height: 230px;
+
+            }
+
+
+            .tilt-3d {
+
+                transform: none !important;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE
+        ========================================================== */
+
+        @media (max-width: 480px) {
+
+            .hero-wrapper {
+
+                height: 660px;
+
+                min-height: 660px;
+
+            }
+
+
+            .hero-title {
+
+                font-size: 40px;
+
+            }
+
+
+            .hero-description {
+
+                max-width: 300px;
+
+            }
+
+
+            .hero-button {
+
+                padding:
+                    12px 18px;
+
+                font-size: 9px;
+
+            }
+
+
+            .hero-secondary {
+
+                font-size: 9px;
+
+                padding:
+                    11px 13px;
+
+            }
+
+
+            .product-image-wrapper {
+
+                height: 210px;
+
+            }
+
+
+            .delivery-stage {
+
+                width: 74vw;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           VERY NARROW PHONES
+        ========================================================== */
+
+        @media (max-width: 360px) {
+
+            .hero-title {
+
+                font-size: 34px;
+
+            }
+
+
+            .hero-content {
+
+                padding-bottom: 95px;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body class="font-sans text-gray-900">
+
+
+    <!-- =========================================================
+     PREMIUM COURIER PRELOADER
+========================================================= -->
+
+    <div id="preloader">
+
+        <div class="loader-glow"></div>
+
+
+        <div class="loader-content">
+
+
+            <div class="delivery-stage">
+
+
+                <div class="speed-line one"></div>
+
+                <div class="speed-line two"></div>
+
+                <div class="speed-line three"></div>
+
+
+                <div class="delivery-runner">
+
+
+                    <div class="runner-cap"></div>
+
+                    <div class="runner-head"></div>
+
+                    <div class="runner-body"></div>
+
+                    <div class="runner-parcel"></div>
+
+
+                    <div class="runner-arm left"></div>
+
+                    <div class="runner-arm right"></div>
+
+
+                    <div class="runner-leg left">
+
+                        <div class="runner-shoe left"></div>
+
+                    </div>
+
+
+                    <div class="runner-leg right">
+
+                        <div class="runner-shoe right"></div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="delivery-shadow"></div>
+
+                <div class="delivery-ground"></div>
+
+
+            </div>
+
+
+            <div class="loader-brand">
+                MiniShop
+            </div>
+
+
+            <div class="loader-tagline">
+                Premium shopping experience
+            </div>
+
+
+            <div class="loader-progress">
+
+                <div class="loader-progress-bar"></div>
+
+            </div>
+
+
+            <div class="loader-status">
+                Delivering your experience...
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+    <header id="navbar" class="navbar sticky top-0 z-50
+               bg-white/90
+               backdrop-blur-xl
+               border-b
+               border-gray-100">
+
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+
+            <div class="h-[74px]
+                    flex
+                    items-center
+                    justify-between">
+
+
+                <!-- LOGO -->
+
+                <a href="{% url 'user_home' %}" class="flex items-center gap-3 shrink-0">
+
+                    <span class="w-10 h-10 rounded-xl
+                             bg-sage-900
+                             text-white
+                             flex items-center justify-center
+                             font-bold">
+
+                        M
+
+                    </span>
+
+                    <div>
+
+                        <div class="font-semibold tracking-tight">
+                            MiniShop
+                        </div>
+
+                        <div class="text-[8px]
+                                uppercase
+                                tracking-[.25em]
+                                text-gray-400
+                                mt-0.5
+                                hidden sm:block">
+
+                            Curated Living
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- DESKTOP NAV -->
+
+                <nav class="hidden md:flex items-center gap-8">
+
+                    <a href="{% url 'user_home' %}" class="nav-link
+                          text-xs
+                          font-semibold
+                          text-sage-800">
+
+                        Home
+
+                    </a>
+
+
+                    <a href="{% url 'user_products' %}" class="nav-link
+                          text-xs
+                          font-medium
+                          text-gray-500
+                          hover:text-sage-800
+                          transition">
+
+                        Collections
+
+                    </a>
+
+
+                    <a href="#categories" class="nav-link
+                          text-xs
+                          font-medium
+                          text-gray-500
+                          hover:text-sage-800
+                          transition">
+
+                        Categories
+
+                    </a>
+
+
+                    <a href="#brands" class="nav-link
+                          text-xs
+                          font-medium
+                          text-gray-500
+                          hover:text-sage-800
+                          transition">
+
+                        Brands
+
+                    </a>
+
+
+                    <a href="{% url 'orders' %}" class="nav-link
+                          text-xs
+                          font-medium
+                          text-gray-500
+                          hover:text-sage-800
+                          transition">
+
+                        Orders
+
+                    </a>
+
+                </nav>
+
+
+                <!-- RIGHT -->
+
+                <div class="hidden md:flex items-center gap-3">
+
+                    <a href="{% url 'cart' %}" class="w-10 h-10
+                          rounded-xl
+                          border border-gray-200
+                          flex items-center justify-center
+                          text-gray-700
+                          hover:bg-sage-50
+                          transition">
+
+                        🛒
+
+                    </a>
+
+
+                    <a href="{% url 'profile' %}" class="w-10 h-10
+                          rounded-xl
+                          border border-gray-200
+                          flex items-center justify-center
+                          text-gray-700
+                          hover:bg-sage-50
+                          transition">
+
+                        ◯
+
+                    </a>
+
+
+                    <a href="{% url 'user_logout' %}" class="ml-2
+                          bg-sage-900
+                          hover:bg-sage-800
+                          text-white
+                          px-5 py-2.5
+                          rounded-full
+                          text-[10px]
+                          font-bold
+                          tracking-wide
+                          transition">
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+
+                <!-- MOBILE BUTTONS -->
+
+                <div class="flex items-center gap-2 md:hidden">
+
+
+                    <a href="{% url 'cart' %}" class="w-10 h-10
+                          rounded-xl
+                          border border-gray-200
+                          flex items-center justify-center
+                          text-gray-700">
+
+                        🛒
+
+                    </a>
+
+
+                    <button id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileMenu" class="w-10 h-10
+                               rounded-xl
+                               border border-gray-200
+                               flex items-center justify-center
+                               text-gray-700">
+
+                        ☰
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- MOBILE MENU -->
+
+            <div id="mobileMenu" class="mobile-menu md:hidden">
+
+                <div class="pb-5 pt-2 space-y-1">
+
+                    <a href="{% url 'user_home' %}" class="block px-4 py-3
+                          rounded-xl
+                          bg-sage-50
+                          text-sage-800
+                          text-sm
+                          font-semibold">
+
+                        Home
+
+                    </a>
+
+
+                    <a href="{% url 'user_products' %}" class="block px-4 py-3
+                          rounded-xl
+                          text-gray-600
+                          text-sm">
+
+                        Collections
+
+                    </a>
+
+
+                    <a href="#categories" class="block px-4 py-3
+                          rounded-xl
+                          text-gray-600
+                          text-sm">
+
+                        Categories
+
+                    </a>
+
+
+                    <a href="#brands" class="block px-4 py-3
+                          rounded-xl
+                          text-gray-600
+                          text-sm">
+
+                        Brands
+
+                    </a>
+
+
+                    <a href="{% url 'cart' %}" class="block px-4 py-3
+                          rounded-xl
+                          text-gray-600
+                          text-sm">
+
+                        Cart
+
+                    </a>
+
+
+                    <a href="{% url 'orders' %}" class="block px-4 py-3
+                          rounded-xl
+                          text-gray-600
+                          text-sm">
+
+                        Orders
+
+                    </a>
+
+
+                    <a href="{% url 'profile' %}" class="block px-4 py-3
+                          rounded-xl
+                          text-gray-600
+                          text-sm">
+
+                        Profile
+
+                    </a>
+
+
+                    <a href="{% url 'user_logout' %}" class="block px-4 py-3
+                          rounded-xl
+                          bg-sage-900
+                          text-white
+                          text-sm
+                          font-semibold
+                          text-center">
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+     PREMIUM / LUXURY HERO
+========================================================= -->
+
+    <main>
+
+
+        <section class="max-w-[1500px] mx-auto">
+
+            <div id="heroSlider" class="hero-wrapper">
+
+
+                <!-- =====================================================
+             SLIDE 1 — Watches / timeless luxury
+        ====================================================== -->
+
+                <div class="hero-slide active">
+
+
+                    <img src="https://images.grailzee.com/cdn/shop/files/main-media-image-735914.webp?v=1746636806"
+                        alt="Luxury black and gold dive watch" loading="eager" class="hero-image">
+
+
+                    <div class="hero-overlay"></div>
+
+                    <div class="hero-bottom-overlay"></div>
+
+
+                    <div class="hero-content">
+
+                        <div class="max-w-7xl
+                            mx-auto
+                            w-full
+                            px-7
+                            sm:px-10
+                            lg:px-16">
+
+                            <div class="hero-copy max-w-2xl">
+
+
+                                <div class="hero-label">
+
+                                    <span></span>
+
+                                    Timeless Collection
+
+                                </div>
+
+
+                                <h1 class="hero-title
+                                   text-white
+                                   text-5xl
+                                   sm:text-6xl
+                                   md:text-7xl
+                                   lg:text-[92px]
+                                   leading-[.91]
+                                   mt-6">
+
+                                    Time,
+
+                                    <br>
+
+                                    <em>perfected.</em>
+
+                                </h1>
+
+
+                                <p class="hero-description mt-7">
+
+                                    Discover refined pieces designed
+                                    to become part of your everyday
+                                    story.
+
+                                </p>
+
+
+                                <div class="mt-8">
+
+
+                                    <a href="{% url 'user_products' %}" class="hero-button
+                                      inline-flex
+                                      items-center
+                                      px-7 py-3.5
+                                      bg-white
+                                      text-sage-900
+                                      rounded-full
+                                      text-[10px]
+                                      font-bold
+                                      tracking-wide">
+
+                                        <span class="hero-button-content">
+
+                                            Explore Collection
+
+                                            <span class="ml-3">
+                                                →
+                                            </span>
+
+                                        </span>
+
+                                    </a>
+
+
+                                    <a href="#categories" class="hero-secondary">
+
+                                        Discover More
+
+                                        <span>
+                                            ↓
+                                        </span>
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-info-card tilt-3d">
+
+                        <div class="text-[9px]
+                            uppercase
+                            tracking-[.2em]
+                            text-gray-300">
+
+                            Featured Collection
+
+                        </div>
+
+
+                        <div class="hero-info-number mt-2">
+
+                            Premium
+
+                        </div>
+
+
+                        <div class="text-[10px]
+                            text-gray-400
+                            mt-1">
+
+                            Carefully selected for you
+
+                        </div>
+
+
+                        <div class="hero-card-line"></div>
+
+
+                        <div class="hero-card-stat">
+
+                            <span>Selection</span>
+
+                            <strong>Curated</strong>
+
+                        </div>
+
+
+                        <div class="hero-card-stat">
+
+                            <span>Experience</span>
+
+                            <strong>Premium</strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="hero-slide-number">
+
+                        01 / 03
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================================================
+             SLIDE 2 — Fashion / shopping bags
+        ====================================================== -->
+
+                <div class="hero-slide">
+
+
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2200&q=90"
+                        alt="Woman carrying premium shopping bags" loading="lazy" class="hero-image">
+
+
+                    <div class="hero-overlay"></div>
+
+                    <div class="hero-bottom-overlay"></div>
+
+
+                    <div class="hero-content">
+
+                        <div class="max-w-7xl
+                            mx-auto
+                            w-full
+                            px-7
+                            sm:px-10
+                            lg:px-16">
+
+                            <div class="hero-copy max-w-2xl">
+
+
+                                <div class="hero-label">
+
+                                    <span></span>
+
+                                    New Season
+
+                                </div>
+
+
+                                <h2 class="hero-title
+                                   text-white
+                                   text-5xl
+                                   sm:text-6xl
+                                   md:text-7xl
+                                   lg:text-[92px]
+                                   leading-[.91]
+                                   mt-6">
+
+                                    Designed
+
+                                    <br>
+
+                                    <em>to impress.</em>
+
+                                </h2>
+
+
+                                <p class="hero-description mt-7">
+
+                                    Elevate your everyday with
+                                    products chosen for quality,
+                                    style and character.
+
+                                </p>
+
+
+                                <div class="mt-8">
+
+
+                                    <a href="{% url 'user_products' %}" class="hero-button
+                                      inline-flex
+                                      items-center
+                                      px-7 py-3.5
+                                      bg-white
+                                      text-sage-900
+                                      rounded-full
+                                      text-[10px]
+                                      font-bold
+                                      tracking-wide">
+
+                                        <span class="hero-button-content">
+
+                                            Shop New Arrivals
+
+                                            <span class="ml-3">
+                                                →
+                                            </span>
+
+                                        </span>
+
+                                    </a>
+
+
+                                    <a href="#brands" class="hero-secondary">
+
+                                        Explore Brands
+
+                                        <span>
+                                            ↓
+                                        </span>
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-info-card tilt-3d">
+
+                        <div class="text-[9px]
+                            uppercase
+                            tracking-[.2em]
+                            text-gray-300">
+
+                            Latest Edit
+
+                        </div>
+
+
+                        <div class="hero-info-number mt-2">
+
+                            New Season
+
+                        </div>
+
+
+                        <div class="text-[10px]
+                            text-gray-400
+                            mt-1">
+
+                            Fresh pieces, carefully selected
+
+                        </div>
+
+
+                        <div class="hero-card-line"></div>
+
+
+                        <div class="hero-card-stat">
+
+                            <span>Style</span>
+
+                            <strong>Modern</strong>
+
+                        </div>
+
+
+                        <div class="hero-card-stat">
+
+                            <span>Quality</span>
+
+                            <strong>Selected</strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="hero-slide-number">
+
+                        02 / 03
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================================================
+             SLIDE 3 — Everyday lifestyle shopping
+        ====================================================== -->
+
+                <div class="hero-slide">
+
+
+                    <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=2200&q=90"
+                        alt="Shopper walking with premium bags on a city street" loading="lazy" class="hero-image">
+
+
+                    <div class="hero-overlay"></div>
+
+                    <div class="hero-bottom-overlay"></div>
+
+
+                    <div class="hero-content">
+
+                        <div class="max-w-7xl
+                            mx-auto
+                            w-full
+                            px-7
+                            sm:px-10
+                            lg:px-16">
+
+                            <div class="hero-copy max-w-2xl">
+
+
+                                <div class="hero-label">
+
+                                    <span></span>
+
+                                    Curated Living
+
+                                </div>
+
+
+                                <h2 class="hero-title
+                                   text-white
+                                   text-5xl
+                                   sm:text-6xl
+                                   md:text-7xl
+                                   lg:text-[92px]
+                                   leading-[.91]
+                                   mt-6">
+
+                                    Beautiful
+
+                                    <br>
+
+                                    <em>everyday.</em>
+
+                                </h2>
+
+
+                                <p class="hero-description mt-7">
+
+                                    From thoughtful essentials to
+                                    statement pieces, find something
+                                    that feels uniquely yours.
+
+                                </p>
+
+
+                                <div class="mt-8">
+
+
+                                    <a href="{% url 'user_products' %}" class="hero-button
+                                      inline-flex
+                                      items-center
+                                      px-7 py-3.5
+                                      bg-white
+                                      text-sage-900
+                                      rounded-full
+                                      text-[10px]
+                                      font-bold
+                                      tracking-wide">
+
+                                        <span class="hero-button-content">
+
+                                            Discover MiniShop
+
+                                            <span class="ml-3">
+                                                →
+                                            </span>
+
+                                        </span>
+
+                                    </a>
+
+
+                                    <a href="#products" class="hero-secondary">
+
+                                        Latest Products
+
+                                        <span>
+                                            ↓
+                                        </span>
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-info-card tilt-3d">
+
+                        <div class="text-[9px]
+                            uppercase
+                            tracking-[.2em]
+                            text-gray-300">
+
+                            MiniShop
+
+                        </div>
+
+
+                        <div class="hero-info-number mt-2">
+
+                            Curated
+
+                        </div>
+
+
+                        <div class="text-[10px]
+                            text-gray-400
+                            mt-1">
+
+                            Better products. Simpler shopping.
+
+                        </div>
+
+
+                        <div class="hero-card-line"></div>
+
+
+                        <div class="hero-card-stat">
+
+                            <span>Shopping</span>
+
+                            <strong>Simple</strong>
+
+                        </div>
+
+
+                        <div class="hero-card-stat">
+
+                            <span>Living</span>
+
+                            <strong>Better</strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="hero-slide-number">
+
+                        03 / 03
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================================================
+             AUTO SCROLL INDICATOR
+        ====================================================== -->
+
+                <div id="heroScrollIndicator" class="hero-scroll-indicator">
+
+                    <div class="scroll-mouse"></div>
+
+                    Scroll to explore
+
+                </div>
+
+
+                <!-- =====================================================
+             PAGINATION
+        ====================================================== -->
+
+                <div class="hero-pagination">
+
+
+                    <button type="button" class="pagination-dot active" data-slide="0" aria-label="Go to slide 1">
+                    </button>
+
+
+                    <button type="button" class="pagination-dot" data-slide="1" aria-label="Go to slide 2">
+                    </button>
+
+
+                    <button type="button" class="pagination-dot" data-slide="2" aria-label="Go to slide 3">
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================================
+     CATEGORY
+========================================================= -->
+
+        <section id="categories" class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                lg:px-10
+                pt-20
+                sm:pt-24
+                scroll-mt-24">
+
+
+            <div class="flex
+                flex-col
+                md:flex-row
+                md:items-end
+                justify-between
+                gap-6
+                mb-10">
+
+
+                <div>
+
+
+                    <div class="section-eyebrow">
+
+                        Discover
+
+                    </div>
+
+
+                    <h2 class="luxury-heading
+                       text-3xl
+                       sm:text-4xl
+                       lg:text-5xl
+                       mt-4">
+
+                        Shop by category
+
+                    </h2>
+
+
+                    <p class="text-sm
+                      text-gray-500
+                      mt-4
+                      max-w-lg
+                      leading-6">
+
+                        Explore thoughtfully selected products
+                        across the categories that define modern
+                        everyday living.
+
+                    </p>
+
+                </div>
+
+
+                <a href="{% url 'user_products' %}" class="text-[10px]
+                  font-bold
+                  tracking-widest
+                  uppercase
+                  text-sage-800
+                  hover:text-sage-600
+                  transition">
+
+                    View all products →
+
+                </a>
+
+            </div>
+
+
+            {% if categories %}
+
+            <div class="grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-4
+                gap-5">
+
+
+                {% for category in categories|slice:":4" %}
+
+
+                <a href="{% url 'user_products' %}?category={{ category.id }}" class="category-card tilt-3d group">
+
+
+                    {% if category.image %}
+
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}" loading="lazy" data-tilt-layer
+                        class="category-image">
+
+                    {% else %}
+
+                    <div class="absolute inset-0
+                        bg-gradient-to-br
+                        from-sage-500
+                        to-sage-900">
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="category-overlay"></div>
+
+
+                    <div class="category-content" data-tilt-layer>
+
+
+                        <div class="text-2xl mb-5">
+
+                            {% if category.name|lower == "electronics" %}
+
+                            ✦
+
+                            {% elif category.name|lower == "fashion" %}
+
+                            ◇
+
+                            {% elif category.name|lower == "watches" %}
+
+                            ◷
+
+                            {% elif category.name|lower == "camera" %}
+
+                            ◎
+
+                            {% elif category.name|lower == "shoes" %}
+
+                            ◈
+
+                            {% else %}
+
+                            ◆
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <h3 class="text-xl
+                           sm:text-2xl
+                           font-semibold
+                           tracking-tight">
+
+                            {{ category.name }}
+
+                        </h3>
+
+
+                        <p class="text-xs
+                          text-gray-300
+                          mt-2
+                          leading-5">
+
+                            {{ category.description|default:"Discover our carefully selected
+                            collection."|truncatewords:12 }}
+
+                        </p>
+
+
+                        <div class="flex
+                            items-center
+                            gap-2
+                            mt-5
+                            text-[9px]
+                            uppercase
+                            tracking-[.18em]
+                            font-bold">
+
+                            Explore
+
+                            <span class="transition-transform
+                                 group-hover:translate-x-2">
+
+                                →
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </a>
+
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="bg-white
+                border
+                border-dashed
+                border-gray-300
+                rounded-3xl
+                p-10
+                sm:p-14
+                text-center">
+
+                <p class="text-sm text-gray-500">
+
+                    No categories available yet.
+
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =========================================================
+     BRANDS
+========================================================= -->
+
+        <section id="brands" class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                lg:px-10
+                pt-24
+                sm:pt-28
+                scroll-mt-24">
+
+
+            <div class="flex
+                flex-col
+                md:flex-row
+                md:items-end
+                justify-between
+                gap-6
+                mb-10">
+
+
+                <div>
+
+
+                    <div class="section-eyebrow">
+
+                        The Edit
+
+                    </div>
+
+
+                    <h2 class="luxury-heading
+                       text-3xl
+                       sm:text-4xl
+                       lg:text-5xl
+                       mt-4">
+
+                        Brands worth knowing
+
+                    </h2>
+
+
+                    <p class="text-sm
+                      text-gray-500
+                      mt-4">
+
+                        Discover products from names you trust.
+
+                    </p>
+
+                </div>
+
+
+                <a href="{% url 'user_products' %}" class="text-[10px]
+                  font-bold
+                  tracking-widest
+                  uppercase
+                  text-sage-800">
+
+                    Explore brands →
+
+                </a>
+
+            </div>
+
+
+            {% if brands %}
+
+
+            <div class="grid
+                grid-cols-2
+                sm:grid-cols-3
+                md:grid-cols-4
+                lg:grid-cols-6
+                gap-4">
+
+
+                {% for brand in brands|slice:":6" %}
+
+
+                <a href="{% url 'user_products' %}?brand={{ brand.id }}" class="brand-card
+                  tilt-3d
+                  group
+                  flex
+                  flex-col
+                  items-center
+                  justify-center
+                  p-5
+                  sm:p-6">
+
+
+                    {% if brand.logo %}
+
+                    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" loading="lazy" data-tilt-layer class="w-14
+                        h-14
+                        sm:w-16
+                        sm:h-16
+                        object-contain
+                        group-hover:scale-110
+                        transition
+                        duration-500">
+
+                    {% else %}
+
+                    <div class="w-14
+                        h-14
+                        sm:w-16
+                        sm:h-16
+                        rounded-2xl
+                        bg-sage-50
+                        text-sage-800
+                        flex
+                        items-center
+                        justify-center
+                        font-bold
+                        text-xl
+                        group-hover:bg-sage-100
+                        transition" data-tilt-layer>
+
+                        {{ brand.name|first|upper }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <h3 class="text-sm
+                       font-semibold
+                       mt-5
+                       text-gray-900
+                       group-hover:text-sage-800
+                       transition
+                       text-center">
+
+                        {{ brand.name }}
+
+                    </h3>
+
+
+                    <p class="text-[8px]
+                      text-gray-400
+                      uppercase
+                      tracking-[.16em]
+                      mt-2">
+
+                        Explore
+
+                    </p>
+
+
+                </a>
+
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="bg-white
+                border
+                border-dashed
+                border-gray-300
+                rounded-3xl
+                p-10
+                sm:p-14
+                text-center">
+
+                <p class="text-sm text-gray-500">
+
+                    No brands available yet.
+
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =========================================================
+     PRODUCTS
+========================================================= -->
+
+        <section id="products" class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                lg:px-10
+                pt-24
+                sm:pt-28
+                scroll-mt-24">
+
+
+            <div class="flex
+                flex-col
+                sm:flex-row
+                sm:items-end
+                justify-between
+                gap-5
+                mb-10">
+
+
+                <div>
+
+
+                    <div class="section-eyebrow">
+
+                        New Arrivals
+
+                    </div>
+
+
+                    <h2 class="luxury-heading
+                       text-3xl
+                       sm:text-4xl
+                       lg:text-5xl
+                       mt-4">
+
+                        Recently curated
+
+                    </h2>
+
+
+                    <p class="text-sm
+                      text-gray-500
+                      mt-4">
+
+                        A refined selection from our latest collection.
+
+                    </p>
+
+                </div>
+
+
+                <a href="{% url 'user_products' %}" class="text-[10px]
+                  font-bold
+                  tracking-widest
+                  uppercase
+                  text-sage-800">
+
+                    View complete collection →
+
+                </a>
+
+            </div>
+
+
+            {% if products %}
+
+
+            <div class="grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-3
+                xl:grid-cols-4
+                gap-5">
+
+
+                {% for product in products|slice:":8" %}
+
+
+                <article class="product-card tilt-3d">
+
+
+                    <a href="{% url 'product_detail' product.id %}" class="block">
+
+
+                        <div class="product-image-wrapper">
+
+
+                            {% if product.image %}
+
+
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" data-tilt-layer
+                                class="product-image">
+
+
+                            {% else %}
+
+
+                            <div class="w-full
+                                h-full
+                                flex
+                                items-center
+                                justify-center
+                                bg-sage-50">
+
+                                <span class="text-5xl">
+                                    ◆
+                                </span>
+
+                            </div>
+
+
+                            {% endif %}
+
+
+                            <div class="product-badge">
+
+                                New Arrival
+
+                            </div>
+
+
+                        </div>
+
+                    </a>
+
+
+                    <div class="p-5" data-tilt-layer>
+
+
+                        {% if product.category %}
+
+
+                        <a href="{% url 'user_products' %}?category={{ product.category.id }}" class="text-[8px]
+                          uppercase
+                          tracking-[.2em]
+                          font-bold
+                          text-sage-600
+                          hover:text-sage-800">
+
+                            {{ product.category.name }}
+
+                        </a>
+
+
+                        {% endif %}
+
+
+                        <h3 class="text-base
+                           font-semibold
+                           mt-2
+                           truncate">
+
+                            {{ product.name }}
+
+                        </h3>
+
+
+                        <p class="text-xs
+                          text-gray-500
+                          leading-5
+                          mt-2
+                          line-clamp-2">
+
+                            {{ product.description }}
+
+                        </p>
+
+
+                        <div class="flex
+                            items-end
+                            justify-between
+                            gap-3
+                            mt-5
+                            pt-5
+                            border-t
+                            border-gray-100">
+
+
+                            <div>
+
+
+                                <p class="text-lg
+                                  font-bold
+                                  text-sage-900">
+
+                                    ₹{{ product.price }}
+
+                                </p>
+
+
+                                {% if product.brand %}
+
+
+                                <a href="{% url 'user_products' %}?brand={{ product.brand.id }}" class="text-[9px]
+                                  text-gray-400
+                                  mt-1
+                                  inline-block
+                                  hover:text-sage-700">
+
+                                    {{ product.brand.name }}
+
+                                </a>
+
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                            <a href="{% url 'product_detail' product.id %}" class="w-10
+                              h-10
+                              rounded-xl
+                              bg-sage-900
+                              text-white
+                              flex
+                              items-center
+                              justify-center
+                              text-sm
+                              hover:bg-sage-800
+                              transition
+                              shrink-0">
+
+                                →
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="bg-white
+                border
+                border-gray-100
+                rounded-3xl
+                p-10
+                sm:p-16
+                text-center">
+
+                <div class="text-5xl">
+                    ◆
+                </div>
+
+
+                <h3 class="text-xl
+                   font-semibold
+                   mt-5">
+
+                    No Products Available
+
+                </h3>
+
+
+                <p class="text-sm
+                  text-gray-500
+                  mt-2">
+
+                    Products added by shops will appear here.
+
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =========================================================
+     LUXURY CTA
+========================================================= -->
+
+        <section class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                lg:px-10
+                py-24
+                sm:py-28">
+
+
+            <div class="luxury-cta
+                relative
+                px-6
+                sm:px-12
+                lg:px-16
+                py-12
+                sm:py-16
+                lg:py-20">
+
+
+                <div class="relative z-10
+                    flex
+                    flex-col
+                    lg:flex-row
+                    lg:items-center
+                    justify-between
+                    gap-10">
+
+
+                    <div>
+
+
+                        <div class="text-[9px]
+                            uppercase
+                            tracking-[.3em]
+                            font-bold
+                            text-sage-300">
+
+                            The MiniShop Experience
+
+                        </div>
+
+
+                        <h2 class="luxury-heading
+                           text-3xl
+                           sm:text-4xl
+                           lg:text-5xl
+                           text-white
+                           mt-5
+                           max-w-2xl">
+
+                            Everything you love,
+
+                            <em class="text-sage-300">
+
+                                beautifully together.
+
+                            </em>
+
+                        </h2>
+
+
+                        <p class="text-sm
+                          text-gray-300
+                          leading-6
+                          max-w-xl
+                          mt-5">
+
+                            Manage your profile, discover new
+                            collections, track your orders and
+                            enjoy a simpler way to shop.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="flex
+                        flex-wrap
+                        gap-3
+                        shrink-0">
+
+
+                        <a href="{% url 'user_products' %}" class="px-7
+                          py-3.5
+                          rounded-full
+                          bg-white
+                          text-sage-900
+                          text-[10px]
+                          font-bold
+                          hover:bg-sage-50
+                          transition">
+
+                            Start Shopping
+
+                        </a>
+
+
+                        <a href="{% url 'orders' %}" class="px-7
+                          py-3.5
+                          rounded-full
+                          border
+                          border-white/20
+                          text-white
+                          text-[10px]
+                          font-bold
+                          hover:bg-white/10
+                          transition">
+
+                            My Orders
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================================
+     PREMIUM FOOTER
+========================================================= -->
+
+    <footer class="footer">
+
+
+        <div class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                lg:px-10
+                py-16
+                sm:py-20">
+
+
+            <div class="grid
+                    grid-cols-1
+                    sm:grid-cols-2
+                    md:grid-cols-3
+                    lg:grid-cols-5
+                    gap-10
+                    lg:gap-10">
+
+
+                <!-- BRAND -->
+
+                <div class="sm:col-span-2
+                        lg:col-span-2">
+
+
+                    <a href="{% url 'user_home' %}" class="inline-flex
+                          items-center
+                          gap-3">
+
+
+                        <span class="w-11
+                                 h-11
+                                 rounded-xl
+                                 bg-white
+                                 text-sage-900
+                                 flex
+                                 items-center
+                                 justify-center
+                                 font-bold">
+
+                            M
+
+                        </span>
+
+
+                        <div>
+
+
+                            <div class="text-white
+                                    font-semibold">
+
+                                MiniShop
+
+                            </div>
+
+
+                            <div class="text-[8px]
+                                    uppercase
+                                    tracking-[.25em]
+                                    text-gray-500
+                                    mt-1">
+
+                                Curated Living
+
+                            </div>
+
+
+                        </div>
+
+
+                    </a>
+
+
+                    <p class="text-xs
+                          text-gray-500
+                          leading-6
+                          max-w-sm
+                          mt-7">
+
+                        A modern destination for thoughtfully
+                        selected products, trusted brands and
+                        a beautifully simple shopping experience.
+
+                    </p>
+
+
+                    <div class="flex
+                            items-center
+                            gap-2
+                            mt-7">
+
+
+                        <a href="#" class="footer-social" aria-label="Instagram">
+
+                            IG
+
+                        </a>
+
+
+                        <a href="#" class="footer-social" aria-label="Facebook">
+
+                            FB
+
+                        </a>
+
+
+                        <a href="#" class="footer-social" aria-label="Twitter">
+
+                            X
+
+                        </a>
+
+
+                        <a href="#" class="footer-social" aria-label="LinkedIn">
+
+                            IN
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- SHOP -->
+
+                <div>
+
+
+                    <h3 class="footer-heading">
+
+                        Shop
+
+                    </h3>
+
+
+                    <div class="space-y-3">
+
+
+                        <a href="{% url 'user_products' %}" class="footer-link block">
+
+                            All Products
+
+                        </a>
+
+
+                        <a href="#categories" class="footer-link block">
+
+                            Categories
+
+                        </a>
+
+
+                        <a href="#brands" class="footer-link block">
+
+                            Brands
+
+                        </a>
+
+
+                        <a href="{% url 'cart' %}" class="footer-link block">
+
+                            Shopping Cart
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ACCOUNT -->
+
+                <div>
+
+
+                    <h3 class="footer-heading">
+
+                        Account
+
+                    </h3>
+
+
+                    <div class="space-y-3">
+
+
+                        <a href="{% url 'profile' %}" class="footer-link block">
+
+                            My Profile
+
+                        </a>
+
+
+                        <a href="{% url 'orders' %}" class="footer-link block">
+
+                            My Orders
+
+                        </a>
+
+
+                        <a href="{% url 'cart' %}" class="footer-link block">
+
+                            Cart
+
+                        </a>
+
+
+                        <a href="{% url 'user_logout' %}" class="footer-link block">
+
+                            Logout
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- EXPERIENCE -->
+
+                <div>
+
+
+                    <h3 class="footer-heading">
+
+                        Experience
+
+                    </h3>
+
+
+                    <div class="space-y-3">
+
+
+                        <a href="{% url 'user_products' %}" class="footer-link block">
+
+                            New Arrivals
+
+                        </a>
+
+
+                        <a href="#categories" class="footer-link block">
+
+                            Curated Collections
+
+                        </a>
+
+
+                        <a href="#brands" class="footer-link block">
+
+                            Trusted Brands
+
+                        </a>
+
+
+                        <a href="{% url 'user_home' %}" class="footer-link block">
+
+                            About MiniShop
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- SERVICE STRIP -->
+
+            <div class="grid
+                    grid-cols-1
+                    sm:grid-cols-3
+                    gap-6
+                    sm:gap-4
+                    mt-14
+                    sm:mt-16
+                    pt-10
+                    border-t
+                    footer-divider">
+
+
+                <div class="flex
+                        items-center
+                        gap-4">
+
+
+                    <div class="w-10
+                            h-10
+                            rounded-full
+                            border
+                            border-white/10
+                            flex
+                            items-center
+                            justify-center
+                            shrink-0">
+
+                        ✓
+
+                    </div>
+
+
+                    <div>
+
+
+                        <p class="text-xs
+                              text-white
+                              font-semibold">
+
+                            Trusted Shopping
+
+                        </p>
+
+
+                        <p class="text-[10px]
+                              text-gray-500
+                              mt-1">
+
+                            Carefully selected products
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="flex
+                        items-center
+                        gap-4">
+
+
+                    <div class="w-10
+                            h-10
+                            rounded-full
+                            border
+                            border-white/10
+                            flex
+                            items-center
+                            justify-center
+                            shrink-0">
+
+                        ◇
+
+                    </div>
+
+
+                    <div>
+
+
+                        <p class="text-xs
+                              text-white
+                              font-semibold">
+
+                            Quality First
+
+                        </p>
+
+
+                        <p class="text-[10px]
+                              text-gray-500
+                              mt-1">
+
+                            Products from trusted shops
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="flex
+                        items-center
+                        gap-4">
+
+
+                    <div class="w-10
+                            h-10
+                            rounded-full
+                            border
+                            border-white/10
+                            flex
+                            items-center
+                            justify-center
+                            shrink-0">
+
+                        ↗
+
+                    </div>
+
+
+                    <div>
+
+
+                        <p class="text-xs
+                              text-white
+                              font-semibold">
+
+                            Simple Experience
+
+                        </p>
+
+
+                        <p class="text-[10px]
+                              text-gray-500
+                              mt-1">
+
+                            Shopping made effortless
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BOTTOM -->
+
+            <div class="flex
+                    flex-col
+                    md:flex-row
+                    md:items-center
+                    justify-between
+                    gap-5
+                    mt-12
+                    pt-7
+                    border-t
+                    footer-divider
+                    text-center
+                    md:text-left">
+
+
+                <p class="text-[10px]
+                      text-gray-600">
+
+                    © 2026 MiniShop.
+                    All Rights Reserved.
+
+                </p>
+
+
+                <div class="flex
+                        flex-wrap
+                        justify-center
+                        gap-6">
+
+
+                    <a href="#" class="text-[10px]
+                          text-gray-600
+                          hover:text-gray-300
+                          transition">
+
+                        Privacy
+
+                    </a>
+
+
+                    <a href="#" class="text-[10px]
+                          text-gray-600
+                          hover:text-gray-300
+                          transition">
+
+                        Terms
+
+                    </a>
+
+
+                    <a href="#" class="text-[10px]
+                          text-gray-600
+                          hover:text-gray-300
+                          transition">
+
+                        Shipping
+
+                    </a>
+
+
+                    <a href="#" class="text-[10px]
+                          text-gray-600
+                          hover:text-gray-300
+                          transition">
+
+                        Support
+
+                    </a>
+
+
+                </div>
+
+
+                <p class="text-[10px]
+                      text-gray-600">
+
+                    Made for better everyday living.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+
+    <!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+    <script>
+
+
+        /* =========================================================
+           PREMIUM PRELOADER
+        ========================================================== */
+
+        window.addEventListener("load", function () {
+
+            setTimeout(function () {
+
+                const preloader =
+                    document.getElementById("preloader");
+
+                if (preloader) {
+
+                    preloader.classList.add("hide");
+
+                }
+
+            }, 1700);
+
+        });
+
+
+        /* =========================================================
+           NAVBAR SCROLL
+        ========================================================== */
+
+        const navbar =
+            document.getElementById("navbar");
+
+
+        window.addEventListener("scroll", function () {
+
+            if (!navbar) {
+                return;
+            }
+
+
+            if (window.scrollY > 30) {
+
+                navbar.classList.add("scrolled");
+
+            } else {
+
+                navbar.classList.remove("scrolled");
+
+            }
+
+        }, { passive: true });
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const mobileMenuButton =
+            document.getElementById(
+                "mobileMenuButton"
+            );
+
+
+        const mobileMenu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+
+        if (
+            mobileMenuButton &&
+            mobileMenu
+        ) {
+
+            mobileMenuButton.addEventListener(
+                "click",
+                function () {
+
+                    const isOpen =
+                        mobileMenu.classList.toggle(
+                            "open"
+                        );
+
+                    mobileMenuButton.setAttribute(
+                        "aria-expanded",
+                        isOpen ? "true" : "false"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           HERO SLIDER
+        ========================================================== */
+
+        const slides =
+            document.querySelectorAll(
+                ".hero-slide"
+            );
+
+
+        const dots =
+            document.querySelectorAll(
+                ".pagination-dot"
+            );
+
+
+        let currentSlide = 0;
+
+        let sliderTimer;
+
+
+        /* =========================================================
+           SHOW SLIDE
+        ========================================================== */
+
+        function showSlide(index) {
+
+            if (!slides.length) {
+                return;
+            }
+
+
+            if (index >= slides.length) {
+
+                index = 0;
+
+            }
+
+
+            if (index < 0) {
+
+                index =
+                    slides.length - 1;
+
+            }
+
+
+            currentSlide = index;
+
+
+            slides.forEach(
+                function (slide, i) {
+
+                    slide.classList.toggle(
+                        "active",
+                        i === currentSlide
+                    );
+
+                }
+            );
+
+
+            dots.forEach(
+                function (dot, i) {
+
+                    dot.classList.toggle(
+                        "active",
+                        i === currentSlide
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           START SLIDER
+           3.8 SECONDS
+        ========================================================== */
+
+        function startSlider() {
+
+            clearInterval(
+                sliderTimer
+            );
+
+
+            sliderTimer =
+                setInterval(
+                    function () {
+
+                        showSlide(
+                            currentSlide + 1
+                        );
+
+                    },
+                    3800
+                );
+
+        }
+
+
+        /* =========================================================
+           RESTART SLIDER
+        ========================================================== */
+
+        function restartSlider() {
+
+            clearInterval(
+                sliderTimer
+            );
+
+            startSlider();
+
+        }
+
+
+        /* =========================================================
+           PAGINATION CLICK
+        ========================================================== */
+
+        dots.forEach(
+            function (dot) {
+
+                dot.addEventListener(
+                    "click",
+                    function () {
+
+                        const slideNumber =
+                            Number(
+                                this.dataset.slide
+                            );
+
+
+                        showSlide(
+                            slideNumber
+                        );
+
+
+                        restartSlider();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIALIZE
+        ========================================================== */
+
+        showSlide(0);
+
+        startSlider();
+
+
+        /* =========================================================
+           PAUSE ON HOVER
+        ========================================================== */
+
+        const heroSlider =
+            document.getElementById(
+                "heroSlider"
+            );
+
+
+        if (heroSlider) {
+
+
+            heroSlider.addEventListener(
+                "mouseenter",
+                function () {
+
+                    clearInterval(
+                        sliderTimer
+                    );
+
+                }
+            );
+
+
+            heroSlider.addEventListener(
+                "mouseleave",
+                function () {
+
+                    startSlider();
+
+                }
+            );
+
+
+        }
+
+
+        /* =========================================================
+           AUTO HIDE HERO SCROLL INDICATOR
+        ========================================================== */
+
+        const heroScrollIndicator =
+            document.getElementById(
+                "heroScrollIndicator"
+            );
+
+
+        let scrollIndicatorHidden =
+            false;
+
+
+        function hideScrollIndicator() {
+
+            if (
+                !heroScrollIndicator ||
+                scrollIndicatorHidden
+            ) {
+                return;
+            }
+
+
+            if (window.scrollY > 45) {
+
+                heroScrollIndicator.classList.add(
+                    "hidden"
+                );
+
+                scrollIndicatorHidden = true;
+
+            }
+
+        }
+
+
+        window.addEventListener(
+            "scroll",
+            hideScrollIndicator,
+            {
+                passive: true
+            }
+        );
+
+
+        /* =========================================================
+           HIDE INDICATOR WHEN CLICKING HERO LINKS
+        ========================================================== */
+
+        if (heroScrollIndicator) {
+
+            const heroLinks =
+                document.querySelectorAll(
+                    ".hero-wrapper a"
+                );
+
+
+            heroLinks.forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function () {
+
+                            heroScrollIndicator.classList.add(
+                                "hidden"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           CLOSE MOBILE MENU
+        ========================================================== */
+
+        const mobileLinks =
+            document.querySelectorAll(
+                "#mobileMenu a"
+            );
+
+
+        mobileLinks.forEach(
+            function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        if (mobileMenu) {
+
+                            mobileMenu.classList.remove(
+                                "open"
+                            );
+
+                            if (mobileMenuButton) {
+
+                                mobileMenuButton.setAttribute(
+                                    "aria-expanded",
+                                    "false"
+                                );
+
+                            }
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           3D RESPONSIVE TILT
+           Cards and images gently rotate toward the pointer
+           on desktop/tablet with a real mouse; on touch devices
+           (hover: none) the effect is disabled via CSS above,
+           so no JS work happens there.
+        ========================================================== */
+
+        (function initTilt() {
+
+            const supportsHover =
+                window.matchMedia(
+                    "(hover: hover) and (pointer: fine)"
+                ).matches;
+
+
+            if (!supportsHover) {
+                return;
+            }
+
+
+            const tiltEls =
+                document.querySelectorAll(
+                    ".tilt-3d"
+                );
+
+
+            const MAX_TILT = 9;
+            const MAX_LIFT = 14;
+
+
+            tiltEls.forEach(function (el) {
+
+                let frame = null;
+                let rect = null;
+
+
+                function handleMove(e) {
+
+                    if (frame) {
+                        return;
+                    }
+
+
+                    frame = requestAnimationFrame(
+                        function () {
+
+                            rect =
+                                el.getBoundingClientRect();
+
+
+                            const px =
+                                (e.clientX - rect.left) /
+                                rect.width;
+
+                            const py =
+                                (e.clientY - rect.top) /
+                                rect.height;
+
+
+                            const rotateY =
+                                (px - 0.5) * MAX_TILT * 2;
+
+                            const rotateX =
+                                (0.5 - py) * MAX_TILT * 2;
+
+
+                            el.style.transform =
+                                "perspective(1000px) " +
+                                "rotateX(" + rotateX.toFixed(2) + "deg) " +
+                                "rotateY(" + rotateY.toFixed(2) + "deg) " +
+                                "scale3d(1.02,1.02,1.02)";
+
+
+                            const layers =
+                                el.querySelectorAll(
+                                    "[data-tilt-layer]"
+                                );
+
+
+                            layers.forEach(
+                                function (layer) {
+
+                                    layer.style.transform =
+                                        "translateZ(" + MAX_LIFT + "px)";
+
+                                }
+                            );
+
+
+                            frame = null;
+
+                        }
+                    );
+
+                }
+
+
+                function handleLeave() {
+
+                    el.style.transform =
+                        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+
+
+                    const layers =
+                        el.querySelectorAll(
+                            "[data-tilt-layer]"
+                        );
+
+
+                    layers.forEach(
+                        function (layer) {
+
+                            layer.style.transform =
+                                "translateZ(0)";
+
+                        }
+                    );
+
+                }
+
+
+                el.addEventListener(
+                    "mousemove",
+                    handleMove
+                );
+
+
+                el.addEventListener(
+                    "mouseleave",
+                    handleLeave
+                );
+
+            });
+
+        })();
+
+
+    </script>
+
+
+</body>
+
+</html>

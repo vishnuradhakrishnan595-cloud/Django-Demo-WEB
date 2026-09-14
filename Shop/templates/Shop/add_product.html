@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Product - MiniShop</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: "#f4f6f2",
+                            100: "#e7ebe1",
+                            200: "#ced7c3",
+                            300: "#adbd9c",
+                            400: "#869c73",
+                            500: "#647a53",
+                            600: "#4d613e",
+                            700: "#3d4d32",
+                            800: "#2e3a27",
+                            900: "#212a1c",
+                            950: "#141a11"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+
+</head>
+
+<body class="bg-brand-50/40 text-slate-800">
+
+    <!-- ========================================================= -->
+
+    <!-- DESKTOP SIDEBAR -->
+
+    <!-- ========================================================= -->
+
+    <aside class="fixed left-0 top-0 z-50 hidden h-screen w-72 flex-col
+           bg-gradient-to-b from-brand-950 via-brand-900 to-brand-800
+           text-white shadow-2xl lg:flex">
+
+        <!-- LOGO -->
+
+        <div class="px-6 pb-6 pt-7">
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl
+                   bg-gradient-to-br from-brand-600 to-brand-500
+                   shadow-lg shadow-brand-950/40">
+
+                    <i data-lucide="shopping-bag" class="h-6 w-6"></i>
+
+                </div>
+
+                <div>
+
+                    <h1 class="text-xl font-bold tracking-wide">
+                        MiniShop
+                    </h1>
+
+                    <p class="text-xs text-brand-200">
+                        Seller Dashboard
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- USER CARD -->
+
+        <div class="mx-4 mb-6 rounded-2xl border border-white/10
+           bg-white/10 p-4 backdrop-blur-sm">
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                   rounded-full bg-gradient-to-br from-brand-400
+                   to-brand-600 font-bold text-white">
+
+                    {{ user.name|default:"U"|slice:":1"|upper }}
+
+                </div>
+
+                <div class="min-w-0">
+
+                    <p class="truncate text-sm font-semibold">
+                        {{ user.name|default:"Shop Owner" }}
+                    </p>
+
+                    <p class="truncate text-xs text-brand-200">
+                        {{ user.email|default:"owner@minishop.com" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-scroll flex-1 overflow-y-auto px-4">
+
+            <p class="mb-3 px-3 text-[11px] font-semibold uppercase
+               tracking-widest text-brand-300">
+
+                Main Menu
+
+            </p>
+
+
+            <a href="{% url 'shop_home' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="layout-dashboard" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="{% url 'shop_products' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="package" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>My Products</span>
+
+            </a>
+
+
+            <a href="{% url 'add_product' %}" class="mb-2 flex items-center gap-3 rounded-xl
+               bg-brand-600 px-4 py-3 font-medium text-white
+               shadow-lg shadow-brand-950/30">
+
+                <i data-lucide="plus-circle" class="h-5 w-5"></i>
+
+                <span>Add Product</span>
+
+            </a>
+
+
+            <a href="{% url 'shop_categories' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="layers" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Categories</span>
+
+            </a>
+
+
+            <a href="{% url 'shop_brands' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="tags" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Brands</span>
+
+            </a>
+
+
+            <a href="{% url 'shop_orders' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="shopping-cart" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Orders</span>
+
+                <span class="ml-auto rounded-full bg-white/10 px-2 py-0.5
+                   text-[10px] text-brand-100">
+
+                    {{ total_orders|default:0 }}
+
+                </span>
+            </a>
+
+
+            <div class="my-6 border-t border-white/10"></div>
+
+
+            <!-- ACCOUNT -->
+
+            <p class="mb-3 px-3 text-[11px] font-semibold uppercase
+               tracking-widest text-brand-300">
+
+                Account
+
+            </p>
+
+
+            <a href="#" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="user" class="h-5 w-5"></i>
+
+                <span>My Profile</span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <div class="p-4">
+
+            <a href="{% url 'shop_logout' %}" class="flex items-center gap-3 rounded-xl border
+               border-red-400/20 bg-red-500/10 px-4 py-3
+               font-medium text-red-300 transition
+               hover:bg-red-500/20 hover:text-red-200">
+
+                <i data-lucide="log-out" class="h-5 w-5"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- ========================================================= -->
+
+    <!-- MOBILE HEADER -->
+
+    <!-- ========================================================= -->
+
+    <header class="sticky top-0 z-40 flex items-center justify-between
+           border-b border-brand-100 bg-white/90 px-5 py-4
+           backdrop-blur lg:hidden">
+
+        <div class="flex items-center gap-3">
+
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl
+               bg-gradient-to-br from-brand-700 to-brand-600 text-white">
+
+                <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+
+            </div>
+
+            <span class="font-bold text-slate-900">
+                MiniShop
+            </span>
+
+        </div>
+
+
+        <button onclick="toggleMobileMenu()" class="rounded-xl bg-brand-50 p-2 text-brand-700
+           hover:bg-brand-100">
+
+            <i data-lucide="menu" class="h-6 w-6"></i>
+
+        </button>
+
+    </header>
+
+    <!-- ========================================================= -->
+
+    <!-- MOBILE SIDEBAR -->
+
+    <!-- ========================================================= -->
+
+    <div id="mobileMenu" class="fixed inset-0 z-50 hidden lg:hidden">
+
+        <div onclick="toggleMobileMenu()" class="absolute inset-0 bg-black/50">
+        </div>
+
+
+        <aside class="relative flex h-full w-72 flex-col
+           justify-between bg-gradient-to-b
+           from-brand-950 to-brand-800 text-white shadow-2xl">
+
+            <div>
+
+                <!-- MOBILE LOGO -->
+
+                <div class="flex items-center justify-between px-6 py-6">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 items-center justify-center
+                           rounded-xl bg-brand-600">
+
+                            <i data-lucide="shopping-bag"></i>
+
+                        </div>
+
+                        <span class="text-xl font-bold">
+                            MiniShop
+                        </span>
+
+                    </div>
+
+
+                    <button onclick="toggleMobileMenu()" class="rounded-lg p-2 hover:bg-white/10">
+
+                        <i data-lucide="x"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- MOBILE NAVIGATION -->
+
+                <nav class="sidebar-scroll max-h-[calc(100vh-120px)] overflow-y-auto px-4">
+
+
+                    <a href="{% url 'shop_home' %}" class="mb-2 flex items-center gap-3 rounded-xl
+                       px-4 py-3 text-brand-100
+                       hover:bg-white/10">
+
+                        <i data-lucide="layout-dashboard"></i>
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a href="{% url 'shop_products' %}" class="mb-2 flex items-center gap-3 rounded-xl
+                       px-4 py-3 text-brand-100
+                       hover:bg-white/10">
+
+                        <i data-lucide="package"></i>
+
+                        My Products
+
+                    </a>
+
+
+                    <a href="{% url 'add_product' %}" class="mb-2 flex items-center gap-3 rounded-xl
+                       bg-brand-600 px-4 py-3">
+
+                        <i data-lucide="plus-circle"></i>
+
+                        Add Product
+
+                    </a>
+
+
+                    <a href="{% url 'shop_categories' %}" class="mb-2 flex items-center gap-3 rounded-xl
+                       px-4 py-3 text-brand-100
+                       hover:bg-white/10">
+
+                        <i data-lucide="layers"></i>
+
+                        Categories
+
+                    </a>
+
+
+                    <a href="{% url 'shop_brands' %}" class="mb-2 flex items-center gap-3 rounded-xl
+                       px-4 py-3 text-brand-100
+                       hover:bg-white/10">
+
+                        <i data-lucide="tags"></i>
+
+                        Brands
+
+                    </a>
+
+
+                    <a href="{% url 'shop_orders' %}" class="mb-2 flex items-center gap-3 rounded-xl
+                       px-4 py-3 text-brand-100
+                       hover:bg-white/10">
+
+                        <i data-lucide="shopping-cart"></i>
+
+                        Orders
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+
+            <!-- MOBILE LOGOUT -->
+
+            <div class="p-4">
+
+                <a href="{% url 'shop_logout' %}" class="flex items-center gap-3 rounded-xl
+                   bg-red-500/10 px-4 py-3 text-red-300">
+
+                    <i data-lucide="log-out"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- ========================================================= -->
+
+    <!-- MAIN CONTENT -->
+
+    <!-- ========================================================= -->
+
+    <main class="min-h-screen lg:ml-72">
+
+        <div class="mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
+
+                        <!-- TOP BAR -->
+
+            <div class="mb-6 flex flex-col gap-4 rounded-2xl
+               border border-brand-100 bg-white p-5 shadow-sm
+               sm:flex-row sm:items-center sm:justify-between">
+
+                <div>
+
+                    <div class="flex items-center gap-2 text-sm text-slate-500">
+
+                        <span>Shop</span>
+
+                        <i data-lucide="chevron-right" class="h-4 w-4">
+                        </i>
+
+                        <span class="text-brand-700">
+                            Add Product
+                        </span>
+
+                    </div>
+
+
+                    <h1 class="mt-1 text-2xl font-bold text-slate-900">
+
+                        Add Product
+
+                    </h1>
+
+                    <p class="mt-1 text-sm text-slate-500">
+
+                        Add a new product to your shop.
+
+                    </p>
+
+                </div>
+
+
+                <div class="flex items-center gap-3">
+
+                    <button class="rounded-xl border border-brand-100
+                       bg-white p-3 text-slate-500 transition
+                       hover:bg-brand-50 hover:text-brand-700">
+
+                        <i data-lucide="bell" class="h-5 w-5"></i>
+
+                    </button>
+
+
+                    <div class="hidden h-10 w-px bg-brand-100 sm:block"></div>
+
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 items-center justify-center
+                           rounded-full bg-gradient-to-br
+                           from-brand-500 to-brand-700
+                           font-bold text-white">
+
+                            {{ user.name|default:"U"|slice:":1"|upper }}
+
+                        </div>
+
+
+                        <div class="hidden sm:block">
+
+                            <p class="text-sm font-semibold text-slate-900">
+
+                                {{ user.name|default:"Shop Owner" }}
+
+                            </p>
+
+                            <p class="text-xs text-slate-500">
+                                Shop Owner
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% if messages %}
+
+            <div class="mb-6 space-y-3">
+
+                {% for message in messages %}
+
+                <div class="{% if message.tags == 'error' %}
+                border-red-200 bg-red-50 text-red-700
+            {% else %}
+                border-brand-200 bg-brand-50 text-brand-800
+            {% endif %}
+            flex items-center gap-3 rounded-xl border px-4 py-3 text-sm">
+
+                    {% if message.tags == 'error' %}
+
+                    <i data-lucide="circle-alert" class="h-5 w-5 shrink-0">
+                    </i>
+
+                    {% else %}
+
+                    <i data-lucide="circle-check" class="h-5 w-5 shrink-0">
+                    </i>
+
+                    {% endif %}
+
+                    <span>
+                        {{ message }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- ===================================================== -->
+            <!-- PRODUCT FORM -->
+            <!-- ===================================================== -->
+
+            <div class="rounded-3xl border border-brand-100 bg-white p-5 shadow-sm sm:p-8">
+
+                <form method="POST" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+
+                    <div class="mb-8">
+
+                        <h3 class="text-lg font-semibold text-slate-900">
+                            Product Information
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Enter the basic details of your product.
+                        </p>
+
+                    </div>
+
+
+                    <!-- PRODUCT NAME -->
+
+                    <div class="mb-6">
+
+                        <label for="name" class="mb-2 block text-sm font-semibold text-slate-900">
+                            Product Name
+                        </label>
+
+                        <input type="text" id="name" name="name" placeholder="Enter product name" required
+                               class="w-full rounded-xl border border-brand-100 bg-brand-50/40 px-4 py-3
+                                      text-slate-900 placeholder-slate-400
+                                      focus:bg-white focus:border-brand-500 focus:outline-none
+                                      focus:ring-4 focus:ring-brand-100">
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="mb-6">
+
+                        <label for="description" class="mb-2 block text-sm font-semibold text-slate-900">
+                            Description
+                        </label>
+
+                        <textarea id="description" name="description" rows="5"
+                                  placeholder="Enter product description" required
+                                  class="w-full resize-none rounded-xl border border-brand-100 bg-brand-50/40
+                                         px-4 py-3 text-slate-900 placeholder-slate-400
+                                         focus:bg-white focus:border-brand-500 focus:outline-none
+                                         focus:ring-4 focus:ring-brand-100"></textarea>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="mb-6">
+
+                        <label for="price" class="mb-2 block text-sm font-semibold text-slate-900">
+                            Price
+                        </label>
+
+                        <div class="relative">
+
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-brand-600">
+                                &#8377;
+                            </span>
+
+                            <input type="number" id="price" name="price" placeholder="0.00" min="0.01" step="0.01" required
+                                   class="w-full rounded-xl border border-brand-100 bg-brand-50/40 py-3 pl-10 pr-4
+                                          text-slate-900 placeholder-slate-400
+                                          focus:bg-white focus:border-brand-500 focus:outline-none
+                                          focus:ring-4 focus:ring-brand-100">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CATEGORY + BRAND -->
+
+                    <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+
+                        <div>
+
+                            <label for="category" class="mb-2 block text-sm font-semibold text-slate-900">
+                                Category
+                            </label>
+
+                            <div class="relative">
+
+                                <select id="category" name="category" required
+                                        class="w-full cursor-pointer appearance-none rounded-xl border
+                                               border-brand-100 bg-brand-50/40 px-4 py-3 text-slate-900
+                                               focus:bg-white focus:border-brand-500 focus:outline-none
+                                               focus:ring-4 focus:ring-brand-100">
+
+                                    <option value="">Select Category</option>
+
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% empty %}
+                                    <option value="">No categories available</option>
+                                    {% endfor %}
+
+                                </select>
+
+                                <i data-lucide="chevron-down" class="pointer-events-none absolute right-4
+                                   top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <label for="brand" class="mb-2 block text-sm font-semibold text-slate-900">
+                                Brand
+                            </label>
+
+                            <div class="relative">
+
+                                <select id="brand" name="brand" required
+                                        class="w-full cursor-pointer appearance-none rounded-xl border
+                                               border-brand-100 bg-brand-50/40 px-4 py-3 text-slate-900
+                                               focus:bg-white focus:border-brand-500 focus:outline-none
+                                               focus:ring-4 focus:ring-brand-100">
+
+                                    <option value="">Select Brand</option>
+
+                                    {% for brand in brands %}
+                                    <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                    {% empty %}
+                                    <option value="">No brands available</option>
+                                    {% endfor %}
+
+                                </select>
+
+                                <i data-lucide="chevron-down" class="pointer-events-none absolute right-4
+                                   top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- IMAGE -->
+
+                    <div class="mb-8">
+
+                        <label for="image" class="mb-2 block text-sm font-semibold text-slate-900">
+                            Product Image
+                        </label>
+
+                        <div class="rounded-2xl border-2 border-dashed border-brand-200 bg-brand-50/40
+                                    p-8 text-center transition hover:bg-brand-50">
+
+                            <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center
+                                        rounded-full border border-brand-100 bg-white">
+
+                                <i data-lucide="image-plus" class="h-7 w-7 text-brand-600"></i>
+
+                            </div>
+
+                            <p class="mb-1 text-sm font-medium text-slate-900">
+                                Upload product image
+                            </p>
+
+                            <p class="mb-4 text-xs text-slate-500">
+                                PNG, JPG or JPEG
+                            </p>
+
+                            <label for="image" class="inline-flex cursor-pointer items-center gap-2
+                                   rounded-lg bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white
+                                   transition hover:bg-brand-600">
+
+                                <i data-lucide="upload" class="h-4 w-4"></i>
+
+                                Choose Image
+
+                            </label>
+
+                            <input type="file" id="image" name="image"
+                                   accept="image/png,image/jpeg,image/jpg" required class="hidden">
+
+                            <p id="file-name" class="mt-4 text-sm font-medium text-brand-700"></p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="flex flex-col-reverse justify-end gap-3 border-t border-brand-100 pt-6 sm:flex-row">
+
+                        <a href="{% url 'shop_products' %}"
+                           class="inline-flex items-center justify-center gap-2 rounded-xl border
+                                  border-brand-100 bg-white px-6 py-3 text-sm font-semibold text-slate-700
+                                  transition hover:bg-brand-50">
+
+                            <i data-lucide="x" class="h-4 w-4"></i>
+
+                            Cancel
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="inline-flex items-center justify-center gap-2 rounded-xl
+                                       bg-brand-700 px-6 py-3 text-sm font-semibold text-white
+                                       shadow-sm transition hover:bg-brand-600 active:bg-brand-800">
+
+                            <i data-lucide="plus" class="h-4 w-4"></i>
+
+                            Add Product
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- FOOTER NOTE -->
+
+            <div class="mt-6 flex items-center justify-center gap-2 text-xs text-slate-400">
+
+                <i data-lucide="shield-check" class="h-4 w-4"></i>
+
+                Your product information is securely stored.
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ========================================================= -->
+
+    <!-- JAVASCRIPT -->
+
+    <!-- ========================================================= -->
+
+    <script>
+
+        function toggleMobileMenu() {
+
+            const menu = document.getElementById("mobileMenu");
+
+            if (menu) {
+                menu.classList.toggle("hidden");
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                lucide.createIcons();
+
+            }
+        );
+
+    </script>
+
+    <script>
+
+        const imageInput = document.getElementById("image");
+        const fileName = document.getElementById("file-name");
+
+        if (imageInput) {
+            imageInput.addEventListener("change", function () {
+                if (this.files.length > 0) {
+                    fileName.textContent = "Selected: " + this.files[0].name;
+                } else {
+                    fileName.textContent = "";
+                }
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

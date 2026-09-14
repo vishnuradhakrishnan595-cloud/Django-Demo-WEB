@@ -1,0 +1,2840 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =====================================================
+     CACHE PROTECTION
+====================================================== -->
+
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <meta http-equiv="Expires" content="0">
+
+
+    <title>Orders — MiniShop</title>
+
+
+    <!-- =====================================================
+     TAILWIND CSS
+====================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+     LUCIDE ICONS
+====================================================== -->
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <!-- =====================================================
+     GOOGLE FONTS
+====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,0,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+     TAILWIND CONFIG
+====================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        brand: {
+
+                            50: "#f4f6f2",
+                            100: "#e7ebe1",
+                            200: "#ced7c3",
+                            300: "#adbd9c",
+                            400: "#869c73",
+                            500: "#647a53",
+                            600: "#4d613e",
+                            700: "#3d4d32",
+                            800: "#2e3a27",
+                            900: "#212a1c",
+                            950: "#141a11"
+
+                        },
+
+                        ivory: "#faf8f2",
+                        ink: "#23281f",
+                        gold: "#a9825a"
+
+                    },
+
+
+                    fontFamily: {
+
+                        serif: [
+                            "Fraunces",
+                            "serif"
+                        ],
+
+                        sans: [
+                            "Inter",
+                            "Arial",
+                            "sans-serif"
+                        ]
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    </script>
+
+
+    <!-- =====================================================
+     CUSTOM CSS
+====================================================== -->
+
+    <style>
+        body {
+            font-family: Inter, Arial, sans-serif;
+        }
+
+
+        /* =====================================================
+       SCROLLBAR
+    ====================================================== */
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+
+        /* =====================================================
+       STATUS
+    ====================================================== */
+
+        .status-dot {
+
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            display: inline-block;
+
+        }
+
+
+        .status-pending {
+            color: #92400e;
+        }
+
+
+        .status-pending .status-dot {
+            background: #d97706;
+        }
+
+
+        .status-processing {
+            color: #115e59;
+        }
+
+
+        .status-processing .status-dot {
+            background: #0d9488;
+        }
+
+
+        .status-shipped {
+            color: #075985;
+        }
+
+
+        .status-shipped .status-dot {
+            background: #0284c7;
+        }
+
+
+        .status-delivered {
+            color: #065f46;
+        }
+
+
+        .status-delivered .status-dot {
+            background: #059669;
+        }
+
+
+        .status-cancelled {
+            color: #991b1b;
+        }
+
+
+        .status-cancelled .status-dot {
+            background: #dc2626;
+        }
+
+
+        .status-rejected {
+            color: #991b1b;
+        }
+
+
+        .status-rejected .status-dot {
+            background: #dc2626;
+        }
+
+
+        .status-accepted {
+            color: #115e59;
+        }
+
+
+        .status-accepted .status-dot {
+            background: #0d9488;
+        }
+
+
+        /* =====================================================
+       ORDER CARD
+    ====================================================== */
+
+        .order-card {
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+
+        }
+
+
+        .order-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 35px rgba(33, 42, 28, 0.08);
+
+        }
+
+
+        /* =====================================================
+       GRID BACKGROUND
+    ====================================================== */
+
+        .dashboard-grid {
+
+            background-image:
+
+                linear-gradient(rgba(100, 122, 83, 0.035) 1px,
+                    transparent 1px),
+
+                linear-gradient(90deg,
+                    rgba(100, 122, 83, 0.035) 1px,
+                    transparent 1px);
+
+            background-size: 32px 32px;
+
+        }
+
+
+        /* =====================================================
+       FILTER
+    ====================================================== */
+
+        .hidden-row {
+            display: none !important;
+        }
+
+
+        /* =====================================================
+       MESSAGE
+    ====================================================== */
+
+        .message-alert {
+
+            animation:
+                messageSlideIn 0.3s ease-out;
+
+        }
+
+
+        @keyframes messageSlideIn {
+
+            from {
+
+                opacity: 0;
+                transform: translateY(-8px);
+
+            }
+
+            to {
+
+                opacity: 1;
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+        /* =====================================================
+       BUTTON LOADING
+    ====================================================== */
+
+        .status-action-button:disabled {
+
+            cursor: not-allowed;
+            opacity: 0.7;
+
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-ivory text-ink dashboard-grid">
+
+    <!-- =========================================================
+     DESKTOP SIDEBAR
+========================================================= -->
+
+    <aside class="fixed left-0 top-0 z-50 hidden h-screen w-72
+           flex-col bg-gradient-to-b from-brand-950
+           via-brand-900 to-brand-800
+           text-white shadow-2xl lg:flex">
+
+
+        <!-- BRAND -->
+
+        <div class="px-6 pb-6 pt-7">
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-11 w-11 items-center
+                   justify-center rounded-xl
+                   bg-gradient-to-br from-brand-600
+                   to-brand-500 shadow-lg
+                   shadow-brand-950/40">
+
+                    <i data-lucide="shopping-bag" class="h-6 w-6">
+                    </i>
+
+                </div>
+
+
+                <div>
+
+                    <h1 class="text-xl font-bold tracking-wide">
+                        MiniShop
+                    </h1>
+
+                    <p class="text-xs text-brand-200">
+                        Seller Dashboard
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- USER -->
+
+        <div class="mx-4 mb-6 rounded-2xl border
+           border-white/10 bg-white/10 p-4
+           backdrop-blur-sm">
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-11 w-11 shrink-0
+                   items-center justify-center
+                   rounded-full bg-gradient-to-br
+                   from-brand-400 to-brand-600
+                   font-bold text-white">
+
+                    {{ user.name|first|upper }}
+
+                </div>
+
+
+                <div class="min-w-0">
+
+                    <p class="truncate text-sm font-semibold">
+                        {{ user.name }}
+                    </p>
+
+                    <p class="truncate text-xs text-brand-200">
+                        {{ user.email }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-scroll flex-1 overflow-y-auto px-4">
+
+            <p class="mb-3 px-3 text-[11px]
+               font-semibold uppercase
+               tracking-widest text-brand-300">
+
+                Main Menu
+
+            </p>
+
+
+            <a href="{% url 'shop_home' %}" class="group mb-2 flex items-center gap-3
+               rounded-xl px-4 py-3
+               text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="layout-dashboard" class="h-5 w-5">
+                </i>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="{% url 'shop_products' %}" class="group mb-2 flex items-center gap-3
+               rounded-xl px-4 py-3
+               text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="package" class="h-5 w-5">
+                </i>
+
+                My Products
+
+            </a>
+
+
+            <a href="{% url 'add_product' %}" class="group mb-2 flex items-center gap-3
+               rounded-xl px-4 py-3
+               text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="plus-circle" class="h-5 w-5">
+                </i>
+
+                Add Product
+
+            </a>
+
+
+            <a href="{% url 'shop_orders' %}" class="mb-2 flex items-center gap-3
+               rounded-xl bg-brand-600 px-4 py-3
+               font-medium text-white
+               shadow-lg shadow-brand-950/30">
+
+                <i data-lucide="shopping-cart" class="h-5 w-5">
+                </i>
+
+                Orders
+
+                <span class="ml-auto rounded-full
+                   bg-white/10 px-2 py-0.5
+                   text-[10px] text-brand-100">
+
+                    {{ total_orders }}
+
+                </span>
+
+            </a>
+
+
+            <div class="my-6 border-t border-white/10"></div>
+
+
+            <p class="mb-3 px-3 text-[11px]
+               font-semibold uppercase
+               tracking-widest text-brand-300">
+
+                Account
+
+            </p>
+
+
+            <a href="#" class="group mb-2 flex items-center gap-3
+               rounded-xl px-4 py-3
+               text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="user" class="h-5 w-5">
+                </i>
+
+                My Profile
+
+            </a>
+
+
+            <a href="#" class="group mb-2 flex items-center gap-3
+               rounded-xl px-4 py-3
+               text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="settings" class="h-5 w-5">
+                </i>
+
+                Settings
+
+            </a>
+
+        </nav>
+
+
+        <!-- SECURE LOGOUT -->
+
+        <div class="p-4">
+
+            <form method="POST" action="{% url 'shop_logout' %}">
+
+                {% csrf_token %}
+
+                <button type="submit" class="flex w-full items-center gap-3
+                   rounded-xl border border-red-400/20
+                   bg-red-500/10 px-4 py-3
+                   font-medium text-red-300
+                   transition
+                   hover:bg-red-500/20
+                   hover:text-red-200">
+
+                    <i data-lucide="log-out" class="h-5 w-5">
+                    </i>
+
+                    Logout
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+    </aside>
+
+    <!-- =========================================================
+     MOBILE HEADER
+========================================================= -->
+
+    <header class="sticky top-0 z-40 flex items-center
+           justify-between border-b border-brand-100
+           bg-white/90 px-5 py-4 backdrop-blur
+           lg:hidden">
+
+
+        <div class="flex items-center gap-3">
+
+            <div class="flex h-10 w-10 items-center
+               justify-center rounded-xl
+               bg-gradient-to-br from-brand-700
+               to-brand-600 text-white">
+
+                <i data-lucide="shopping-bag" class="h-5 w-5">
+                </i>
+
+            </div>
+
+
+            <span class="font-bold text-ink">
+                MiniShop
+            </span>
+
+        </div>
+
+
+        <button type="button" onclick="toggleMobileMenu()" class="rounded-xl bg-brand-50 p-2
+           text-brand-700 hover:bg-brand-100">
+
+            <i data-lucide="menu" class="h-6 w-6">
+            </i>
+
+        </button>
+
+    </header>
+
+    <!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+
+    <div id="mobileMenu" class="fixed inset-0 z-50 hidden lg:hidden">
+
+
+        <div onclick="toggleMobileMenu()" class="absolute inset-0 bg-black/50">
+        </div>
+
+
+        <aside class="relative h-full w-72
+           bg-gradient-to-b from-brand-950
+           to-brand-800 text-white shadow-2xl">
+
+            <div class="flex items-center
+               justify-between px-6 py-6">
+
+                <div class="flex items-center gap-3">
+
+                    <div class="flex h-10 w-10 items-center
+                       justify-center rounded-xl
+                       bg-brand-600">
+
+                        <i data-lucide="shopping-bag" class="h-5 w-5">
+                        </i>
+
+                    </div>
+
+
+                    <span class="text-xl font-bold">
+                        MiniShop
+                    </span>
+
+                </div>
+
+
+                <button type="button" onclick="toggleMobileMenu()" class="rounded-lg p-2
+                   hover:bg-white/10">
+
+                    <i data-lucide="x" class="h-5 w-5">
+                    </i>
+
+                </button>
+
+            </div>
+
+
+            <nav class="px-4">
+
+                <a href="{% url 'shop_home' %}" class="mb-2 flex items-center gap-3
+                   rounded-xl px-4 py-3
+                   text-brand-100
+                   hover:bg-white/10">
+
+                    <i data-lucide="layout-dashboard" class="h-5 w-5">
+                    </i>
+
+                    Dashboard
+
+                </a>
+
+
+                <a href="{% url 'shop_products' %}" class="mb-2 flex items-center gap-3
+                   rounded-xl px-4 py-3
+                   text-brand-100
+                   hover:bg-white/10">
+
+                    <i data-lucide="package" class="h-5 w-5">
+                    </i>
+
+                    My Products
+
+                </a>
+
+
+                <a href="{% url 'add_product' %}" class="mb-2 flex items-center gap-3
+                   rounded-xl px-4 py-3
+                   text-brand-100
+                   hover:bg-white/10">
+
+                    <i data-lucide="plus-circle" class="h-5 w-5">
+                    </i>
+
+                    Add Product
+
+                </a>
+
+
+                <a href="{% url 'shop_orders' %}" class="mb-2 flex items-center gap-3
+                   rounded-xl bg-brand-600 px-4 py-3">
+
+                    <i data-lucide="shopping-cart" class="h-5 w-5">
+                    </i>
+
+                    Orders
+
+                    <span class="ml-auto">
+                        {{ total_orders }}
+                    </span>
+
+                </a>
+
+
+                <div class="my-5 border-t border-white/10"></div>
+
+
+                <form method="POST" action="{% url 'shop_logout' %}">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="flex w-full items-center gap-3
+                       rounded-xl bg-red-500/10
+                       px-4 py-3 text-red-300
+                       hover:bg-red-500/20">
+
+                        <i data-lucide="log-out" class="h-5 w-5">
+                        </i>
+
+                        Logout
+
+                    </button>
+
+                </form>
+
+            </nav>
+
+        </aside>
+
+
+    </div>
+
+    <!-- =========================================================
+     MAIN
+========================================================= -->
+
+    <main class="min-h-screen lg:ml-72">
+
+
+        <div class="mx-auto max-w-7xl
+           px-5 py-8
+           sm:px-8 sm:py-10
+           lg:px-12">
+
+
+            <!-- =================================================
+         HEADER
+    ================================================== -->
+
+            <div class="mb-8 flex flex-col gap-6
+               lg:flex-row lg:items-end
+               lg:justify-between">
+
+                <div>
+
+                    <div class="mb-3 flex items-center gap-2
+                       text-sm text-slate-500">
+
+                        <span>
+                            Shop
+                        </span>
+
+                        <i data-lucide="chevron-right" class="h-3.5 w-3.5">
+                        </i>
+
+                        <span class="font-medium text-brand-700">
+                            Orders
+                        </span>
+
+                    </div>
+
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="hidden h-12 w-12
+                           items-center justify-center
+                           rounded-2xl bg-brand-700
+                           text-white shadow-lg
+                           shadow-brand-900/10
+                           sm:flex">
+
+                            <i data-lucide="receipt" class="h-6 w-6">
+                            </i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h1 class="font-serif text-4xl
+                               font-medium tracking-tight
+                               text-ink">
+
+                                Orders
+
+                            </h1>
+
+
+                            <p class="mt-1 max-w-xl
+                               text-sm leading-6
+                               text-slate-500">
+
+                                Manage customer orders, update delivery
+                                progress, and keep every order moving.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- USER BADGE -->
+
+                <div class="flex items-center gap-3
+                   self-start rounded-full
+                   border border-brand-200
+                   bg-white py-1.5 pl-1.5 pr-4
+                   shadow-sm lg:self-auto">
+
+                    <div class="flex h-9 w-9
+                       items-center justify-center
+                       rounded-full bg-gradient-to-br
+                       from-brand-500 to-brand-700
+                       text-sm font-bold text-white">
+
+                        {{ user.name|first|upper }}
+
+                    </div>
+
+
+                    <div class="hidden sm:block">
+
+                        <p class="text-sm font-semibold
+                           leading-tight text-ink">
+
+                            {{ user.name }}
+
+                        </p>
+
+
+                        <p class="text-xs leading-tight
+                           text-slate-400">
+
+                            Shop Owner
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+         DJANGO MESSAGES
+    ================================================== -->
+
+            {% if messages %}
+
+            <div id="djangoMessages" class="mb-6 space-y-3">
+
+                {% for message in messages %}
+
+
+                <!-- SUCCESS -->
+
+                {% if "success" in message.tags %}
+
+                <div class="message-alert flex items-start gap-3
+                       rounded-2xl border border-emerald-200
+                       bg-emerald-50 px-5 py-4
+                       text-emerald-800 shadow-sm">
+
+                    <div class="flex h-9 w-9 shrink-0
+                           items-center justify-center
+                           rounded-xl bg-emerald-100
+                           text-emerald-600">
+
+                        <i data-lucide="check-circle-2" class="h-5 w-5">
+                        </i>
+
+                    </div>
+
+
+                    <div class="min-w-0 flex-1">
+
+                        <p class="text-sm font-semibold">
+                            Success
+                        </p>
+
+                        <p class="mt-0.5 text-sm
+                               text-emerald-700">
+
+                            {{ message }}
+
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" onclick="this.closest('.message-alert').remove()" class="rounded-lg p-1
+                           text-emerald-500
+                           transition hover:bg-emerald-100">
+
+                        <i data-lucide="x" class="h-4 w-4">
+                        </i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                {% elif "error" in message.tags %}
+
+                <div class="message-alert flex items-start gap-3
+                       rounded-2xl border border-red-200
+                       bg-red-50 px-5 py-4
+                       text-red-800 shadow-sm">
+
+                    <div class="flex h-9 w-9 shrink-0
+                           items-center justify-center
+                           rounded-xl bg-red-100
+                           text-red-600">
+
+                        <i data-lucide="x-circle" class="h-5 w-5">
+                        </i>
+
+                    </div>
+
+
+                    <div class="min-w-0 flex-1">
+
+                        <p class="text-sm font-semibold">
+                            Error
+                        </p>
+
+
+                        <p class="mt-0.5 text-sm
+                               text-red-700">
+
+                            {{ message }}
+
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" onclick="this.closest('.message-alert').remove()" class="rounded-lg p-1
+                           text-red-500
+                           transition hover:bg-red-100">
+
+                        <i data-lucide="x" class="h-4 w-4">
+                        </i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- WARNING -->
+
+                {% elif "warning" in message.tags %}
+
+                <div class="message-alert flex items-start gap-3
+                       rounded-2xl border border-amber-200
+                       bg-amber-50 px-5 py-4
+                       text-amber-800 shadow-sm">
+
+                    <div class="flex h-9 w-9 shrink-0
+                           items-center justify-center
+                           rounded-xl bg-amber-100
+                           text-amber-600">
+
+                        <i data-lucide="alert-triangle" class="h-5 w-5">
+                        </i>
+
+                    </div>
+
+
+                    <div class="min-w-0 flex-1">
+
+                        <p class="text-sm font-semibold">
+                            Warning
+                        </p>
+
+
+                        <p class="mt-0.5 text-sm
+                               text-amber-700">
+
+                            {{ message }}
+
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" onclick="this.closest('.message-alert').remove()" class="rounded-lg p-1
+                           text-amber-500
+                           transition hover:bg-amber-100">
+
+                        <i data-lucide="x" class="h-4 w-4">
+                        </i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- DEFAULT -->
+
+                {% else %}
+
+                <div class="message-alert flex items-start gap-3
+                       rounded-2xl border border-brand-200
+                       bg-brand-50 px-5 py-4
+                       text-brand-800 shadow-sm">
+
+                    <div class="flex h-9 w-9 shrink-0
+                           items-center justify-center
+                           rounded-xl bg-brand-100
+                           text-brand-600">
+
+                        <i data-lucide="info" class="h-5 w-5">
+                        </i>
+
+                    </div>
+
+
+                    <div class="min-w-0 flex-1">
+
+                        <p class="text-sm font-semibold">
+                            Notice
+                        </p>
+
+
+                        <p class="mt-0.5 text-sm
+                               text-brand-700">
+
+                            {{ message }}
+
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" onclick="this.closest('.message-alert').remove()" class="rounded-lg p-1
+                           text-brand-500
+                           transition hover:bg-brand-100">
+
+                        <i data-lucide="x" class="h-4 w-4">
+                        </i>
+
+                    </button>
+
+                </div>
+
+                {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+         STAT CARDS
+    ================================================== -->
+
+            <div class="mb-8 grid grid-cols-2
+               gap-4 xl:grid-cols-5">
+
+
+                <!-- TOTAL -->
+
+                <div class="group rounded-2xl border
+                   border-brand-100 bg-white p-5
+                   shadow-sm transition
+                   hover:-translate-y-1
+                   hover:shadow-lg">
+
+                    <div class="mb-4 flex items-center
+                       justify-between">
+
+                        <span class="text-xs font-medium
+                           text-slate-500">
+
+                            Total Orders
+
+                        </span>
+
+
+                        <div class="flex h-9 w-9 items-center
+                           justify-center rounded-xl
+                           bg-brand-50 text-brand-700">
+
+                            <i data-lucide="shopping-bag" class="h-4 w-4">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="font-serif text-3xl text-ink">
+                        {{ total_orders }}
+                    </p>
+
+
+                    <p class="mt-2 text-xs text-slate-400">
+                        All orders
+                    </p>
+
+                </div>
+
+
+                <!-- PENDING -->
+
+                <div class="group rounded-2xl border
+                   border-brand-100 bg-white p-5
+                   shadow-sm transition
+                   hover:-translate-y-1
+                   hover:shadow-lg">
+
+                    <div class="mb-4 flex items-center
+                       justify-between">
+
+                        <span class="text-xs font-medium
+                           text-slate-500">
+
+                            Pending
+
+                        </span>
+
+
+                        <div class="flex h-9 w-9 items-center
+                           justify-center rounded-xl
+                           bg-amber-50 text-amber-600">
+
+                            <i data-lucide="clock-3" class="h-4 w-4">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="font-serif text-3xl text-ink">
+                        {{ pending_orders }}
+                    </p>
+
+
+                    <p class="mt-2 text-xs text-amber-600">
+                        Needs attention
+                    </p>
+
+                </div>
+
+
+                <!-- PROCESSING -->
+
+                <div class="group rounded-2xl border
+                   border-brand-100 bg-white p-5
+                   shadow-sm transition
+                   hover:-translate-y-1
+                   hover:shadow-lg">
+
+                    <div class="mb-4 flex items-center
+                       justify-between">
+
+                        <span class="text-xs font-medium
+                           text-slate-500">
+
+                            Processing
+
+                        </span>
+
+
+                        <div class="flex h-9 w-9 items-center
+                           justify-center rounded-xl
+                           bg-teal-50 text-teal-600">
+
+                            <i data-lucide="loader-circle" class="h-4 w-4">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="font-serif text-3xl text-ink">
+                        {{ processing_orders }}
+                    </p>
+
+
+                    <p class="mt-2 text-xs text-teal-600">
+                        Being prepared
+                    </p>
+
+                </div>
+
+
+                <!-- SHIPPED -->
+
+                <div class="group rounded-2xl border
+                   border-brand-100 bg-white p-5
+                   shadow-sm transition
+                   hover:-translate-y-1
+                   hover:shadow-lg">
+
+                    <div class="mb-4 flex items-center
+                       justify-between">
+
+                        <span class="text-xs font-medium
+                           text-slate-500">
+
+                            Shipped
+
+                        </span>
+
+
+                        <div class="flex h-9 w-9 items-center
+                           justify-center rounded-xl
+                           bg-sky-50 text-sky-600">
+
+                            <i data-lucide="truck" class="h-4 w-4">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="font-serif text-3xl text-ink">
+                        {{ shipped_orders }}
+                    </p>
+
+
+                    <p class="mt-2 text-xs text-sky-600">
+                        In transit
+                    </p>
+
+                </div>
+
+
+                <!-- DELIVERED -->
+
+                <div class="group rounded-2xl border
+                   border-brand-100 bg-white p-5
+                   shadow-sm transition
+                   hover:-translate-y-1
+                   hover:shadow-lg">
+
+                    <div class="mb-4 flex items-center
+                       justify-between">
+
+                        <span class="text-xs font-medium
+                           text-slate-500">
+
+                            Delivered
+
+                        </span>
+
+
+                        <div class="flex h-9 w-9 items-center
+                           justify-center rounded-xl
+                           bg-emerald-50
+                           text-emerald-600">
+
+                            <i data-lucide="check-circle-2" class="h-4 w-4">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="font-serif text-3xl text-ink">
+                        {{ delivered_orders }}
+                    </p>
+
+
+                    <p class="mt-2 text-xs text-emerald-600">
+                        Successfully completed
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+         ORDERS
+    ================================================== -->
+
+            {% if orders %}
+
+
+            <!-- SEARCH + FILTER -->
+
+            <div class="mb-6 rounded-2xl
+               border border-brand-100
+               bg-white p-4 shadow-sm">
+
+                <div class="flex flex-col gap-4
+                   lg:flex-row lg:items-center
+                   lg:justify-between">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="relative w-full lg:max-w-md">
+
+                        <i data-lucide="search" class="pointer-events-none
+                          absolute left-4 top-1/2
+                          h-4 w-4
+                          -translate-y-1/2
+                          text-slate-400">
+                        </i>
+
+
+                        <input type="text" id="orderSearch" placeholder="Search customer or order ID" autocomplete="off"
+                            class="w-full rounded-xl
+                           border border-brand-200
+                           bg-brand-50/30
+                           py-3 pl-11 pr-4
+                           text-sm text-ink
+                           placeholder-slate-400
+                           outline-none transition
+                           focus:border-brand-500
+                           focus:bg-white
+                           focus:ring-4
+                           focus:ring-brand-100">
+
+                    </div>
+
+
+                    <!-- FILTERS -->
+
+                    <div class="flex flex-wrap gap-2" id="statusFilters">
+
+
+                        <button type="button" data-filter="all" class="filter-chip rounded-full
+                           border border-brand-600
+                           bg-brand-600 px-4 py-2
+                           text-xs font-medium
+                           text-white">
+
+                            All
+
+                        </button>
+
+
+                        <button type="button" data-filter="Pending" class="filter-chip rounded-full
+                           border border-brand-200
+                           bg-white px-4 py-2
+                           text-xs font-medium
+                           text-slate-600">
+
+                            Pending
+
+                        </button>
+
+
+                        <button type="button" data-filter="Processing" class="filter-chip rounded-full
+                           border border-brand-200
+                           bg-white px-4 py-2
+                           text-xs font-medium
+                           text-slate-600">
+
+                            Processing
+
+                        </button>
+
+
+                        <button type="button" data-filter="Shipped" class="filter-chip rounded-full
+                           border border-brand-200
+                           bg-white px-4 py-2
+                           text-xs font-medium
+                           text-slate-600">
+
+                            Shipped
+
+                        </button>
+
+
+                        <button type="button" data-filter="Delivered" class="filter-chip rounded-full
+                           border border-brand-200
+                           bg-white px-4 py-2
+                           text-xs font-medium
+                           text-slate-600">
+
+                            Delivered
+
+                        </button>
+
+
+                        <button type="button" data-filter="Cancelled" class="filter-chip rounded-full
+                           border border-brand-200
+                           bg-white px-4 py-2
+                           text-xs font-medium
+                           text-slate-600">
+
+                            Cancelled
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+         DESKTOP ORDERS
+    ================================================== -->
+
+            <div class="hidden space-y-4 md:block">
+
+                {% for order in orders %}
+
+                <div class="order-row order-card
+                   rounded-2xl border
+                   border-brand-100
+                   bg-white p-5 shadow-sm" data-status="{{ order.status }}"
+                    data-search="{{ order.user.name|lower }} {{ order.user.email|lower }} {{ order.id }}">
+
+
+                    <!-- TOP -->
+
+                    <div class="flex flex-col gap-5
+                       xl:flex-row xl:items-center
+                       xl:justify-between">
+
+
+                        <!-- CUSTOMER -->
+
+                        <div class="flex items-center gap-4">
+
+                            <div class="flex h-12 w-12 shrink-0
+                               items-center justify-center
+                               rounded-2xl
+                               bg-gradient-to-br
+                               from-brand-500
+                               to-brand-700
+                               text-base font-bold
+                               text-white">
+
+                                {{ order.user.name|first|upper }}
+
+                            </div>
+
+
+                            <div class="min-w-0">
+
+                                <div class="flex flex-wrap
+                                   items-center gap-2">
+
+                                    <span class="font-serif text-lg
+                                       text-brand-800">
+
+                                        #{{ order.id }}
+
+                                    </span>
+
+
+                                    <span class="text-slate-300">
+                                        •
+                                    </span>
+
+
+                                    <span class="text-xs
+                                       text-slate-400">
+
+                                        {{ order.created_at|date:"d M Y" }}
+
+                                    </span>
+
+                                </div>
+
+
+                                <p class="mt-1 text-sm
+                                   font-medium text-ink">
+
+                                    {{ order.user.name }}
+
+                                </p>
+
+
+                                <p class="text-xs
+                                   text-slate-400">
+
+                                    {{ order.user.email }}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- TOTAL + STATUS -->
+
+                        <div class="flex items-center
+                           justify-between gap-8
+                           xl:justify-end">
+
+
+                            <div class="text-left xl:text-right">
+
+                                <p class="text-[11px]
+                                   uppercase
+                                   tracking-wider
+                                   text-slate-400">
+
+                                    Order Total
+
+                                </p>
+
+
+                                <p class="mt-1 font-serif
+                                   text-2xl text-ink">
+
+                                    &#8377;{{ order.total }}
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="status-{{ order.status|lower }}
+                               inline-flex
+                               items-center gap-2
+                               rounded-full border
+                               border-brand-100
+                               bg-brand-50/50
+                               px-4 py-2">
+
+                                <span class="status-dot"></span>
+
+                                <span class="text-xs font-semibold">
+                                    {{ order.status }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="my-5 border-t border-brand-50"></div>
+
+
+                    <!-- PRODUCTS + ACTIONS -->
+
+                    <div class="flex flex-col gap-5
+                       lg:flex-row
+                       lg:items-center
+                       lg:justify-between">
+
+
+                        <!-- PRODUCTS -->
+
+                        <div class="min-w-0 flex-1">
+
+                            <div class="mb-3 flex
+                               items-center gap-2">
+
+                                <i data-lucide="package" class="h-4 w-4
+                                  text-brand-600">
+                                </i>
+
+
+                                <span class="text-xs
+                                   font-semibold
+                                   uppercase
+                                   tracking-wider
+                                   text-slate-400">
+
+                                    Products
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex flex-wrap gap-2">
+
+                                {% for item in order.items.all|slice:":4" %}
+
+                                <div class="inline-flex
+                                   max-w-[260px]
+                                   items-center gap-2
+                                   rounded-xl
+                                   border
+                                   border-brand-100
+                                   bg-brand-50/40
+                                   px-3 py-2">
+
+                                    <span class="truncate text-xs
+                                       font-medium
+                                       text-slate-700">
+
+                                        {{ item.product_name }}
+
+                                    </span>
+
+
+                                    <span class="shrink-0
+                                       rounded-full
+                                       bg-white px-2 py-0.5
+                                       text-[10px]
+                                       font-semibold
+                                       text-brand-700">
+
+                                        × {{ item.quantity }}
+
+                                    </span>
+
+                                </div>
+
+                                {% empty %}
+
+                                <span class="text-xs text-slate-400">
+                                    No products
+                                </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="flex shrink-0
+                           flex-wrap items-center
+                           gap-2">
+
+
+                            <!-- ===============================
+                         PENDING
+                    ================================= -->
+
+                            {% if order.status == "Pending" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Processing">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="play" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Start Processing
+
+                                </button>
+
+                            </form>
+
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Cancelled">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   border
+                                   border-red-200
+                                   bg-red-50
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-red-600
+                                   transition
+                                   hover:bg-red-100">
+
+                                    <i data-lucide="x" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Cancel
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- ===============================
+                         PROCESSING
+                    ================================= -->
+
+                            {% elif order.status == "Processing" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Shipped">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="truck" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Mark Shipped
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- ===============================
+                         ACCEPTED - OLD DATA COMPATIBILITY
+                    ================================= -->
+
+                            {% elif order.status == "Accepted" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Shipped">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="truck" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Mark Shipped
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- ===============================
+                         SHIPPED
+                    ================================= -->
+
+                            {% elif order.status == "Shipped" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Delivered">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="check" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Mark Delivered
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- ===============================
+                         DELIVERED
+                    ================================= -->
+
+                            {% elif order.status == "Delivered" %}
+
+                            <div class="inline-flex
+                               items-center gap-2
+                               rounded-xl
+                               border
+                               border-emerald-200
+                               bg-emerald-50
+                               px-4 py-2.5
+                               text-xs font-semibold
+                               text-emerald-700">
+
+                                <i data-lucide="check-circle-2" class="h-4 w-4">
+                                </i>
+
+                                Completed
+
+                            </div>
+
+
+                            <!-- ===============================
+                         CANCELLED
+                    ================================= -->
+
+                            {% elif order.status == "Cancelled" %}
+
+                            <div class="inline-flex
+                               items-center gap-2
+                               rounded-xl
+                               border
+                               border-red-200
+                               bg-red-50
+                               px-4 py-2.5
+                               text-xs font-semibold
+                               text-red-700">
+
+                                <i data-lucide="x-circle" class="h-4 w-4">
+                                </i>
+
+                                Cancelled
+
+                            </div>
+
+
+                            <!-- ===============================
+                         REJECTED
+                    ================================= -->
+
+                            {% elif order.status == "Rejected" %}
+
+                            <div class="inline-flex
+                               items-center gap-2
+                               rounded-xl
+                               border
+                               border-red-200
+                               bg-red-50
+                               px-4 py-2.5
+                               text-xs font-semibold
+                               text-red-700">
+
+                                <i data-lucide="x-circle" class="h-4 w-4">
+                                </i>
+
+                                Rejected
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =================================================
+         MOBILE ORDERS
+    ================================================== -->
+
+            <div class="space-y-4 md:hidden">
+
+                {% for order in orders %}
+
+                <div class="order-row order-card
+                   rounded-2xl border
+                   border-brand-100
+                   bg-white p-5 shadow-sm" data-status="{{ order.status }}"
+                    data-search="{{ order.user.name|lower }} {{ order.user.email|lower }} {{ order.id }}">
+
+
+                    <!-- TOP -->
+
+                    <div class="flex items-start
+                       justify-between gap-3">
+
+
+                        <div>
+
+                            <p class="font-serif text-lg
+                               text-brand-800">
+
+                                #{{ order.id }}
+
+                            </p>
+
+
+                            <p class="mt-1 text-xs
+                               text-slate-400">
+
+                                {{ order.created_at|date:"d M Y" }}
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="status-{{ order.status|lower }}
+                           inline-flex shrink-0
+                           items-center gap-2
+                           rounded-full border
+                           border-brand-100
+                           bg-brand-50/50
+                           px-3 py-1.5">
+
+                            <span class="status-dot"></span>
+
+                            <span class="text-[11px] font-semibold">
+                                {{ order.status }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CUSTOMER -->
+
+                    <div class="mt-5 flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 shrink-0
+                           items-center justify-center
+                           rounded-xl
+                           bg-gradient-to-br
+                           from-brand-500
+                           to-brand-700
+                           text-sm font-bold
+                           text-white">
+
+                            {{ order.user.name|first|upper }}
+
+                        </div>
+
+
+                        <div class="min-w-0">
+
+                            <p class="truncate text-sm
+                               font-semibold text-ink">
+
+                                {{ order.user.name }}
+
+                            </p>
+
+
+                            <p class="truncate text-xs
+                               text-slate-400">
+
+                                {{ order.user.email }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ITEMS -->
+
+                    <div class="mt-5 rounded-xl
+                       bg-brand-50/50 p-4">
+
+
+                        <div class="mb-3 flex items-center
+                           gap-2">
+
+                            <i data-lucide="package" class="h-4 w-4
+                              text-brand-600">
+                            </i>
+
+
+                            <span class="text-xs
+                               font-semibold
+                               uppercase
+                               tracking-wider
+                               text-slate-400">
+
+                                Items
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="space-y-2">
+
+                            {% for item in order.items.all %}
+
+                            <div class="flex items-center
+                               justify-between gap-3">
+
+                                <p class="truncate text-sm
+                                   text-slate-600">
+
+                                    {{ item.product_name }}
+
+                                </p>
+
+
+                                <span class="shrink-0
+                                   rounded-full
+                                   bg-white px-2 py-1
+                                   text-[10px]
+                                   font-semibold
+                                   text-brand-700">
+
+                                    × {{ item.quantity }}
+
+                                </span>
+
+                            </div>
+
+                            {% empty %}
+
+                            <p class="text-sm text-slate-400">
+                                No products
+                            </p>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TOTAL + ACTION -->
+
+                    <div class="mt-5 flex flex-col gap-4
+                       border-t border-brand-50
+                       pt-4 sm:flex-row
+                       sm:items-end
+                       sm:justify-between">
+
+
+                        <!-- TOTAL -->
+
+                        <div>
+
+                            <p class="text-[10px]
+                               uppercase
+                               tracking-wider
+                               text-slate-400">
+
+                                Total
+
+                            </p>
+
+
+                            <p class="mt-1 font-serif
+                               text-2xl text-ink">
+
+                                &#8377;{{ order.total }}
+
+                            </p>
+
+                        </div>
+
+
+                        <!-- ACTION -->
+
+                        <div>
+
+
+                            <!-- PENDING -->
+
+                            {% if order.status == "Pending" %}
+
+                            <div class="flex flex-wrap gap-2">
+
+
+                                <!-- PROCESS -->
+
+                                <form method="POST" action="{% url 'update_order_status' order.id %}"
+                                    class="status-form">
+
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="status" value="Processing">
+
+
+                                    <button type="submit" class="status-action-button
+                                       inline-flex
+                                       items-center gap-2
+                                       rounded-xl
+                                       bg-brand-700
+                                       px-4 py-2.5
+                                       text-xs font-semibold
+                                       text-white
+                                       transition
+                                       hover:bg-brand-600">
+
+                                        <i data-lucide="play" class="h-3.5 w-3.5">
+                                        </i>
+
+                                        Process
+
+                                    </button>
+
+                                </form>
+
+
+                                <!-- CANCEL -->
+
+                                <form method="POST" action="{% url 'update_order_status' order.id %}"
+                                    class="status-form">
+
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="status" value="Cancelled">
+
+
+                                    <button type="submit" class="status-action-button
+                                       inline-flex
+                                       items-center gap-2
+                                       rounded-xl
+                                       border
+                                       border-red-200
+                                       bg-red-50
+                                       px-4 py-2.5
+                                       text-xs font-semibold
+                                       text-red-600
+                                       transition
+                                       hover:bg-red-100">
+
+                                        <i data-lucide="x" class="h-3.5 w-3.5">
+                                        </i>
+
+                                        Cancel
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                            <!-- PROCESSING -->
+
+                            {% elif order.status == "Processing" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Shipped">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="truck" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Ship
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- ACCEPTED OLD DATA -->
+
+                            {% elif order.status == "Accepted" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Shipped">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="truck" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Ship
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- SHIPPED -->
+
+                            {% elif order.status == "Shipped" %}
+
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden" name="status" value="Delivered">
+
+
+                                <button type="submit" class="status-action-button
+                                   inline-flex
+                                   items-center gap-2
+                                   rounded-xl
+                                   bg-brand-700
+                                   px-4 py-2.5
+                                   text-xs font-semibold
+                                   text-white
+                                   transition
+                                   hover:bg-brand-600">
+
+                                    <i data-lucide="check" class="h-3.5 w-3.5">
+                                    </i>
+
+                                    Deliver
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- DELIVERED -->
+
+                            {% elif order.status == "Delivered" %}
+
+                            <span class="inline-flex
+                               items-center gap-2
+                               rounded-xl
+                               bg-emerald-50
+                               px-4 py-2.5
+                               text-xs font-semibold
+                               text-emerald-700">
+
+                                <i data-lucide="check-circle-2" class="h-4 w-4">
+                                </i>
+
+                                Done
+
+                            </span>
+
+
+                            <!-- CANCELLED -->
+
+                            {% elif order.status == "Cancelled" %}
+
+                            <span class="inline-flex
+                               items-center gap-2
+                               rounded-xl
+                               bg-red-50
+                               px-4 py-2.5
+                               text-xs font-semibold
+                               text-red-700">
+
+                                <i data-lucide="x-circle" class="h-4 w-4">
+                                </i>
+
+                                Cancelled
+
+                            </span>
+
+
+                            <!-- REJECTED -->
+
+                            {% elif order.status == "Rejected" %}
+
+                            <span class="inline-flex
+                               items-center gap-2
+                               rounded-xl
+                               bg-red-50
+                               px-4 py-2.5
+                               text-xs font-semibold
+                               text-red-700">
+
+                                <i data-lucide="x-circle" class="h-4 w-4">
+                                </i>
+
+                                Rejected
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =================================================
+         ORDER COUNT
+    ================================================== -->
+
+            <div class="mt-6 flex items-center
+               justify-center gap-2">
+
+                <div class="h-1 w-1 rounded-full
+                   bg-brand-400">
+                </div>
+
+
+                <p class="text-xs text-slate-400" id="orderCount">
+
+                    Showing {{ orders|length }}
+                    of {{ total_orders }} orders
+
+                </p>
+
+
+                <div class="h-1 w-1 rounded-full
+                   bg-brand-400">
+                </div>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- =================================================
+         EMPTY STATE
+    ================================================== -->
+
+            <div class="relative overflow-hidden
+               rounded-3xl border
+               border-brand-100
+               bg-white px-6 py-20
+               text-center shadow-sm">
+
+
+                <div class="absolute -right-20 -top-20
+                   h-52 w-52 rounded-full
+                   bg-brand-50">
+                </div>
+
+
+                <div class="absolute -bottom-20 -left-20
+                   h-52 w-52 rounded-full
+                   bg-brand-50">
+                </div>
+
+
+                <div class="relative">
+
+
+                    <div class="mx-auto mb-6 flex
+                       h-20 w-20 items-center
+                       justify-center
+                       rounded-3xl
+                       bg-brand-50
+                       text-brand-700">
+
+                        <i data-lucide="shopping-cart" class="h-9 w-9">
+                        </i>
+
+                    </div>
+
+
+                    <h4 class="font-serif text-2xl
+                       text-ink">
+
+                        No orders yet
+
+                    </h4>
+
+
+                    <p class="mx-auto mt-3 max-w-md
+                       text-sm leading-6
+                       text-slate-500">
+
+                        Orders from your customers will
+                        appear here as soon as they
+                        place an order.
+
+                    </p>
+
+
+                    <a href="{% url 'shop_home' %}" class="mt-7 inline-flex
+                       items-center gap-2
+                       rounded-xl bg-brand-700
+                       px-5 py-3
+                       text-sm font-semibold
+                       text-white
+                       transition
+                       hover:bg-brand-600">
+
+                        <i data-lucide="layout-dashboard" class="h-4 w-4">
+                        </i>
+
+                        Go to Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+         FOOTER
+    ================================================== -->
+
+            <div class="mt-10 border-t
+               border-brand-100 pt-6
+               text-center">
+
+                <p class="text-xs text-slate-400">
+
+                    MiniShop Seller Dashboard
+
+                    <span class="mx-1">
+                        •
+                    </span>
+
+                    Manage your orders with confidence.
+
+                </p>
+
+            </div>
+
+        </div>
+        ```
+
+    </main>
+
+    <!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+    <script>
+
+
+        /* =====================================================
+           MOBILE MENU
+        ====================================================== */
+
+        function toggleMobileMenu() {
+
+            const menu =
+                document.getElementById("mobileMenu");
+
+            if (menu) {
+
+                menu.classList.toggle("hidden");
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DOM READY
+        ====================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                /* =================================================
+                   LUCIDE
+                ================================================== */
+
+                if (typeof lucide !== "undefined") {
+
+                    lucide.createIcons();
+
+                }
+
+
+                /* =================================================
+                   SEARCH
+                ================================================== */
+
+                const searchInput =
+                    document.getElementById("orderSearch");
+
+
+                const filterButtons =
+                    document.querySelectorAll(
+                        ".filter-chip"
+                    );
+
+
+                const rows =
+                    document.querySelectorAll(
+                        ".order-row"
+                    );
+
+
+                const orderCount =
+                    document.getElementById(
+                        "orderCount"
+                    );
+
+
+                let activeStatus = "all";
+
+
+                function applyFilters() {
+
+                    const query =
+                        searchInput
+                            ? searchInput.value
+                                .trim()
+                                .toLowerCase()
+                            : "";
+
+
+                    let visibleCount = 0;
+
+
+                    rows.forEach(function (row) {
+
+                        const status =
+                            row.dataset.status || "";
+
+
+                        const searchText =
+                            row.dataset.search || "";
+
+
+                        const matchesStatus =
+                            activeStatus === "all" ||
+                            status === activeStatus;
+
+
+                        const matchesSearch =
+                            !query ||
+                            searchText.includes(query);
+
+
+                        const show =
+                            matchesStatus &&
+                            matchesSearch;
+
+
+                        if (show) {
+
+                            row.classList.remove(
+                                "hidden-row"
+                            );
+
+                            visibleCount++;
+
+                        } else {
+
+                            row.classList.add(
+                                "hidden-row"
+                            );
+
+                        }
+
+                    });
+
+
+                    if (orderCount) {
+
+                        orderCount.textContent =
+                            `Showing ${visibleCount} of {{ total_orders }} orders`;
+
+                    }
+
+                }
+
+
+                if (searchInput) {
+
+                    searchInput.addEventListener(
+                        "input",
+                        applyFilters
+                    );
+
+                }
+
+
+                /* =================================================
+                   STATUS FILTER
+                ================================================== */
+
+                filterButtons.forEach(
+                    function (button) {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+
+                                filterButtons.forEach(
+                                    function (item) {
+
+                                        item.classList.remove(
+                                            "bg-brand-600",
+                                            "text-white",
+                                            "border-brand-600"
+                                        );
+
+
+                                        item.classList.add(
+                                            "bg-white",
+                                            "text-slate-600",
+                                            "border-brand-200"
+                                        );
+
+                                    }
+                                );
+
+
+                                button.classList.remove(
+                                    "bg-white",
+                                    "text-slate-600",
+                                    "border-brand-200"
+                                );
+
+
+                                button.classList.add(
+                                    "bg-brand-600",
+                                    "text-white",
+                                    "border-brand-600"
+                                );
+
+
+                                activeStatus =
+                                    button.dataset.filter;
+
+
+                                applyFilters();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                /* =================================================
+                   PREVENT DOUBLE SUBMISSION
+                ================================================== */
+
+                const statusForms =
+                    document.querySelectorAll(
+                        ".status-form"
+                    );
+
+
+                statusForms.forEach(function (form) {
+
+                    form.addEventListener(
+                        "submit",
+                        function () {
+
+
+                            const button =
+                                form.querySelector(
+                                    ".status-action-button"
+                                );
+
+
+                            if (!button) {
+
+                                return;
+
+                            }
+
+
+                            if (button.disabled) {
+
+                                return;
+
+                            }
+
+
+                            button.disabled = true;
+
+
+                            button.innerHTML = `
+
+                            <svg
+                                class="h-3.5 w-3.5 animate-spin"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24">
+
+                                <circle
+                                    class="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+
+                                <path
+                                    class="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+                                </path>
+
+                            </svg>
+
+                            Updating...
+
+                        `;
+
+                        }
+                    );
+
+                });
+
+            }
+        );
+
+
+        /* =====================================================
+           BFCACHE PROTECTION
+        ====================================================== */
+
+        window.addEventListener(
+            "pageshow",
+            function (event) {
+
+                if (event.persisted) {
+
+                    window.location.reload();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           AUTO HIDE DJANGO MESSAGES
+           5 SECONDS
+        ====================================================== */
+
+        setTimeout(
+            function () {
+
+                document
+                    .querySelectorAll(".message-alert")
+                    .forEach(function (message) {
+
+
+                        message.style.transition =
+                            "opacity 0.3s ease, transform 0.3s ease";
+
+
+                        message.style.opacity = "0";
+
+
+                        message.style.transform =
+                            "translateY(-8px)";
+
+
+                        setTimeout(
+                            function () {
+
+                                message.remove();
+
+                            },
+                            300
+                        );
+
+                    });
+
+            },
+            5000
+        );
+
+    </script>
+
+</body>
+
+</html>

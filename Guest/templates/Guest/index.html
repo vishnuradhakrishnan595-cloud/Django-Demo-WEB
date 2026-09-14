@@ -1,0 +1,4294 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MiniShop - Simple, secure and smart online shopping">
+
+    <title>MiniShop - Home</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         TAILWIND CSS
+    ====================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ====================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        sage: {
+
+                            50: '#f4f7f4',
+                            100: '#e3eae3',
+                            300: '#a3b899',
+                            600: '#4a6042',
+                            800: '#2b3a27',
+                            900: '#1e281b'
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ====================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: 'Inter', sans-serif;
+
+            background: #ffffff;
+
+            color: #1e281b;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =================================================
+           ANIMATIONS
+        ================================================= */
+
+        @keyframes fadeInUp {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(25px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+
+                transform: translateY(0);
+
+            }
+
+            50% {
+
+                transform: translateY(-8px);
+
+            }
+
+        }
+
+
+        @keyframes pulseSubtle {
+
+            0%,
+            100% {
+
+                opacity: 1;
+
+            }
+
+            50% {
+
+                opacity: .7;
+
+            }
+
+        }
+
+
+        .fade-in-up {
+
+            animation: fadeInUp .8s ease forwards;
+
+        }
+
+
+        .float {
+
+            animation: float 4s ease-in-out infinite;
+
+        }
+
+
+        .pulse-subtle {
+
+            animation: pulseSubtle 2s ease-in-out infinite;
+
+        }
+
+
+        /* =================================================
+           IMAGE
+        ================================================= */
+
+        img {
+
+            user-select: none;
+
+            -webkit-user-drag: none;
+
+        }
+
+
+        /* =================================================
+           PRODUCT SLIDER
+        ================================================= */
+
+        .product-slider {
+
+            scroll-behavior: smooth;
+
+            scrollbar-width: none;
+
+            -ms-overflow-style: none;
+
+            touch-action: pan-y;
+
+        }
+
+
+        .product-slider::-webkit-scrollbar {
+
+            display: none;
+
+        }
+
+
+        .product-card {
+
+            flex: 0 0 calc(100% - 24px);
+
+        }
+
+
+        @media (min-width: 640px) {
+
+            .product-card {
+
+                flex: 0 0 calc(50% - 12px);
+
+            }
+
+        }
+
+
+        @media (min-width: 1024px) {
+
+            .product-card {
+
+                flex: 0 0 calc(33.333333% - 16px);
+
+            }
+
+        }
+
+
+        .product-card {
+
+            scroll-snap-align: start;
+
+        }
+
+
+        /* =================================================
+           CATEGORY IMAGE
+        ================================================= */
+
+        .category-image {
+
+            transition: transform .6s ease;
+
+        }
+
+
+        .category-card:hover .category-image {
+
+            transform: scale(1.08);
+
+        }
+
+
+        /* =================================================
+           GENERAL IMAGE HOVER
+        ================================================= */
+
+        .image-zoom {
+
+            overflow: hidden;
+
+        }
+
+
+        .image-zoom img {
+
+            transition: transform .6s ease;
+
+        }
+
+
+        .image-zoom:hover img {
+
+            transform: scale(1.06);
+
+        }
+
+
+        /* =================================================
+           MOBILE MENU
+        ================================================= */
+
+        #mobileMenu {
+
+            transition:
+
+                opacity .3s ease,
+
+                transform .3s ease;
+
+        }
+
+
+        /* =================================================
+           HERO OVERLAY
+        ================================================= */
+
+        .hero-overlay {
+
+            background:
+
+                linear-gradient(
+
+                    90deg,
+
+                    rgba(30, 40, 27, .88),
+
+                    rgba(30, 40, 27, .58),
+
+                    rgba(30, 40, 27, .15)
+
+                );
+
+        }
+
+
+        @media (max-width: 640px) {
+
+            .hero-overlay {
+
+                background:
+
+                    linear-gradient(
+
+                        90deg,
+
+                        rgba(30, 40, 27, .86),
+
+                        rgba(30, 40, 27, .55)
+
+                    );
+
+            }
+
+        }
+
+
+        /* =================================================
+           SECTION SPACING
+        ================================================= */
+
+        .section-padding {
+
+            padding-top: 90px;
+
+            padding-bottom: 90px;
+
+        }
+
+
+        @media (max-width: 640px) {
+
+            .section-padding {
+
+                padding-top: 65px;
+
+                padding-bottom: 65px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER / NAVBAR
+========================================================= -->
+
+<header class="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6">
+
+    <div class="max-w-6xl mx-auto">
+
+
+        <nav class="bg-white/95 backdrop-blur-md
+                    border border-gray-200
+                    shadow-lg shadow-black/5
+                    rounded-2xl
+                    px-4 sm:px-6
+                    py-3">
+
+
+            <div class="flex items-center justify-between">
+
+
+                <!-- LOGO -->
+
+                <a href="{% url 'index' %}"
+                   class="flex items-center gap-2
+                          text-xl font-extrabold
+                          text-sage-800">
+
+                    <span class="w-9 h-9
+                                 rounded-xl
+                                 bg-sage-800
+                                 text-white
+                                 flex items-center justify-center
+                                 text-sm">
+
+                        M
+
+                    </span>
+
+                    MiniShop
+
+                </a>
+
+
+                <!-- DESKTOP NAV -->
+
+                <div class="hidden md:flex
+                            items-center
+                            gap-7">
+
+                    <a href="#home"
+                       class="text-sm font-medium
+                              text-sage-800
+                              hover:text-sage-600
+                              transition">
+
+                        Home
+
+                    </a>
+
+
+                    <a href="#about"
+                       class="text-sm font-medium
+                              text-gray-600
+                              hover:text-sage-800
+                              transition">
+
+                        About
+
+                    </a>
+
+
+                    <a href="#categories"
+                       class="text-sm font-medium
+                              text-gray-600
+                              hover:text-sage-800
+                              transition">
+
+                        Categories
+
+                    </a>
+
+
+                    <a href="#products"
+                       class="text-sm font-medium
+                              text-gray-600
+                              hover:text-sage-800
+                              transition">
+
+                        Shop
+
+                    </a>
+
+
+                    <a href="#features"
+                       class="text-sm font-medium
+                              text-gray-600
+                              hover:text-sage-800
+                              transition">
+
+                        Features
+
+                    </a>
+
+                </div>
+
+
+                <!-- DESKTOP ACTIONS -->
+
+                <div class="flex items-center gap-2">
+
+
+                    <a href="{% url 'register' %}"
+                       class="hidden sm:inline-flex
+                              px-4 py-2
+                              rounded-xl
+                              bg-sage-800
+                              text-white
+                              text-sm font-semibold
+                              hover:bg-sage-900
+                              transition">
+
+                        Register
+
+                    </a>
+
+
+                    <a href="{% url 'login' %}"
+                       class="hidden sm:inline-flex
+                              px-4 py-2
+                              rounded-xl
+                              border border-sage-800
+                              text-sage-800
+                              text-sm font-semibold
+                              hover:bg-sage-50
+                              transition">
+
+                        Login
+
+                    </a>
+
+
+                    <!-- MOBILE BUTTON -->
+
+                    <button id="mobileMenuBtn"
+                            type="button"
+                            class="md:hidden
+                                   w-10 h-10
+                                   rounded-xl
+                                   bg-sage-50
+                                   text-sage-800
+                                   flex items-center justify-center
+                                   text-xl">
+
+                        ☰
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+
+        <!-- =================================================
+             MOBILE MENU
+        ================================================== -->
+
+        <div id="mobileMenu"
+             class="hidden md:hidden
+                    mt-3
+                    bg-white
+                    border border-gray-200
+                    shadow-xl
+                    rounded-2xl
+                    p-4">
+
+
+            <div class="flex flex-col gap-2">
+
+
+                <a href="#home"
+                   class="mobile-link
+                          px-4 py-3
+                          rounded-xl
+                          hover:bg-sage-50
+                          text-gray-700
+                          font-medium">
+
+                    Home
+
+                </a>
+
+
+                <a href="#about"
+                   class="mobile-link
+                          px-4 py-3
+                          rounded-xl
+                          hover:bg-sage-50
+                          text-gray-700
+                          font-medium">
+
+                    About
+
+                </a>
+
+
+                <a href="#categories"
+                   class="mobile-link
+                          px-4 py-3
+                          rounded-xl
+                          hover:bg-sage-50
+                          text-gray-700
+                          font-medium">
+
+                    Categories
+
+                </a>
+
+
+                <a href="#products"
+                   class="mobile-link
+                          px-4 py-3
+                          rounded-xl
+                          hover:bg-sage-50
+                          text-gray-700
+                          font-medium">
+
+                    Shop
+
+                </a>
+
+
+                <a href="#features"
+                   class="mobile-link
+                          px-4 py-3
+                          rounded-xl
+                          hover:bg-sage-50
+                          text-gray-700
+                          font-medium">
+
+                    Features
+
+                </a>
+
+
+                <div class="border-t
+                            border-gray-100
+                            my-2">
+                </div>
+
+
+                <a href="{% url 'register' %}"
+                   class="px-4 py-3
+                          rounded-xl
+                          bg-sage-800
+                          text-white
+                          text-center
+                          font-semibold">
+
+                    Create Account
+
+                </a>
+
+
+                <a href="{% url 'login' %}"
+                   class="px-4 py-3
+                          rounded-xl
+                          border border-sage-800
+                          text-sage-800
+                          text-center
+                          font-semibold">
+
+                    Login
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
+<section id="home"
+         class="relative
+                min-h-[560px]
+                sm:min-h-[620px]
+                lg:min-h-[680px]
+                flex items-center
+                overflow-hidden">
+
+
+    <!-- HERO IMAGE -->
+
+    <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1800&auto=format&fit=crop"
+         alt="Premium headphones"
+         class="absolute inset-0
+                w-full h-full
+                object-cover">
+
+
+    <!-- OVERLAY -->
+
+    <div class="hero-overlay
+                absolute inset-0">
+    </div>
+
+
+    <!-- HERO CONTENT -->
+
+    <div class="relative
+                max-w-6xl
+                mx-auto
+                px-5 sm:px-8
+                pt-28
+                w-full">
+
+
+        <div class="max-w-2xl
+                    text-white
+                    fade-in-up">
+
+
+            <span class="inline-flex
+                         items-center
+                         gap-2
+                         bg-white/10
+                         backdrop-blur-sm
+                         border border-white/20
+                         rounded-full
+                         px-4 py-2
+                         text-xs sm:text-sm
+                         font-medium
+                         mb-6">
+
+                <span class="w-2 h-2
+                             bg-green-300
+                             rounded-full
+                             pulse-subtle">
+                </span>
+
+                New collection available
+
+            </span>
+
+
+            <h1 class="text-4xl
+                       sm:text-5xl
+                       lg:text-7xl
+                       font-extrabold
+                       leading-tight
+                       tracking-tight">
+
+                Smart products.
+
+                <span class="text-green-200">
+
+                    Simple living.
+
+                </span>
+
+            </h1>
+
+
+            <p class="mt-6
+                      text-base
+                      sm:text-lg
+                      text-white/80
+                      leading-8
+                      max-w-xl">
+
+                Discover modern electronics, accessories,
+                fashion and everyday essentials — all in
+                one simple shopping experience.
+
+            </p>
+
+
+            <div class="mt-8
+                        flex flex-col
+                        sm:flex-row
+                        gap-3">
+
+
+                <a href="#products"
+                   class="inline-flex
+                          items-center
+                          justify-center
+                          px-7 py-3.5
+                          rounded-xl
+                          bg-white
+                          text-sage-900
+                          font-bold
+                          hover:bg-green-50
+                          transition
+                          shadow-lg">
+
+                    Shop Collection
+
+                    <span class="ml-2">
+
+                        →
+
+                    </span>
+
+                </a>
+
+
+                <a href="#categories"
+                   class="inline-flex
+                          items-center
+                          justify-center
+                          px-7 py-3.5
+                          rounded-xl
+                          border border-white/40
+                          bg-white/10
+                          backdrop-blur-sm
+                          text-white
+                          font-semibold
+                          hover:bg-white/20
+                          transition">
+
+                    Explore Categories
+
+                </a>
+
+            </div>
+
+
+            <!-- SMALL STATS -->
+
+            <div class="mt-10
+                        flex flex-wrap
+                        gap-7
+                        text-sm">
+
+
+                <div>
+
+                    <div class="text-2xl
+                                font-bold">
+
+                        500+
+
+                    </div>
+
+                    <div class="text-white/60">
+
+                        Products
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="text-2xl
+                                font-bold">
+
+                        10K+
+
+                    </div>
+
+                    <div class="text-white/60">
+
+                        Customers
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="text-2xl
+                                font-bold">
+
+                        4.9/5
+
+                    </div>
+
+                    <div class="text-white/60">
+
+                        Rating
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRUST BAR
+========================================================= -->
+
+<section class="bg-sage-800
+                text-white">
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8
+                py-7">
+
+
+        <div class="grid
+                    grid-cols-2
+                    lg:grid-cols-4
+                    gap-6">
+
+
+            <div class="flex items-center gap-3">
+
+                <div class="text-2xl">
+
+                    🚚
+
+                </div>
+
+                <div>
+
+                    <p class="font-bold text-sm">
+
+                        Fast Delivery
+
+                    </p>
+
+                    <p class="text-xs text-white/60">
+
+                        Quick & reliable
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex items-center gap-3">
+
+                <div class="text-2xl">
+
+                    🔒
+
+                </div>
+
+                <div>
+
+                    <p class="font-bold text-sm">
+
+                        Secure Payment
+
+                    </p>
+
+                    <p class="text-xs text-white/60">
+
+                        Safe checkout
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex items-center gap-3">
+
+                <div class="text-2xl">
+
+                    ↩️
+
+                </div>
+
+                <div>
+
+                    <p class="font-bold text-sm">
+
+                        Easy Returns
+
+                    </p>
+
+                    <p class="text-xs text-white/60">
+
+                        Hassle-free
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex items-center gap-3">
+
+                <div class="text-2xl">
+
+                    💬
+
+                </div>
+
+                <div>
+
+                    <p class="font-bold text-sm">
+
+                        Customer Support
+
+                    </p>
+
+                    <p class="text-xs text-white/60">
+
+                        We're here to help
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ABOUT SECTION
+========================================================= -->
+
+<section id="about"
+         class="section-padding
+                bg-white">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <div class="grid
+                    lg:grid-cols-2
+                    gap-12
+                    lg:gap-20
+                    items-center">
+
+
+            <!-- IMAGE -->
+
+            <div class="image-zoom
+                        rounded-3xl
+                        overflow-hidden
+                        shadow-xl
+                        order-2 lg:order-1">
+
+                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=1200&auto=format&fit=crop"
+                     alt="Premium audio product"
+                     loading="lazy"
+                     class="w-full
+                            h-[350px]
+                            sm:h-[450px]
+                            object-cover">
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="order-1 lg:order-2">
+
+
+                <span class="text-sm
+                             font-bold
+                             uppercase
+                             tracking-widest
+                             text-sage-600">
+
+                    About MiniShop
+
+                </span>
+
+
+                <h2 class="mt-3
+                           text-3xl
+                           sm:text-4xl
+                           lg:text-5xl
+                           font-extrabold
+                           text-sage-900
+                           leading-tight">
+
+                    Everything you need.
+
+                    <span class="text-sage-600">
+
+                        Nothing you don't.
+
+                    </span>
+
+                </h2>
+
+
+                <p class="mt-6
+                          text-gray-600
+                          leading-8">
+
+                    MiniShop is designed to make online shopping
+                    simple, clean and enjoyable. Browse products,
+                    discover new collections and find useful
+                    everyday products without unnecessary complexity.
+
+                </p>
+
+
+                <div class="mt-8
+                            grid
+                            sm:grid-cols-2
+                            gap-5">
+
+
+                    <div class="p-5
+                                rounded-2xl
+                                bg-sage-50
+                                border border-sage-100">
+
+                        <div class="text-2xl mb-3">
+
+                            ✨
+
+                        </div>
+
+                        <h3 class="font-bold
+                                   text-sage-900">
+
+                            Curated Products
+
+                        </h3>
+
+                        <p class="text-sm
+                                  text-gray-500
+                                  mt-2
+                                  leading-6">
+
+                            Useful products selected
+                            for modern lifestyles.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="p-5
+                                rounded-2xl
+                                bg-sage-50
+                                border border-sage-100">
+
+                        <div class="text-2xl mb-3">
+
+                            ⚡
+
+                        </div>
+
+                        <h3 class="font-bold
+                                   text-sage-900">
+
+                            Simple Experience
+
+                        </h3>
+
+                        <p class="text-sm
+                                  text-gray-500
+                                  mt-2
+                                  leading-6">
+
+                            Easy browsing and
+                            straightforward shopping.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section id="categories"
+         class="section-padding
+                bg-sage-50">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <!-- HEADING -->
+
+        <div class="text-center
+                    max-w-2xl
+                    mx-auto
+                    mb-12">
+
+
+            <span class="text-sm
+                         font-bold
+                         uppercase
+                         tracking-widest
+                         text-sage-600">
+
+                Explore
+
+            </span>
+
+
+            <h2 class="mt-3
+                       text-3xl
+                       sm:text-4xl
+                       font-extrabold
+                       text-sage-900">
+
+                Shop by category
+
+            </h2>
+
+
+            <p class="mt-4
+                      text-gray-500
+                      leading-7">
+
+                Find products that fit your lifestyle,
+                from smart devices to everyday essentials.
+
+            </p>
+
+        </div>
+
+
+        <!-- CATEGORY GRID -->
+
+        <div class="grid
+                    grid-cols-1
+                    sm:grid-cols-2
+                    lg:grid-cols-4
+                    gap-5">
+
+
+            <!-- AUDIO -->
+
+            <a href="#products"
+               class="category-card
+                      group
+                      relative
+                      h-72
+                      rounded-3xl
+                      overflow-hidden
+                      shadow-md">
+
+
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop"
+                     alt="Audio products"
+                     loading="lazy"
+                     class="category-image
+                            absolute inset-0
+                            w-full h-full
+                            object-cover">
+
+
+                <div class="absolute inset-0
+                            bg-gradient-to-t
+                            from-black/75
+                            via-black/20
+                            to-transparent">
+                </div>
+
+
+                <div class="absolute
+                            bottom-0
+                            left-0
+                            right-0
+                            p-6
+                            text-white">
+
+                    <p class="text-xs
+                              uppercase
+                              tracking-widest
+                              text-white/70">
+
+                        Category
+
+                    </p>
+
+                    <h3 class="mt-1
+                               text-xl
+                               font-bold">
+
+                        Audio
+
+                    </h3>
+
+                    <p class="text-sm
+                              text-white/70
+                              mt-1">
+
+                        Headphones & earbuds
+
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- WATCHES -->
+
+            <a href="#products"
+               class="category-card
+                      group
+                      relative
+                      h-72
+                      rounded-3xl
+                      overflow-hidden
+                      shadow-md">
+
+
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop"
+                     alt="Smart watches"
+                     loading="lazy"
+                     class="category-image
+                            absolute inset-0
+                            w-full h-full
+                            object-cover">
+
+
+                <div class="absolute inset-0
+                            bg-gradient-to-t
+                            from-black/75
+                            via-black/20
+                            to-transparent">
+                </div>
+
+
+                <div class="absolute
+                            bottom-0
+                            left-0
+                            right-0
+                            p-6
+                            text-white">
+
+                    <p class="text-xs
+                              uppercase
+                              tracking-widest
+                              text-white/70">
+
+                        Category
+
+                    </p>
+
+                    <h3 class="mt-1
+                               text-xl
+                               font-bold">
+
+                        Wearables
+
+                    </h3>
+
+                    <p class="text-sm
+                              text-white/70
+                              mt-1">
+
+                        Smart watches & bands
+
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- CAMERA -->
+
+            <a href="#products"
+               class="category-card
+                      group
+                      relative
+                      h-72
+                      rounded-3xl
+                      overflow-hidden
+                      shadow-md">
+
+
+                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop"
+                     alt="Camera"
+                     loading="lazy"
+                     class="category-image
+                            absolute inset-0
+                            w-full h-full
+                            object-cover">
+
+
+                <div class="absolute inset-0
+                            bg-gradient-to-t
+                            from-black/75
+                            via-black/20
+                            to-transparent">
+                </div>
+
+
+                <div class="absolute
+                            bottom-0
+                            left-0
+                            right-0
+                            p-6
+                            text-white">
+
+                    <p class="text-xs
+                              uppercase
+                              tracking-widest
+                              text-white/70">
+
+                        Category
+
+                    </p>
+
+                    <h3 class="mt-1
+                               text-xl
+                               font-bold">
+
+                        Cameras
+
+                    </h3>
+
+                    <p class="text-sm
+                              text-white/70
+                              mt-1">
+
+                        Capture every moment
+
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <!-- ACCESSORIES -->
+
+            <a href="#products"
+               class="category-card
+                      group
+                      relative
+                      h-72
+                      rounded-3xl
+                      overflow-hidden
+                      shadow-md">
+
+
+                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000&auto=format&fit=crop"
+                     alt="Accessories"
+                     loading="lazy"
+                     class="category-image
+                            absolute inset-0
+                            w-full h-full
+                            object-cover">
+
+
+                <div class="absolute inset-0
+                            bg-gradient-to-t
+                            from-black/75
+                            via-black/20
+                            to-transparent">
+                </div>
+
+
+                <div class="absolute
+                            bottom-0
+                            left-0
+                            right-0
+                            p-6
+                            text-white">
+
+                    <p class="text-xs
+                              uppercase
+                              tracking-widest
+                              text-white/70">
+
+                        Category
+
+                    </p>
+
+                    <h3 class="mt-1
+                               text-xl
+                               font-bold">
+
+                        Accessories
+
+                    </h3>
+
+                    <p class="text-sm
+                              text-white/70
+                              mt-1">
+
+                        Useful everyday gear
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FEATURED PRODUCTS
+========================================================= -->
+
+<section id="products"
+         class="section-padding
+                bg-white">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <!-- HEADER -->
+
+        <div class="flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-end
+                    sm:justify-between
+                    gap-5
+                    mb-10">
+
+
+            <div>
+
+                <span class="text-sm
+                             font-bold
+                             uppercase
+                             tracking-widest
+                             text-sage-600">
+
+                    Featured
+
+                </span>
+
+
+                <h2 class="mt-2
+                           text-3xl
+                           sm:text-4xl
+                           font-extrabold
+                           text-sage-900">
+
+                    Popular products
+
+                </h2>
+
+
+                <p class="mt-3
+                          text-gray-500">
+
+                    Discover products customers love.
+
+                </p>
+
+            </div>
+
+
+            <a href="{% url 'register' %}"
+               class="text-sm
+                      font-bold
+                      text-sage-800
+                      hover:text-sage-600
+                      transition">
+
+                View all products →
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SLIDER
+        ================================================== -->
+
+        <div class="relative">
+
+
+            <!-- PREVIOUS BUTTON -->
+
+            <button id="prevBtn"
+                    type="button"
+                    aria-label="Previous products"
+                    class="absolute
+                           left-2
+                           sm:-left-5
+                           top-1/2
+                           -translate-y-1/2
+                           z-20
+                           w-11 h-11
+                           rounded-full
+                           bg-white
+                           border border-gray-200
+                           shadow-lg
+                           text-sage-800
+                           flex items-center justify-center
+                           hover:bg-sage-50
+                           transition">
+
+                ←
+
+            </button>
+
+
+            <!-- PRODUCT SLIDER -->
+
+            <div id="productSlider"
+                 class="product-slider
+                        flex
+                        gap-6
+                        overflow-x-auto
+                        snap-x
+                        snap-mandatory
+                        py-3">
+
+
+                <!-- PRODUCT 1 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop"
+                             alt="Acoustic Pro Headphones"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between
+                                    gap-3">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Audio
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.9
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Acoustic Pro Headphones
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500
+                                  line-clamp-2">
+
+                            Premium wireless headphones
+                            with immersive sound.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $129
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold
+                                      hover:bg-sage-900
+                                      transition">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 2 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop"
+                             alt="Chronos Smart Watch"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Wearables
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.8
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Chronos Smart Watch
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Smart tracking and elegant
+                            everyday design.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $199
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 3 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99e?q=80&w=1000&auto=format&fit=crop"
+                             alt="Monochrome Camera"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Camera
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.7
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Monochrome Camera
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Compact camera built for
+                            creative photography.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $89
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 4 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop"
+                             alt="Sport Sneakers"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Fashion
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.9
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Sport Sneakers
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Lightweight sneakers for
+                            everyday comfort.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $149
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 5 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop"
+                             alt="Smart Phone Pro"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Mobile
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.8
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Smart Phone Pro
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Powerful performance with
+                            a modern display.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $699
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 6 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1000&auto=format&fit=crop"
+                             alt="Ultra HD Monitor"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Workspace
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.7
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Ultra HD Monitor
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Crisp visuals for work,
+                            gaming and creativity.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $329
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 7 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?q=80&w=1000&auto=format&fit=crop"
+                             alt="Wireless Earbuds"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Audio
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.8
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Wireless Earbuds
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Compact wireless earbuds
+                            with clear audio.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $79
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PRODUCT 8 -->
+
+                <article class="product-card
+                                bg-white
+                                border border-gray-200
+                                rounded-3xl
+                                overflow-hidden
+                                shadow-sm
+                                hover:shadow-xl
+                                transition
+                                snap-start">
+
+
+                    <div class="image-zoom
+                                h-64
+                                bg-gray-100">
+
+                        <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=1000&auto=format&fit=crop"
+                             alt="Mechanical Keyboard"
+                             loading="lazy"
+                             class="w-full h-full object-cover">
+
+                    </div>
+
+
+                    <div class="p-5">
+
+
+                        <div class="flex
+                                    items-center
+                                    justify-between">
+
+
+                            <span class="text-xs
+                                         font-semibold
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-sage-50
+                                         text-sage-700">
+
+                                Accessories
+
+                            </span>
+
+
+                            <span class="text-xs
+                                         text-gray-400">
+
+                                ★ 4.6
+
+                            </span>
+
+                        </div>
+
+
+                        <h3 class="mt-4
+                                   font-bold
+                                   text-lg
+                                   text-sage-900">
+
+                            Mechanical Keyboard
+
+                        </h3>
+
+
+                        <p class="mt-2
+                                  text-sm
+                                  text-gray-500">
+
+                            Comfortable mechanical keyboard
+                            for productive work.
+
+                        </p>
+
+
+                        <div class="mt-5
+                                    flex items-center
+                                    justify-between">
+
+
+                            <span class="text-xl
+                                         font-extrabold
+                                         text-sage-800">
+
+                                $109
+
+                            </span>
+
+
+                            <a href="{% url 'register' %}"
+                               class="px-4 py-2
+                                      rounded-xl
+                                      bg-sage-800
+                                      text-white
+                                      text-sm
+                                      font-semibold">
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- NEXT BUTTON -->
+
+            <button id="nextBtn"
+                    type="button"
+                    aria-label="Next products"
+                    class="absolute
+                           right-2
+                           sm:-right-5
+                           top-1/2
+                           -translate-y-1/2
+                           z-20
+                           w-11 h-11
+                           rounded-full
+                           bg-white
+                           border border-gray-200
+                           shadow-lg
+                           text-sage-800
+                           flex items-center justify-center
+                           hover:bg-sage-50
+                           transition">
+
+                →
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             PAGINATION
+        ================================================== -->
+
+        <div id="paginationDots"
+             class="flex
+                    items-center
+                    justify-center
+                    gap-2
+                    mt-8">
+
+        </div>
+
+
+        <p class="text-center
+                  text-xs
+                  text-gray-400
+                  mt-3">
+
+            Swipe on mobile or use the arrows
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROMOTIONAL BANNER
+========================================================= -->
+
+<section class="px-5 sm:px-8
+                pb-20
+                bg-white">
+
+
+    <div class="max-w-6xl
+                mx-auto">
+
+
+        <div class="relative
+                    rounded-[2rem]
+                    overflow-hidden
+                    min-h-[360px]
+                    flex items-center">
+
+
+            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1600&auto=format&fit=crop"
+                 alt="Modern workspace"
+                 loading="lazy"
+                 class="absolute inset-0
+                        w-full h-full
+                        object-cover">
+
+
+            <div class="absolute inset-0
+                        bg-sage-900/80">
+            </div>
+
+
+            <div class="relative
+                        z-10
+                        px-7
+                        sm:px-12
+                        lg:px-16
+                        py-12
+                        max-w-2xl
+                        text-white">
+
+
+                <span class="text-xs
+                             uppercase
+                             tracking-[.25em]
+                             text-green-200
+                             font-bold">
+
+                    Upgrade your setup
+
+                </span>
+
+
+                <h2 class="mt-4
+                           text-3xl
+                           sm:text-4xl
+                           font-extrabold
+                           leading-tight">
+
+                    Build a workspace
+                    you actually enjoy.
+
+                </h2>
+
+
+                <p class="mt-4
+                          text-white/70
+                          leading-7">
+
+                    Discover monitors, keyboards,
+                    accessories and smart devices
+                    designed for productive days.
+
+                </p>
+
+
+                <a href="#products"
+                   class="inline-flex
+                          mt-7
+                          px-6 py-3
+                          rounded-xl
+                          bg-white
+                          text-sage-900
+                          font-bold
+                          hover:bg-green-50
+                          transition">
+
+                    Explore Products →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     WHY CHOOSE MINISHOP
+========================================================= -->
+
+<section id="features"
+         class="section-padding
+                bg-sage-50">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <div class="text-center
+                    max-w-2xl
+                    mx-auto
+                    mb-12">
+
+
+            <span class="text-sm
+                         font-bold
+                         uppercase
+                         tracking-widest
+                         text-sage-600">
+
+                Why MiniShop
+
+            </span>
+
+
+            <h2 class="mt-3
+                       text-3xl
+                       sm:text-4xl
+                       font-extrabold
+                       text-sage-900">
+
+                Shopping made simpler
+
+            </h2>
+
+
+            <p class="mt-4
+                      text-gray-500
+                      leading-7">
+
+                We focus on the things that matter:
+                useful products and a smooth experience.
+
+            </p>
+
+        </div>
+
+
+        <div class="grid
+                    sm:grid-cols-2
+                    lg:grid-cols-4
+                    gap-5">
+
+
+            <!-- FEATURE -->
+
+            <div class="bg-white
+                        rounded-3xl
+                        p-7
+                        border border-gray-100
+                        shadow-sm
+                        hover:shadow-lg
+                        transition">
+
+
+                <div class="w-14 h-14
+                            rounded-2xl
+                            bg-sage-100
+                            flex items-center
+                            justify-center
+                            text-2xl
+                            mb-5">
+
+                    🛍️
+
+                </div>
+
+
+                <h3 class="font-bold
+                           text-lg
+                           text-sage-900">
+
+                    Easy Shopping
+
+                </h3>
+
+
+                <p class="mt-3
+                          text-sm
+                          text-gray-500
+                          leading-6">
+
+                    Browse products and
+                    discover what you need quickly.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- FEATURE -->
+
+            <div class="bg-white
+                        rounded-3xl
+                        p-7
+                        border border-gray-100
+                        shadow-sm
+                        hover:shadow-lg
+                        transition">
+
+
+                <div class="w-14 h-14
+                            rounded-2xl
+                            bg-sage-100
+                            flex items-center
+                            justify-center
+                            text-2xl
+                            mb-5">
+
+                    🔐
+
+                </div>
+
+
+                <h3 class="font-bold
+                           text-lg
+                           text-sage-900">
+
+                    Secure Account
+
+                </h3>
+
+
+                <p class="mt-3
+                          text-sm
+                          text-gray-500
+                          leading-6">
+
+                    Your account experience
+                    is designed with security in mind.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- FEATURE -->
+
+            <div class="bg-white
+                        rounded-3xl
+                        p-7
+                        border border-gray-100
+                        shadow-sm
+                        hover:shadow-lg
+                        transition">
+
+
+                <div class="w-14 h-14
+                            rounded-2xl
+                            bg-sage-100
+                            flex items-center
+                            justify-center
+                            text-2xl
+                            mb-5">
+
+                    💳
+
+                </div>
+
+
+                <h3 class="font-bold
+                           text-lg
+                           text-sage-900">
+
+                    Simple Checkout
+
+                </h3>
+
+
+                <p class="mt-3
+                          text-sm
+                          text-gray-500
+                          leading-6">
+
+                    A clean shopping flow
+                    without unnecessary steps.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- FEATURE -->
+
+            <div class="bg-white
+                        rounded-3xl
+                        p-7
+                        border border-gray-100
+                        shadow-sm
+                        hover:shadow-lg
+                        transition">
+
+
+                <div class="w-14 h-14
+                            rounded-2xl
+                            bg-sage-100
+                            flex items-center
+                            justify-center
+                            text-2xl
+                            mb-5">
+
+                    ❤️
+
+                </div>
+
+
+                <h3 class="font-bold
+                           text-lg
+                           text-sage-900">
+
+                    Customer First
+
+                </h3>
+
+
+                <p class="mt-3
+                          text-sm
+                          text-gray-500
+                          leading-6">
+
+                    We keep the experience
+                    simple and customer focused.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRENDING SECTION
+========================================================= -->
+
+<section class="section-padding
+                bg-white">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <div class="grid
+                    lg:grid-cols-3
+                    gap-6">
+
+
+            <!-- LARGE CARD -->
+
+            <div class="lg:col-span-2
+                        relative
+                        min-h-[420px]
+                        rounded-3xl
+                        overflow-hidden
+                        group">
+
+
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1400&auto=format&fit=crop"
+                     alt="Smartphone"
+                     loading="lazy"
+                     class="absolute inset-0
+                            w-full h-full
+                            object-cover
+                            transition duration-700
+                            group-hover:scale-105">
+
+
+                <div class="absolute inset-0
+                            bg-gradient-to-t
+                            from-black/80
+                            to-transparent">
+                </div>
+
+
+                <div class="absolute
+                            bottom-0
+                            left-0
+                            p-7
+                            sm:p-10
+                            text-white">
+
+
+                    <span class="text-xs
+                                 uppercase
+                                 tracking-widest
+                                 text-white/70">
+
+                        Trending now
+
+                    </span>
+
+
+                    <h3 class="mt-2
+                               text-3xl
+                               sm:text-4xl
+                               font-extrabold">
+
+                        Everyday technology
+
+                    </h3>
+
+
+                    <p class="mt-3
+                              text-white/70
+                              max-w-lg">
+
+                        Smart devices designed to
+                        make your daily routine easier.
+
+                    </p>
+
+
+                    <a href="#products"
+                       class="inline-flex
+                              mt-5
+                              font-bold
+                              text-white
+                              hover:text-green-200">
+
+                        Discover now →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- SIDE CARDS -->
+
+            <div class="grid
+                        sm:grid-cols-2
+                        lg:grid-cols-1
+                        gap-6">
+
+
+                <!-- CARD -->
+
+                <div class="relative
+                            min-h-[198px]
+                            rounded-3xl
+                            overflow-hidden
+                            group">
+
+
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=900&auto=format&fit=crop"
+                         alt="Sneakers"
+                         loading="lazy"
+                         class="absolute inset-0
+                                w-full h-full
+                                object-cover
+                                transition duration-700
+                                group-hover:scale-105">
+
+
+                    <div class="absolute inset-0
+                                bg-black/40">
+                    </div>
+
+
+                    <div class="absolute
+                                inset-0
+                                flex items-end
+                                p-6
+                                text-white">
+
+
+                        <div>
+
+                            <span class="text-xs
+                                         text-white/70">
+
+                                Lifestyle
+
+                            </span>
+
+
+                            <h3 class="mt-1
+                                       text-xl
+                                       font-bold">
+
+                                Move in comfort
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CARD -->
+
+                <div class="relative
+                            min-h-[198px]
+                            rounded-3xl
+                            overflow-hidden
+                            group">
+
+
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=900&auto=format&fit=crop"
+                         alt="Headphones"
+                         loading="lazy"
+                         class="absolute inset-0
+                                w-full h-full
+                                object-cover
+                                transition duration-700
+                                group-hover:scale-105">
+
+
+                    <div class="absolute inset-0
+                                bg-black/40">
+                    </div>
+
+
+                    <div class="absolute
+                                inset-0
+                                flex items-end
+                                p-6
+                                text-white">
+
+
+                        <div>
+
+                            <span class="text-xs
+                                         text-white/70">
+
+                                Audio
+
+                            </span>
+
+
+                            <h3 class="mt-1
+                                       text-xl
+                                       font-bold">
+
+                                Listen better
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     STATS SECTION
+========================================================= -->
+
+<section class="bg-sage-900
+                text-white
+                py-16">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <div class="grid
+                    grid-cols-2
+                    lg:grid-cols-4
+                    gap-8
+                    text-center">
+
+
+            <div>
+
+                <div class="text-3xl
+                            sm:text-4xl
+                            font-extrabold">
+
+                    500+
+
+                </div>
+
+                <p class="mt-2
+                          text-sm
+                          text-white/60">
+
+                    Products
+
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="text-3xl
+                            sm:text-4xl
+                            font-extrabold">
+
+                    10K+
+
+                </div>
+
+                <p class="mt-2
+                          text-sm
+                          text-white/60">
+
+                    Happy Customers
+
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="text-3xl
+                            sm:text-4xl
+                            font-extrabold">
+
+                    4.9/5
+
+                </div>
+
+                <p class="mt-2
+                          text-sm
+                          text-white/60">
+
+                    Average Rating
+
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="text-3xl
+                            sm:text-4xl
+                            font-extrabold">
+
+                    24/7
+
+                </div>
+
+                <p class="mt-2
+                          text-sm
+                          text-white/60">
+
+                    Support
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     NEWSLETTER
+========================================================= -->
+
+<section class="section-padding
+                bg-white">
+
+
+    <div class="max-w-4xl
+                mx-auto
+                px-5 sm:px-8">
+
+
+        <div class="relative
+                    overflow-hidden
+                    rounded-[2rem]
+                    bg-sage-50
+                    border border-sage-100
+                    px-6
+                    sm:px-12
+                    py-12
+                    sm:py-16
+                    text-center">
+
+
+            <div class="absolute
+                        -top-20
+                        -right-20
+                        w-48 h-48
+                        rounded-full
+                        bg-sage-100">
+            </div>
+
+
+            <div class="absolute
+                        -bottom-24
+                        -left-20
+                        w-52 h-52
+                        rounded-full
+                        bg-sage-100">
+            </div>
+
+
+            <div class="relative">
+
+
+                <span class="text-sm
+                             font-bold
+                             uppercase
+                             tracking-widest
+                             text-sage-600">
+
+                    Stay updated
+
+                </span>
+
+
+                <h2 class="mt-3
+                           text-3xl
+                           sm:text-4xl
+                           font-extrabold
+                           text-sage-900">
+
+                    Get the latest from MiniShop
+
+                </h2>
+
+
+                <p class="mt-4
+                          text-gray-500
+                          max-w-xl
+                          mx-auto
+                          leading-7">
+
+                    New products, special collections
+                    and useful updates delivered to you.
+
+                </p>
+
+
+                <form class="mt-7
+                             flex
+                             flex-col
+                             sm:flex-row
+                             gap-3
+                             max-w-lg
+                             mx-auto">
+
+
+                    <input type="email"
+                           placeholder="Enter your email"
+                           class="flex-1
+                                  px-5 py-3.5
+                                  rounded-xl
+                                  border border-gray-200
+                                  bg-white
+                                  outline-none
+                                  focus:ring-2
+                                  focus:ring-sage-300">
+
+
+                    <button type="submit"
+                            class="px-6 py-3.5
+                                   rounded-xl
+                                   bg-sage-800
+                                   text-white
+                                   font-bold
+                                   hover:bg-sage-900
+                                   transition">
+
+                        Subscribe
+
+                    </button>
+
+                </form>
+
+
+                <p class="mt-3
+                          text-xs
+                          text-gray-400">
+
+                    No spam. Unsubscribe anytime.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FINAL CTA
+========================================================= -->
+
+<section class="px-5 sm:px-8
+                pb-20">
+
+
+    <div class="max-w-6xl
+                mx-auto">
+
+
+        <div class="rounded-3xl
+                    bg-sage-800
+                    px-7
+                    sm:px-12
+                    py-12
+                    flex
+                    flex-col
+                    md:flex-row
+                    items-center
+                    justify-between
+                    gap-7">
+
+
+            <div class="text-white">
+
+
+                <h2 class="text-2xl
+                           sm:text-3xl
+                           font-extrabold">
+
+                    Ready to start shopping?
+
+                </h2>
+
+
+                <p class="mt-2
+                          text-white/60">
+
+                    Create your MiniShop account today.
+
+                </p>
+
+            </div>
+
+
+            <a href="{% url 'register' %}"
+               class="shrink-0
+                      px-7 py-3.5
+                      rounded-xl
+                      bg-white
+                      text-sage-900
+                      font-bold
+                      hover:bg-green-50
+                      transition">
+
+                Create Account →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="bg-sage-900
+               text-white">
+
+
+    <div class="max-w-6xl
+                mx-auto
+                px-5 sm:px-8
+                py-14">
+
+
+        <div class="grid
+                    sm:grid-cols-2
+                    lg:grid-cols-4
+                    gap-10">
+
+
+            <!-- BRAND -->
+
+            <div class="lg:col-span-1">
+
+
+                <a href="{% url 'index' %}"
+                   class="flex items-center
+                          gap-2
+                          text-xl
+                          font-extrabold">
+
+
+                    <span class="w-9 h-9
+                                 rounded-xl
+                                 bg-white
+                                 text-sage-900
+                                 flex items-center
+                                 justify-center
+                                 text-sm">
+
+                        M
+
+                    </span>
+
+
+                    MiniShop
+
+                </a>
+
+
+                <p class="mt-5
+                          text-sm
+                          text-white/50
+                          leading-7">
+
+                    Simple, secure and smart
+                    online shopping for everyone.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- SHOP -->
+
+            <div>
+
+
+                <h3 class="font-bold">
+
+                    Shop
+
+                </h3>
+
+
+                <div class="mt-4
+                            space-y-3
+                            text-sm
+                            text-white/50">
+
+
+                    <a href="#products"
+                       class="block hover:text-white transition">
+
+                        Products
+
+                    </a>
+
+
+                    <a href="#categories"
+                       class="block hover:text-white transition">
+
+                        Categories
+
+                    </a>
+
+
+                    <a href="#products"
+                       class="block hover:text-white transition">
+
+                        Featured
+
+                    </a>
+
+
+                    <a href="#products"
+                       class="block hover:text-white transition">
+
+                        New Arrivals
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCOUNT -->
+
+            <div>
+
+
+                <h3 class="font-bold">
+
+                    Account
+
+                </h3>
+
+
+                <div class="mt-4
+                            space-y-3
+                            text-sm
+                            text-white/50">
+
+
+                    <a href="{% url 'login' %}"
+                       class="block hover:text-white transition">
+
+                        Login
+
+                    </a>
+
+
+                    <a href="{% url 'register' %}"
+                       class="block hover:text-white transition">
+
+                        Register
+
+                    </a>
+
+
+                    <a href="{% url 'register' %}"
+                       class="block hover:text-white transition">
+
+                        My Account
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUPPORT -->
+
+            <div>
+
+
+                <h3 class="font-bold">
+
+                    Support
+
+                </h3>
+
+
+                <div class="mt-4
+                            space-y-3
+                            text-sm
+                            text-white/50">
+
+
+                    <p>
+
+                        Help Center
+
+                    </p>
+
+
+                    <p>
+
+                        Contact Us
+
+                    </p>
+
+
+                    <p>
+
+                        Privacy Policy
+
+                    </p>
+
+
+                    <p>
+
+                        Terms & Conditions
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER BOTTOM -->
+
+        <div class="border-t
+                    border-white/10
+                    mt-12
+                    pt-7
+                    flex
+                    flex-col
+                    sm:flex-row
+                    justify-between
+                    gap-4
+                    text-sm
+                    text-white/40">
+
+
+            <p>
+
+                © 2026 MiniShop. All rights reserved.
+
+            </p>
+
+
+            <p>
+
+                Built with Django & Tailwind CSS
+
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* ============================================================
+   MOBILE MENU
+============================================================ */
+
+const mobileMenuBtn =
+    document.getElementById("mobileMenuBtn");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const mobileLinks =
+    document.querySelectorAll(".mobile-link");
+
+
+mobileMenuBtn.addEventListener("click", function () {
+
+    mobileMenu.classList.toggle("hidden");
+
+});
+
+
+mobileLinks.forEach(function (link) {
+
+    link.addEventListener("click", function () {
+
+        mobileMenu.classList.add("hidden");
+
+    });
+
+});
+
+
+
+/* ============================================================
+   PRODUCT SLIDER
+============================================================ */
+
+const slider =
+    document.getElementById("productSlider");
+
+
+const cards =
+    Array.from(
+        document.querySelectorAll(".product-card")
+    );
+
+
+const prevBtn =
+    document.getElementById("prevBtn");
+
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+
+const paginationDots =
+    document.getElementById("paginationDots");
+
+
+let currentPage = 0;
+
+let pageCount = 1;
+
+let autoSlide = null;
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+let scrollTimer = null;
+
+
+
+/* ============================================================
+   GET ITEMS PER VIEW
+============================================================ */
+
+function getItemsPerView() {
+
+    if (window.innerWidth >= 1024) {
+
+        return 3;
+
+    }
+
+    if (window.innerWidth >= 640) {
+
+        return 2;
+
+    }
+
+    return 1;
+
+}
+
+
+
+/* ============================================================
+   CALCULATE PAGE COUNT
+============================================================ */
+
+function calculatePageCount() {
+
+    const itemsPerView =
+        getItemsPerView();
+
+    pageCount =
+        Math.ceil(
+            cards.length / itemsPerView
+        );
+
+}
+
+
+
+/* ============================================================
+   CREATE PAGINATION DOTS
+============================================================ */
+
+function createPagination() {
+
+    calculatePageCount();
+
+    paginationDots.innerHTML = "";
+
+
+    for (
+        let i = 0;
+        i < pageCount;
+        i++
+    ) {
+
+
+        const dot =
+            document.createElement("button");
+
+
+        dot.type = "button";
+
+
+        dot.setAttribute(
+            "aria-label",
+            "Go to product page " + (i + 1)
+        );
+
+
+        dot.className =
+
+            "h-2.5 rounded-full transition-all duration-300 " +
+
+            (
+                i === currentPage
+
+                ? "w-8 bg-sage-800"
+
+                : "w-2.5 bg-gray-300 hover:bg-gray-400"
+            );
+
+
+        dot.addEventListener(
+            "click",
+            function () {
+
+                moveToPage(i);
+
+                restartAutoSlide();
+
+            }
+        );
+
+
+        paginationDots.appendChild(dot);
+
+    }
+
+}
+
+
+
+/* ============================================================
+   UPDATE DOTS
+============================================================ */
+
+function updateDots() {
+
+    const dots =
+        paginationDots.querySelectorAll("button");
+
+
+    dots.forEach(
+        function (dot, index) {
+
+
+            if (index === currentPage) {
+
+                dot.className =
+                    "h-2.5 w-8 rounded-full " +
+                    "bg-sage-800 transition-all duration-300";
+
+            }
+
+            else {
+
+                dot.className =
+                    "h-2.5 w-2.5 rounded-full " +
+                    "bg-gray-300 hover:bg-gray-400 " +
+                    "transition-all duration-300";
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* ============================================================
+   MOVE TO PAGE
+============================================================ */
+
+function moveToPage(page) {
+
+    calculatePageCount();
+
+
+    if (page < 0) {
+
+        page = pageCount - 1;
+
+    }
+
+
+    if (page >= pageCount) {
+
+        page = 0;
+
+    }
+
+
+    currentPage = page;
+
+
+    slider.scrollTo({
+
+        left:
+            currentPage *
+            slider.clientWidth,
+
+        behavior: "smooth"
+
+    });
+
+
+    updateDots();
+
+}
+
+
+
+/* ============================================================
+   NEXT
+============================================================ */
+
+function nextSlide() {
+
+    moveToPage(
+        currentPage + 1
+    );
+
+}
+
+
+
+/* ============================================================
+   PREVIOUS
+============================================================ */
+
+function previousSlide() {
+
+    moveToPage(
+        currentPage - 1
+    );
+
+}
+
+
+
+/* ============================================================
+   BUTTON EVENTS
+============================================================ */
+
+nextBtn.addEventListener(
+    "click",
+    function () {
+
+        nextSlide();
+
+        restartAutoSlide();
+
+    }
+);
+
+
+prevBtn.addEventListener(
+    "click",
+    function () {
+
+        previousSlide();
+
+        restartAutoSlide();
+
+    }
+);
+
+
+
+/* ============================================================
+   AUTO SLIDE
+============================================================ */
+
+function startAutoSlide() {
+
+    clearInterval(autoSlide);
+
+
+    autoSlide =
+        setInterval(
+            function () {
+
+                nextSlide();
+
+            },
+            2000
+        );
+
+}
+
+
+function stopAutoSlide() {
+
+    clearInterval(autoSlide);
+
+}
+
+
+function restartAutoSlide() {
+
+    stopAutoSlide();
+
+    startAutoSlide();
+
+}
+
+
+
+/* ============================================================
+   PAUSE ON HOVER
+============================================================ */
+
+slider.addEventListener(
+    "mouseenter",
+    function () {
+
+        stopAutoSlide();
+
+    }
+);
+
+
+slider.addEventListener(
+    "mouseleave",
+    function () {
+
+        startAutoSlide();
+
+    }
+);
+
+
+
+/* ============================================================
+   TOUCH SWIPE
+============================================================ */
+
+slider.addEventListener(
+    "touchstart",
+    function (event) {
+
+        touchStartX =
+            event.touches[0].clientX;
+
+        stopAutoSlide();
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+slider.addEventListener(
+    "touchend",
+    function (event) {
+
+        touchEndX =
+            event.changedTouches[0].clientX;
+
+
+        const difference =
+            touchStartX - touchEndX;
+
+
+        if (Math.abs(difference) > 50) {
+
+
+            if (difference > 0) {
+
+                nextSlide();
+
+            }
+
+            else {
+
+                previousSlide();
+
+            }
+
+        }
+
+
+        startAutoSlide();
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+
+/* ============================================================
+   TRACK MANUAL SCROLL
+============================================================ */
+
+slider.addEventListener(
+    "scroll",
+    function () {
+
+        clearTimeout(scrollTimer);
+
+
+        scrollTimer =
+            setTimeout(
+                function () {
+
+
+                    const page =
+                        Math.round(
+                            slider.scrollLeft /
+                            slider.clientWidth
+                        );
+
+
+                    if (
+                        page >= 0 &&
+                        page < pageCount
+                    ) {
+
+                        currentPage = page;
+
+                        updateDots();
+
+                    }
+
+
+                },
+                100
+            );
+
+    }
+);
+
+
+
+/* ============================================================
+   HANDLE WINDOW RESIZE
+============================================================ */
+
+window.addEventListener(
+    "resize",
+    function () {
+
+
+        const oldPage =
+            currentPage;
+
+
+        calculatePageCount();
+
+
+        if (
+            currentPage >= pageCount
+        ) {
+
+            currentPage =
+                pageCount - 1;
+
+        }
+
+
+        createPagination();
+
+
+        slider.scrollTo({
+
+            left:
+                currentPage *
+                slider.clientWidth,
+
+            behavior: "auto"
+
+        });
+
+
+        updateDots();
+
+    }
+);
+
+
+
+/* ============================================================
+   INITIALIZE
+============================================================ */
+
+createPagination();
+
+moveToPage(0);
+
+startAutoSlide();
+
+
+</script>
+
+
+</body>
+
+</html>

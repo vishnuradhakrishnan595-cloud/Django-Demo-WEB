@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Products - MiniShop</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: "#f4f6f2",
+                            100: "#e7ebe1",
+                            200: "#ced7c3",
+                            300: "#adbd9c",
+                            400: "#869c73",
+                            500: "#647a53",
+                            600: "#4d613e",
+                            700: "#3d4d32",
+                            800: "#2e3a27",
+                            900: "#212a1c",
+                            950: "#141a11"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-brand-50/40 text-slate-800">
+
+    <!-- ========================================================= -->
+
+    <!-- DESKTOP SIDEBAR -->
+
+    <!-- ========================================================= -->
+
+    <aside class="fixed left-0 top-0 z-50 hidden h-screen w-72
+           flex-col bg-gradient-to-b from-brand-950
+           via-brand-900 to-brand-800 text-white shadow-2xl lg:flex">
+
+
+        <!-- LOGO -->
+
+        <div class="px-6 pb-6 pt-7">
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-11 w-11 items-center justify-center
+                   rounded-xl bg-gradient-to-br
+                   from-brand-600 to-brand-500">
+
+                    <i data-lucide="shopping-bag" class="h-6 w-6"></i>
+
+                </div>
+
+                <div>
+
+                    <h1 class="text-xl font-bold">
+                        MiniShop
+                    </h1>
+
+                    <p class="text-xs text-brand-200">
+                        Seller Dashboard
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- USER -->
+
+        <div class="mx-4 mb-6 rounded-2xl border border-white/10
+           bg-white/10 p-4">
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-11 w-11 shrink-0 items-center
+                   justify-center rounded-full
+                   bg-gradient-to-br from-brand-400
+                   to-brand-600 font-bold">
+
+                    {{ user.name|first|upper }}
+
+                </div>
+
+                <div class="min-w-0">
+
+                    <p class="truncate text-sm font-semibold">
+                        {{ user.name }}
+                    </p>
+
+                    <p class="truncate text-xs text-brand-200">
+                        {{ user.email }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-scroll flex-1 overflow-y-auto px-4">
+
+            <p class="mb-3 px-3 text-[11px] font-semibold uppercase
+               tracking-widest text-brand-300">
+
+                Main Menu
+
+            </p>
+
+
+            <!-- DASHBOARD -->
+
+            <a href="{% url 'shop_home' %}" class="mb-2 flex items-center gap-3 rounded-xl
+               bg-brand-600 px-4 py-3 font-medium text-white
+               shadow-lg shadow-brand-950/30">
+
+                <i data-lucide="layout-dashboard" class="h-5 w-5"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <!-- PRODUCTS -->
+
+            <a href="{% url 'shop_products' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="package" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>My Products</span>
+
+            </a>
+
+
+            <!-- ADD PRODUCT -->
+
+            <a href="{% url 'add_product' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="plus-circle" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Add Product</span>
+
+            </a>
+
+
+            <!-- CATEGORIES -->
+
+            <a href="{% url 'shop_categories' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="layers" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Categories</span>
+
+            </a>
+
+
+            <!-- BRANDS -->
+
+            <a href="{% url 'shop_brands' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="tags" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Brands</span>
+
+            </a>
+
+
+            <!-- ORDERS -->
+
+            <a href="{% url 'shop_orders' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="shopping-cart" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Orders</span>
+
+                <span class="ml-auto rounded-full bg-white/10 px-2 py-0.5
+                   text-[10px] text-brand-100">
+
+                    {{ total_orders|default:0 }}
+
+                </span>
+
+            </a>
+
+            <!-- REVIEWS -->
+
+            <a href="{% url 'shop_reviews' %}" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition duration-200
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="star" class="h-5 w-5 transition group-hover:scale-110">
+                </i>
+
+                <span>Reviews</span>
+
+            </a>
+
+
+            <div class="my-6 border-t border-white/10"></div>
+
+
+            <!-- ACCOUNT -->
+
+            <p class="mb-3 px-3 text-[11px] font-semibold uppercase
+               tracking-widest text-brand-300">
+
+                Account
+
+            </p>
+
+
+            <a href="#" class="group mb-2 flex items-center gap-3 rounded-xl
+               px-4 py-3 text-brand-100 transition
+               hover:bg-white/10 hover:text-white">
+
+                <i data-lucide="user" class="h-5 w-5"></i>
+
+                <span>My Profile</span>
+
+            </a>
+
+
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <div class="p-4">
+
+            <a href="{% url 'shop_logout' %}" class="flex items-center gap-3 rounded-xl
+               border border-red-400/20
+               bg-red-500/10 px-4 py-3
+               font-medium text-red-300
+               transition hover:bg-red-500/20">
+
+                <i data-lucide="log-out" class="h-5 w-5"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+    <!-- ========================================================= -->
+
+    <!-- MOBILE HEADER -->
+
+    <!-- ========================================================= -->
+
+    <header class="sticky top-0 z-40 flex items-center
+           justify-between border-b border-brand-100
+           bg-white/95 px-5 py-4 backdrop-blur lg:hidden">
+
+
+        <div class="flex items-center gap-3">
+
+            <div class="flex h-10 w-10 items-center justify-center
+               rounded-xl bg-brand-700 text-white">
+
+                <i data-lucide="shopping-bag"></i>
+
+            </div>
+
+            <span class="font-bold text-slate-900">
+                MiniShop
+            </span>
+
+        </div>
+
+
+        <button onclick="toggleMobileMenu()" class="rounded-xl bg-brand-50 p-2 text-brand-700">
+
+            <i data-lucide="menu" class="h-6 w-6"></i>
+
+        </button>
+
+
+    </header>
+
+    <!-- ========================================================= -->
+
+    <!-- MOBILE MENU -->
+
+    <!-- ========================================================= -->
+
+    <div id="mobileMenu" class="fixed inset-0 z-50 hidden lg:hidden">
+
+
+        <div onclick="toggleMobileMenu()" class="absolute inset-0 bg-black/50">
+        </div>
+
+
+        <aside class="relative flex h-full w-72 flex-col
+           justify-between bg-gradient-to-b
+           from-brand-950 to-brand-800
+           text-white shadow-2xl">
+
+
+            <div>
+
+                <div class="flex items-center justify-between
+                   px-6 py-6">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-10 w-10 items-center
+                           justify-center rounded-xl
+                           bg-brand-600">
+
+                            <i data-lucide="shopping-bag"></i>
+
+                        </div>
+
+                        <span class="text-xl font-bold">
+                            MiniShop
+                        </span>
+
+                    </div>
+
+
+                    <button onclick="toggleMobileMenu()" class="rounded-lg p-2 hover:bg-white/10">
+
+                        <i data-lucide="x"></i>
+
+                    </button>
+
+                </div>
+
+
+                <nav class="px-4">
+
+
+                    <a href="{% url 'shop_home' %}" class="mb-2 flex items-center gap-3
+                       rounded-xl px-4 py-3
+                       text-brand-100 hover:bg-white/10">
+
+                        <i data-lucide="layout-dashboard"></i>
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a href="{% url 'shop_products' %}" class="mb-2 flex items-center gap-3
+                       rounded-xl bg-brand-600
+                       px-4 py-3">
+
+                        <i data-lucide="package"></i>
+
+                        My Products
+
+                    </a>
+
+
+                    <a href="{% url 'add_product' %}" class="mb-2 flex items-center gap-3
+                       rounded-xl px-4 py-3
+                       text-brand-100 hover:bg-white/10">
+
+                        <i data-lucide="plus-circle"></i>
+
+                        Add Product
+
+                    </a>
+
+
+                    <a href="{% url 'shop_categories' %}" class="mb-2 flex items-center gap-3
+                       rounded-xl px-4 py-3
+                       text-brand-100 hover:bg-white/10">
+
+                        <i data-lucide="layers"></i>
+
+                        Categories
+
+                    </a>
+
+
+                    <a href="{% url 'shop_brands' %}" class="mb-2 flex items-center gap-3
+                       rounded-xl px-4 py-3
+                       text-brand-100 hover:bg-white/10">
+
+                        <i data-lucide="tags"></i>
+
+                        Brands
+
+                    </a>
+
+
+                    <a href="{% url 'shop_orders' %}" class="mb-2 flex items-center gap-3
+                       rounded-xl px-4 py-3
+                       text-brand-100 hover:bg-white/10">
+
+                        <i data-lucide="shopping-cart"></i>
+
+                        Orders
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+
+            <div class="p-4">
+
+                <a href="{% url 'shop_logout' %}" class="flex items-center gap-3 rounded-xl
+                   bg-red-500/10 px-4 py-3
+                   text-red-300">
+
+                    <i data-lucide="log-out"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+    </div>
+
+    <!-- ========================================================= -->
+
+    <!-- MAIN -->
+
+    <!-- ========================================================= -->
+
+    <main class="min-h-screen lg:ml-72">
+
+
+        <div class="mx-auto max-w-[1600px] p-4 sm:p-6 lg:p-8">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="mb-6 flex flex-col gap-4
+               sm:flex-row sm:items-center
+               sm:justify-between">
+
+
+                <div>
+
+                    <div class="flex items-center gap-2
+                       text-sm text-slate-500">
+
+                        <span>Shop</span>
+
+                        <i data-lucide="chevron-right" class="h-4 w-4">
+                        </i>
+
+                        <span class="font-medium text-brand-700">
+                            My Products
+                        </span>
+
+                    </div>
+
+
+                    <h1 class="mt-1 text-2xl font-bold
+                       text-slate-900">
+
+                        My Products
+
+                    </h1>
+
+
+                    <p class="mt-1 text-sm text-slate-500">
+
+                        Manage the products in your shop.
+
+                    </p>
+
+                </div>
+
+
+                <!-- ADD PRODUCT -->
+
+                <a href="{% url 'add_product' %}" class="inline-flex items-center
+                   justify-center gap-2 rounded-xl
+                   bg-brand-700 px-5 py-3
+                   text-sm font-semibold text-white
+                   shadow-lg shadow-brand-900/20
+                   transition hover:bg-brand-600">
+
+                    <i data-lucide="plus" class="h-4 w-4"></i>
+
+                    Add Product
+
+                </a>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- MESSAGES -->
+            <!-- ================================================= -->
+
+            {% if messages %}
+
+            <div class="mb-6 space-y-3">
+
+                {% for message in messages %}
+
+                <div class="{% if message.tags == 'error' %}
+                border-red-200 bg-red-50 text-red-700
+            {% else %}
+                border-brand-200 bg-brand-50 text-brand-800
+            {% endif %}
+            flex items-center gap-3 rounded-xl border
+            px-4 py-3 text-sm">
+
+                    {% if message.tags == "error" %}
+
+                    <i data-lucide="circle-alert" class="h-5 w-5">
+                    </i>
+
+                    {% else %}
+
+                    <i data-lucide="circle-check" class="h-5 w-5">
+                    </i>
+
+                    {% endif %}
+
+                    {{ message }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+
+
+            <!-- ================================================= -->
+            <!-- PRODUCT COUNT -->
+            <!-- ================================================= -->
+
+            <div class="mb-6 flex items-center gap-3 rounded-2xl
+               border border-brand-100 bg-white
+               px-5 py-4 shadow-sm">
+
+                <div class="flex h-10 w-10 items-center
+                   justify-center rounded-xl
+                   bg-brand-50 text-brand-700">
+
+                    <i data-lucide="package" class="h-5 w-5"></i>
+
+                </div>
+
+
+                <div>
+
+                    <p class="text-xs text-slate-500">
+                        Total Products
+                    </p>
+
+                    <p class="text-lg font-bold text-slate-900">
+
+                        {{ products|length }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- PRODUCTS -->
+            <!-- ================================================= -->
+
+            {% if products %}
+
+            <div class="grid grid-cols-1 gap-6
+               sm:grid-cols-2
+               xl:grid-cols-3
+               2xl:grid-cols-4">
+
+
+                {% for product in products %}
+
+
+                <!-- PRODUCT CARD -->
+
+                <div class="group overflow-hidden rounded-2xl
+                   border border-brand-100 bg-white
+                   shadow-sm transition duration-300
+                   hover:-translate-y-1 hover:shadow-xl">
+
+
+                    <!-- IMAGE -->
+
+                    <div class="relative h-56 overflow-hidden
+                       bg-brand-50">
+
+                        {% if product.image %}
+
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover
+                           transition duration-500
+                           group-hover:scale-105">
+
+                        {% else %}
+
+                        <div class="flex h-full flex-col
+                           items-center justify-center
+                           bg-gradient-to-br
+                           from-brand-50 to-brand-100
+                           text-brand-400">
+
+                            <i data-lucide="image-off" class="h-10 w-10">
+                            </i>
+
+                            <p class="mt-2 text-sm">
+                                No Image
+                            </p>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <!-- PRICE -->
+
+                        <div class="absolute right-3 top-3
+                           rounded-full bg-white/95
+                           px-3 py-1.5 text-sm
+                           font-bold text-brand-700
+                           shadow-md">
+
+                            ₹{{ product.price }}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PRODUCT DETAILS -->
+
+                    <div class="p-5">
+
+
+                        <h3 class="truncate text-lg font-bold
+                           text-slate-900" title="{{ product.name }}">
+
+                            {{ product.name }}
+
+                        </h3>
+
+
+                        <p class="mt-2 h-10 overflow-hidden
+                           text-sm leading-5
+                           text-slate-500">
+
+                            {{ product.description }}
+
+                        </p>
+
+
+                        <!-- CATEGORY / BRAND -->
+
+                        <div class="mt-4 space-y-2">
+
+
+                            {% if product.category %}
+
+                            <div class="flex items-center gap-2
+                               text-xs text-slate-500">
+
+                                <i data-lucide="layers" class="h-4 w-4 text-brand-600">
+                                </i>
+
+                                {{ product.category.name }}
+
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if product.brand %}
+
+                            <div class="flex items-center gap-2
+                               text-xs text-slate-500">
+
+                                <i data-lucide="tag" class="h-4 w-4 text-brand-600">
+                                </i>
+
+                                {{ product.brand.name }}
+
+                            </div>
+
+                            {% endif %}
+
+
+                            <div class="flex items-center gap-2
+                               text-xs text-slate-400">
+
+                                <i data-lucide="calendar" class="h-4 w-4">
+                                </i>
+
+                                {{ product.created_at|date:"d M Y" }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="my-4 border-t border-brand-100">
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="grid grid-cols-2 gap-3">
+
+
+                            <!-- EDIT -->
+
+                            <a href="{% url 'edit_product' product.id %}" class="inline-flex items-center
+                               justify-center gap-2 rounded-xl
+                               bg-brand-50 px-3 py-2.5
+                               text-sm font-semibold
+                               text-brand-700
+                               transition hover:bg-brand-700
+                               hover:text-white">
+
+                                <i data-lucide="pencil" class="h-4 w-4">
+                                </i>
+
+                                Edit
+
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <a href="{% url 'delete_product' product.id %}" onclick="return confirm(
+                            'Are you sure you want to delete this product?'
+                        );" class="inline-flex items-center
+                               justify-center gap-2 rounded-xl
+                               bg-red-50 px-3 py-2.5
+                               text-sm font-semibold
+                               text-red-600
+                               transition hover:bg-red-600
+                               hover:text-white">
+
+                                <i data-lucide="trash-2" class="h-4 w-4">
+                                </i>
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- ================================================= -->
+            <!-- EMPTY PRODUCTS -->
+            <!-- ================================================= -->
+
+            <div class="rounded-3xl border border-dashed
+               border-brand-200 bg-white
+               px-6 py-16 text-center shadow-sm">
+
+
+                <div class="mx-auto flex h-20 w-20
+                   items-center justify-center
+                   rounded-3xl bg-brand-50
+                   text-brand-700">
+
+                    <i data-lucide="package-open" class="h-10 w-10">
+                    </i>
+
+                </div>
+
+
+                <h3 class="mt-6 text-xl font-bold
+                   text-slate-900">
+
+                    No Products Yet
+
+                </h3>
+
+
+                <p class="mx-auto mt-2 max-w-md
+                   text-sm leading-6 text-slate-500">
+
+                    You haven't added any products yet.
+
+                </p>
+
+
+                <a href="{% url 'add_product' %}" class="mt-6 inline-flex items-center
+                   gap-2 rounded-xl bg-brand-700
+                   px-5 py-3 text-sm font-semibold
+                   text-white shadow-lg
+                   transition hover:bg-brand-600">
+
+                    <i data-lucide="plus" class="h-5 w-5"></i>
+
+                    Add Your First Product
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+
+
+            <!-- FOOTER -->
+
+            <footer class="py-8 text-center">
+
+                <p class="text-xs text-slate-400">
+                    © 2026 MiniShop
+                </p>
+
+            </footer>
+
+        </div>
+        ```
+
+    </main>
+
+    <script>
+
+        function toggleMobileMenu() {
+
+            const menu =
+                document.getElementById("mobileMenu");
+
+            if (menu) {
+                menu.classList.toggle("hidden");
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                lucide.createIcons();
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MiniShop - Orders</title>
+
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <!-- Tailwind -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        sans: [
+                            'Inter',
+                            'sans-serif'
+                        ]
+
+                    },
+
+                    colors: {
+
+                        sage: {
+
+                            50: '#f4f7f4',
+
+                            100: '#e3eae3',
+
+                            200: '#c5d5c3',
+
+                            300: '#a3b899',
+
+                            600: '#4a6042',
+
+                            800: '#212f1f',
+
+                            900: '#172215',
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+</head>
+
+
+<body class="bg-[#f8f9fa]
+             min-h-screen
+             font-sans
+             text-gray-900
+             flex
+             flex-col">
+
+
+    <!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+    <header class="sticky top-0
+               z-50
+               bg-white/90
+               backdrop-blur-md
+               border-b
+               border-gray-200">
+
+        <div class="max-w-7xl
+                mx-auto
+                px-6
+                h-16
+                flex
+                items-center
+                justify-between">
+
+
+            <!-- LOGO -->
+
+            <a href="{% url 'user_home' %}" class="flex
+                  items-center
+                  gap-2.5
+                  font-semibold
+                  text-gray-900">
+
+
+                <span class="w-8 h-8
+                         rounded-xl
+                         bg-sage-800
+                         text-white
+                         flex
+                         items-center
+                         justify-center
+                         font-bold">
+
+                    M
+
+                </span>
+
+
+                MiniShop
+
+            </a>
+
+
+
+            <!-- NAVIGATION -->
+
+            <nav class="hidden md:flex
+                    items-center
+                    gap-8
+                    text-xs
+                    font-medium">
+
+
+                <a href="{% url 'user_home' %}" class="text-gray-600
+                      hover:text-sage-800">
+
+                    Home
+
+                </a>
+
+
+                <a href="{% url 'user_products' %}" class="text-gray-600
+                      hover:text-sage-800">
+
+                    Products
+
+                </a>
+
+
+                <a href="{% url 'profile' %}" class="text-gray-600
+                      hover:text-sage-800">
+
+                    Profile
+
+                </a>
+
+
+                <a href="{% url 'orders' %}" class="text-sage-800
+                      font-semibold">
+
+                    Orders
+
+                </a>
+
+            </nav>
+
+
+
+            <!-- LOGOUT -->
+
+            <a href="{% url 'logout' %}" class="bg-sage-800
+                  hover:bg-sage-900
+                  text-white
+                  text-xs
+                  px-4
+                  py-2
+                  rounded-xl">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+     MAIN
+===================================================== -->
+
+    <main class="max-w-6xl
+             mx-auto
+             px-6
+             py-12
+             flex-1
+             w-full">
+
+
+        <!-- TITLE -->
+
+        <div class="text-center mb-10">
+
+            <p class="text-sage-600
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-wider">
+
+                Account
+
+            </p>
+
+
+            <h1 class="text-3xl
+                   font-semibold
+                   text-gray-900
+                   mt-2">
+
+                My Orders
+
+            </h1>
+
+
+            <p class="text-sm
+                  text-gray-500
+                  mt-2">
+
+                View and track all your orders.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- ORDERS -->
+
+        {% if orders %}
+
+
+        <div class="space-y-5">
+
+
+            {% for order in orders %}
+
+
+            <!-- ORDER CARD -->
+
+            <div class="bg-white
+                    rounded-2xl
+                    border
+                    border-gray-100
+                    shadow-sm
+                    p-6
+                    hover:shadow-md
+                    transition">
+
+
+                <div class="flex
+                        flex-col
+                        sm:flex-row
+                        justify-between
+                        gap-5">
+
+
+                    <!-- ORDER INFORMATION -->
+
+                    <div>
+
+
+                        <h2 class="text-lg
+                               font-semibold
+                               text-gray-900">
+
+                            Order #{{ order.id }}
+
+                        </h2>
+
+
+                        <p class="text-xs
+                              text-gray-500
+                              mt-2">
+
+                            Order Date:
+                            {{ order.created_at|date:"d M Y, h:i A" }}
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- PRICE / STATUS -->
+
+                    <div class="sm:text-right">
+
+
+                        <p class="text-xl
+                              font-bold
+                              text-sage-800">
+
+                            ₹{{ order.total }}
+
+                        </p>
+
+
+                        {% if order.status == "Delivered" %}
+
+                        <span class="inline-block
+                                     mt-2
+                                     px-3
+                                     py-1
+                                     rounded-full
+                                     bg-green-100
+                                     text-green-700
+                                     text-xs
+                                     font-semibold">
+
+                            {{ order.status }}
+
+                        </span>
+
+                        {% elif order.status == "Cancelled" %}
+
+                        <span class="inline-block
+                                     mt-2
+                                     px-3
+                                     py-1
+                                     rounded-full
+                                     bg-red-100
+                                     text-red-700
+                                     text-xs
+                                     font-semibold">
+
+                            {{ order.status }}
+
+                        </span>
+
+                        {% elif order.status == "Shipped" %}
+
+                        <span class="inline-block
+                                     mt-2
+                                     px-3
+                                     py-1
+                                     rounded-full
+                                     bg-blue-100
+                                     text-blue-700
+                                     text-xs
+                                     font-semibold">
+
+                            {{ order.status }}
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="inline-block
+                                     mt-2
+                                     px-3
+                                     py-1
+                                     rounded-full
+                                     bg-yellow-100
+                                     text-yellow-700
+                                     text-xs
+                                     font-semibold">
+
+                            {{ order.status }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- NO ORDERS -->
+
+        <div class="bg-white
+                rounded-2xl
+                border
+                border-gray-100
+                shadow-sm
+                p-12
+                text-center">
+
+
+            <div class="text-6xl mb-5">
+
+                📦
+
+            </div>
+
+
+            <h2 class="text-2xl
+                   font-semibold
+                   text-gray-900">
+
+                No Orders Yet
+
+            </h2>
+
+
+            <p class="text-sm
+                  text-gray-500
+                  mt-2
+                  mb-7">
+
+                You haven't placed any orders yet.
+
+            </p>
+
+
+            <a href="{% url 'user_products' %}" class="inline-block
+                  bg-sage-800
+                  hover:bg-sage-900
+                  text-white
+                  text-xs
+                  font-medium
+                  px-6
+                  py-3
+                  rounded-xl
+                  transition">
+
+                Start Shopping
+
+            </a>
+
+        </div>
+
+
+        {% endif %}
+
+
+
+        <!-- BACK -->
+
+        <div class="text-center mt-8">
+
+
+            <a href="{% url 'user_home' %}" class="text-sage-800
+                  text-xs
+                  font-semibold
+                  hover:underline">
+
+                ← Back to Home
+
+            </a>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+
+    <footer class="bg-white
+               border-t
+               border-gray-200
+               py-8">
+
+
+        <div class="max-w-7xl
+                mx-auto
+                px-6
+                text-center">
+
+
+            <p class="text-xs
+                  text-gray-400">
+
+                © 2026 MiniShop.
+                All Rights Reserved.
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

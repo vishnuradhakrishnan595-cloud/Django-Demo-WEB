@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product - MiniShop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: Inter, Arial, sans-serif; }
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+        .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+    <aside class="fixed left-0 top-0 z-50 hidden h-screen w-72 flex-col bg-gradient-to-b from-slate-950 via-blue-950 to-indigo-950 text-white shadow-2xl lg:flex">
+        <div class="px-6 pb-6 pt-7">
+            <div class="flex items-center gap-3">
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-lg shadow-blue-500/30">
+                    <i data-lucide="shopping-bag" class="h-6 w-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">MiniShop</h1>
+                    <p class="text-xs text-blue-200">Seller Dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mx-4 mb-6 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+            <div class="flex items-center gap-3">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white">{{ user.name|first|upper }}</div>
+                <div class="min-w-0">
+                    <p class="truncate text-sm font-semibold">{{ user.name }}</p>
+                    <p class="truncate text-xs text-slate-300">{{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-scroll flex-1 overflow-y-auto px-4">
+            <p class="mb-3 px-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Main Menu</p>
+
+            <a href="{% url 'shop_home' %}" class="group mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white">
+                <i data-lucide="layout-dashboard" class="h-5 w-5 transition group-hover:scale-110"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{% url 'shop_products' %}" class="group mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white">
+                <i data-lucide="package" class="h-5 w-5 transition group-hover:scale-110"></i>
+                <span>My Products</span>
+            </a>
+
+            <a href="{% url 'add_product' %}" class="group mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white">
+                <i data-lucide="plus-circle" class="h-5 w-5 transition group-hover:scale-110"></i>
+                <span>Add Product</span>
+            </a>
+
+            <a href="{% url 'shop_orders' %}" class="group mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white">
+                <i data-lucide="shopping-cart" class="h-5 w-5 transition group-hover:scale-110"></i>
+                <span>Orders</span>
+                <span class="ml-auto rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-slate-300">0</span>
+            </a>
+
+            <div class="my-6 border-t border-white/10"></div>
+
+            <p class="mb-3 px-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Account</p>
+            <a href="#" class="group mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white">
+                <i data-lucide="user" class="h-5 w-5"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="#" class="group mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white">
+                <i data-lucide="settings" class="h-5 w-5"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="p-4">
+            <a href="{% url 'logout' %}" class="flex items-center gap-3 rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-3 font-medium text-red-300 transition hover:bg-red-500/20 hover:text-red-200">
+                <i data-lucide="log-out" class="h-5 w-5"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <header class="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200 bg-white/90 px-5 py-4 backdrop-blur lg:hidden">
+        <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+                <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+            </div>
+            <span class="font-bold text-slate-900">MiniShop</span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="rounded-xl bg-slate-100 p-2 text-slate-700 hover:bg-slate-200">
+            <i data-lucide="menu" class="h-6 w-6"></i>
+        </button>
+    </header>
+
+    <div id="mobileMenu" class="fixed inset-0 z-50 hidden lg:hidden">
+        <div onclick="toggleMobileMenu()" class="absolute inset-0 bg-black/50"></div>
+        <aside class="relative h-full w-72 bg-gradient-to-b from-slate-950 to-indigo-950 text-white shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-6">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600">
+                        <i data-lucide="shopping-bag"></i>
+                    </div>
+                    <span class="text-xl font-bold">MiniShop</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="rounded-lg p-2 hover:bg-white/10">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <nav class="px-4">
+                <a href="{% url 'shop_home' %}" class="mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 hover:bg-white/10"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+                <a href="{% url 'shop_products' %}" class="mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 hover:bg-white/10"><i data-lucide="package"></i>My Products</a>
+                <a href="{% url 'add_product' %}" class="mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 hover:bg-white/10"><i data-lucide="plus-circle"></i>Add Product</a>
+                <a href="{% url 'shop_orders' %}" class="mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 hover:bg-white/10"><i data-lucide="shopping-cart"></i>Orders</a>
+                <div class="my-5 border-t border-white/10"></div>
+                <a href="{% url 'logout' %}" class="flex items-center gap-3 rounded-xl bg-red-500/10 px-4 py-3 text-red-300"><i data-lucide="log-out"></i>Logout</a>
+            </nav>
+        </aside>
+    </div>
+
+    <main class="min-h-screen lg:ml-72">
+        <div class="mx-auto max-w-[1600px] p-4 sm:p-6 lg:p-8">
+            <div class="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <div class="flex items-center gap-2 text-sm text-slate-500">
+                        <span>Shop</span>
+                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
+                        <span class="text-blue-600">Edit Product</span>
+                    </div>
+                    <h1 class="mt-1 text-2xl font-bold text-slate-900">Edit Product</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="rounded-xl border border-slate-200 bg-white p-3 text-slate-500 transition hover:bg-slate-50 hover:text-blue-600"><i data-lucide="bell" class="h-5 w-5"></i></button>
+                    <div class="hidden h-10 w-px bg-slate-200 sm:block"></div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 font-bold text-white">{{ user.name|first|upper }}</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-slate-900">{{ user.name }}</p>
+                            <p class="text-xs text-slate-500">Shop Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+                <div class="mb-6 flex items-center justify-between gap-3 border-b border-slate-200 pb-5">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">Update Product</h2>
+                        <p class="mt-1 text-sm text-slate-500">Edit the current product details below.</p>
+                    </div>
+                    <div class="rounded-xl bg-indigo-50 p-3 text-indigo-600"><i data-lucide="pencil" class="h-6 w-6"></i></div>
+                </div>
+
+                {% if messages %}
+                    <div class="mb-6 space-y-3">
+                        {% for message in messages %}
+                            <div class="rounded-xl border px-4 py-3 text-sm {% if message.tags == 'error' %}border-red-200 bg-red-50 text-red-700{% else %}border-emerald-200 bg-emerald-50 text-emerald-700{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="mb-6 rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+                    Editing product: <span class="font-semibold">{{ product.name }}</span>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="name" class="mb-2 block text-sm font-semibold text-slate-700">Product Name <span class="text-red-500">*</span></label>
+                        <input id="name" type="text" name="name" value="{{ product.name }}" required class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100" placeholder="Enter product name">
+                    </div>
+
+                    <div>
+                        <label for="description" class="mb-2 block text-sm font-semibold text-slate-700">Description <span class="text-red-500">*</span></label>
+                        <textarea id="description" name="description" required rows="5" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100" placeholder="Describe your product">{{ product.description }}</textarea>
+                    </div>
+
+                    <div>
+                        <label for="price" class="mb-2 block text-sm font-semibold text-slate-700">Price <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <span class="pointer-events-none absolute left-4 top-3.5 text-lg font-semibold text-slate-500">?</span>
+                            <input id="price" type="number" name="price" min="0.01" step="0.01" value="{{ product.price }}" required class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100" placeholder="Enter product price">
+                        </div>
+                    </div>
+
+                    {% if product.image %}
+                        <div>
+                            <p class="mb-2 text-sm font-semibold text-slate-700">Current Image</p>
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-32 w-32 rounded-2xl object-cover border border-slate-200">
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <label for="image" class="mb-2 block text-sm font-semibold text-slate-700">Change Image</label>
+                        <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center">
+                            <div class="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-indigo-600"><i data-lucide="image" class="h-6 w-6"></i></div>
+                            <p class="text-sm font-medium text-slate-700">Upload new product image</p>
+                            <p class="mt-1 text-xs text-slate-500">Leave empty to keep the current image</p>
+                            <input id="image" type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="mt-4 block w-full text-sm text-slate-600 file:mr-4 file:rounded-xl file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-3 pt-2 sm:flex-row">
+                        <a href="{% url 'shop_products' %}" class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Cancel</a>
+                        <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500">Save Changes</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

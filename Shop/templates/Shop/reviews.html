@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MiniShop Seller Reviews">
+
+    <title>Reviews — MiniShop</title>
+
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <!-- Google Font -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #f6f7f4;
+            color: #172019;
+        }
+
+        /* ============================
+           SIDEBAR
+        ============================ */
+
+        .sidebar {
+            width: 303px;
+            background:
+                linear-gradient(
+                    180deg,
+                    #101a11 0%,
+                    #1b291a 100%
+                );
+        }
+
+        .main-content {
+            margin-left: 303px;
+        }
+
+
+        /* ============================
+           REVIEW CARD
+        ============================ */
+
+        .review-card {
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 35px rgba(20, 35, 20, 0.08);
+        }
+
+
+        /* ============================
+           REPLY TEXTAREA
+        ============================ */
+
+        .reply-box {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .reply-box:focus {
+            outline: none;
+
+            border-color: #506b42;
+
+            box-shadow:
+                0 0 0 3px rgba(80, 107, 66, 0.12);
+        }
+
+
+        /* ============================
+           GREEN HERO
+        ============================ */
+
+        .hero {
+            background:
+                radial-gradient(
+                    circle at 100% 0%,
+                    rgba(122, 151, 103, 0.28),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    110deg,
+                    #263c25,
+                    #3e5835,
+                    #30472b
+                );
+        }
+
+
+        /* ============================
+           SCROLLBAR
+        ============================ */
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f3;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #b8c1b3;
+            border-radius: 10px;
+        }
+
+
+        /* ============================
+           MOBILE
+        ============================ */
+
+        @media (max-width: 1024px) {
+
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar
+              fixed
+              left-0
+              top-0
+              bottom-0
+              z-50
+              px-5
+              py-6
+              flex
+              flex-col
+              text-white
+              overflow-y-auto">
+
+
+    <!-- ============================
+         LOGO
+    ============================= -->
+
+    <div class="flex items-center gap-3 px-2 mb-8">
+
+        <div class="w-11 h-11
+                    rounded-xl
+                    bg-[#789461]
+                    flex
+                    items-center
+                    justify-center
+                    shadow-sm">
+
+            <i data-lucide="shopping-bag"
+               class="w-5 h-5">
+            </i>
+
+        </div>
+
+
+        <div>
+
+            <h1 class="text-xl
+                       font-semibold
+                       tracking-tight">
+
+                MiniShop
+
+            </h1>
+
+
+            <p class="text-[11px]
+                      text-white/55
+                      -mt-0.5">
+
+                Seller Dashboard
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================
+         SHOP PROFILE
+    ============================= -->
+
+    <div class="rounded-2xl
+                border
+                border-white/[0.08]
+                bg-white/[0.09]
+                p-4
+                mb-7">
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-11 h-11
+                        rounded-full
+                        bg-[#789461]
+                        flex
+                        items-center
+                        justify-center
+                        font-semibold
+                        text-white">
+
+                {% if user.name %}
+
+                    {{ user.name|first|upper }}
+
+                {% else %}
+
+                    S
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="min-w-0">
+
+                <p class="font-semibold
+                          text-sm
+                          truncate">
+
+                    {% if user.name %}
+
+                        {{ user.name }}
+
+                    {% else %}
+
+                        Shop Admin
+
+                    {% endif %}
+
+                </p>
+
+
+                <p class="text-xs
+                          text-white/50
+                          truncate">
+
+                    {{ user.email|default:"shop@gmail.com" }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================
+         MAIN MENU TITLE
+    ============================= -->
+
+    <p class="px-3
+              mb-3
+              text-[11px]
+              font-semibold
+              tracking-[0.16em]
+              text-white/45">
+
+        MAIN MENU
+
+    </p>
+
+
+
+    <!-- ============================
+         NAVIGATION
+    ============================= -->
+
+    <nav class="space-y-1.5">
+
+
+        <!-- DASHBOARD -->
+
+        <a href="{% url 'shop_home' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <i data-lucide="layout-dashboard"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+
+        <!-- PRODUCTS -->
+
+        <a href="{% url 'shop_products' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <i data-lucide="package"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>My Products</span>
+
+        </a>
+
+
+
+        <!-- ADD PRODUCT -->
+
+        <a href="{% url 'shop_home' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <i data-lucide="circle-plus"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>Add Product</span>
+
+        </a>
+
+
+
+        <!-- CATEGORIES -->
+
+        <a href="{% url 'shop_home' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <i data-lucide="layers-3"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>Categories</span>
+
+        </a>
+
+
+
+        <!-- BRANDS -->
+
+        <a href="{% url 'shop_home' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <i data-lucide="tag"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>Brands</span>
+
+        </a>
+
+
+
+        <!-- ORDERS -->
+
+        <a href="{% url 'shop_orders' %}"
+           class="flex
+                  items-center
+                  justify-between
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <div class="flex items-center gap-3">
+
+                <i data-lucide="shopping-cart"
+                   class="w-[18px] h-[18px]">
+                </i>
+
+                <span>Orders</span>
+
+            </div>
+
+
+            {% if total_orders %}
+
+                <span class="min-w-5 h-5
+                             px-1.5
+                             rounded-full
+                             bg-white/10
+                             text-[10px]
+                             flex
+                             items-center
+                             justify-center">
+
+                    {{ total_orders }}
+
+                </span>
+
+            {% endif %}
+
+        </a>
+
+
+
+        <!-- REVIEWS ACTIVE -->
+
+        <a href="{% url 'shop_reviews' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  font-medium
+                  text-white
+                  bg-[#536f43]
+                  shadow-sm">
+
+            <i data-lucide="star"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>Reviews</span>
+
+        </a>
+
+    </nav>
+
+
+
+    <!-- ============================
+         ACCOUNT
+    ============================= -->
+
+    <div class="mt-8
+                pt-6
+                border-t
+                border-white/[0.08]">
+
+        <p class="px-3
+                  mb-3
+                  text-[11px]
+                  font-semibold
+                  tracking-[0.16em]
+                  text-white/45">
+
+            ACCOUNT
+
+        </p>
+
+
+        <!-- PROFILE -->
+
+        <a href="{% url 'shop_home' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  rounded-xl
+                  text-sm
+                  text-white/75
+                  hover:bg-white/[0.08]
+                  hover:text-white
+                  transition">
+
+            <i data-lucide="user-round"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>My Profile</span>
+
+        </a>
+
+
+        <!-- LOGOUT -->
+
+        <a href="{% url 'shop_home' %}"
+           class="flex
+                  items-center
+                  gap-3
+                  px-4
+                  py-3
+                  mt-2
+                  rounded-xl
+                  text-sm
+                  text-[#e3a99b]
+                  bg-[#604536]/40
+                  hover:bg-[#604536]/60
+                  transition">
+
+            <i data-lucide="log-out"
+               class="w-[18px] h-[18px]">
+            </i>
+
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="main-content
+             min-h-screen
+             px-5
+             sm:px-8
+             lg:px-10
+             py-6">
+
+
+    <div class="max-w-[1400px] mx-auto">
+
+
+        <!-- =================================================
+             TOP HEADER
+        ================================================= -->
+
+        <header class="bg-white
+                       rounded-2xl
+                       border
+                       border-black/[0.05]
+                       px-5
+                       sm:px-7
+                       py-4
+                       mb-6
+                       shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+
+
+            <div class="flex
+                        items-center
+                        justify-between
+                        gap-5">
+
+
+                <!-- LEFT -->
+
+                <div>
+
+                    <div class="flex
+                                items-center
+                                gap-2
+                                text-xs
+                                text-[#899087]
+                                mb-1">
+
+                        <span>Shop</span>
+
+                        <i data-lucide="chevron-right"
+                           class="w-3.5 h-3.5">
+                        </i>
+
+                        <span class="text-[#536052]">
+                            Reviews
+                        </span>
+
+                    </div>
+
+
+                    <h1 class="text-2xl
+                               sm:text-3xl
+                               font-semibold
+                               tracking-tight
+                               text-[#172019]">
+
+                        Reviews
+
+                    </h1>
+
+                </div>
+
+
+
+                <!-- RIGHT -->
+
+                <div class="flex
+                            items-center
+                            gap-3">
+
+
+                    <!-- NOTIFICATION -->
+
+                    <button
+                        type="button"
+                        class="w-11 h-11
+                               rounded-xl
+                               border
+                               border-black/[0.06]
+                               bg-white
+                               flex
+                               items-center
+                               justify-center
+                               text-[#657064]
+                               hover:bg-[#f5f6f3]
+                               transition">
+
+                        <i data-lucide="bell"
+                           class="w-5 h-5">
+                        </i>
+
+                    </button>
+
+
+                    <div class="hidden
+                                sm:block
+                                w-px
+                                h-8
+                                bg-black/[0.08]">
+                    </div>
+
+
+                    <!-- USER -->
+
+                    <div class="flex
+                                items-center
+                                gap-3">
+
+                        <div class="w-11 h-11
+                                    rounded-full
+                                    bg-[#789461]
+                                    text-white
+                                    flex
+                                    items-center
+                                    justify-center
+                                    font-semibold">
+
+                            {% if user.name %}
+
+                                {{ user.name|first|upper }}
+
+                            {% else %}
+
+                                S
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="hidden md:block">
+
+                            <p class="text-sm
+                                      font-semibold">
+
+                                {% if user.name %}
+
+                                    {{ user.name }}
+
+                                {% else %}
+
+                                    Shop Admin
+
+                                {% endif %}
+
+                            </p>
+
+
+                            <p class="text-xs
+                                      text-[#8a9188]">
+
+                                Shop Owner
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             HERO
+        ================================================= -->
+
+        <section class="hero
+                        relative
+                        overflow-hidden
+                        rounded-[24px]
+                        px-7
+                        sm:px-9
+                        py-8
+                        sm:py-10
+                        mb-6
+                        text-white
+                        shadow-[0_12px_30px_rgba(42,65,37,0.14)]">
+
+
+            <!-- Decorative circles -->
+
+            <div class="absolute
+                        -right-10
+                        -top-16
+                        w-64
+                        h-64
+                        rounded-full
+                        border
+                        border-white/[0.06]">
+            </div>
+
+
+            <div class="absolute
+                        right-20
+                        -bottom-28
+                        w-64
+                        h-64
+                        rounded-full
+                        border
+                        border-white/[0.05]">
+            </div>
+
+
+            <div class="relative z-10">
+
+
+                <div class="inline-flex
+                            items-center
+                            gap-2
+                            px-3
+                            py-1.5
+                            rounded-full
+                            bg-white/10
+                            border
+                            border-white/10
+                            text-xs
+                            text-white/80
+                            mb-4">
+
+                    <i data-lucide="sparkles"
+                       class="w-3.5 h-3.5">
+                    </i>
+
+                    Customer Feedback
+
+                </div>
+
+
+                <div class="flex
+                            flex-col
+                            lg:flex-row
+                            lg:items-center
+                            lg:justify-between
+                            gap-7">
+
+
+                    <div>
+
+                        <h2 class="text-3xl
+                                   sm:text-4xl
+                                   font-semibold
+                                   tracking-tight">
+
+                            Customer Reviews
+                            <span class="inline-block">👋</span>
+
+                        </h2>
+
+
+                        <p class="mt-3
+                                  max-w-2xl
+                                  text-sm
+                                  sm:text-base
+                                  leading-6
+                                  text-white/70">
+
+                            See what customers think about your
+                            products, understand their feedback,
+                            and respond directly from your seller
+                            dashboard.
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- REVIEW TOTAL -->
+
+                    <div class="shrink-0
+                                rounded-2xl
+                                bg-white/10
+                                border
+                                border-white/10
+                                px-6
+                                py-4
+                                min-w-[160px]">
+
+                        <p class="text-xs
+                                  text-white/55">
+
+                            Total Reviews
+
+                        </p>
+
+
+                        <p class="text-3xl
+                                  font-semibold
+                                  mt-1">
+
+                            {{ total_reviews }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STAT CARDS
+        ================================================= -->
+
+        <div class="grid
+                    grid-cols-1
+                    sm:grid-cols-2
+                    lg:grid-cols-3
+                    gap-4
+                    mb-6">
+
+
+            <!-- TOTAL REVIEWS -->
+
+            <div class="bg-white
+                        rounded-2xl
+                        border
+                        border-black/[0.05]
+                        p-5
+                        shadow-[0_3px_12px_rgba(0,0,0,0.025)]">
+
+                <div class="flex
+                            items-start
+                            justify-between">
+
+
+                    <div>
+
+                        <p class="text-xs
+                                  text-[#8a9288]">
+
+                            Total Reviews
+
+                        </p>
+
+
+                        <p class="text-3xl
+                                  font-semibold
+                                  mt-2
+                                  text-[#172019]">
+
+                            {{ total_reviews }}
+
+                        </p>
+
+
+                        <p class="text-xs
+                                  text-[#8a9288]
+                                  mt-2">
+
+                            Customer feedback received
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="w-11 h-11
+                                rounded-xl
+                                bg-[#eef4ea]
+                                text-[#5d794f]
+                                flex
+                                items-center
+                                justify-center">
+
+                        <i data-lucide="message-square"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AVERAGE RATING -->
+
+            <div class="bg-white
+                        rounded-2xl
+                        border
+                        border-black/[0.05]
+                        p-5
+                        shadow-[0_3px_12px_rgba(0,0,0,0.025)]">
+
+                <div class="flex
+                            items-start
+                            justify-between">
+
+
+                    <div>
+
+                        <p class="text-xs
+                                  text-[#8a9288]">
+
+                            Average Rating
+
+                        </p>
+
+
+                        <p class="text-3xl
+                                  font-semibold
+                                  mt-2
+                                  text-[#172019]">
+
+                            {{ average_rating|default:"0.0" }}
+
+                        </p>
+
+
+                        <div class="flex
+                                    items-center
+                                    gap-1
+                                    mt-2">
+
+                            {% for i in "12345" %}
+
+                                <i data-lucide="star"
+                                   class="w-3.5 h-3.5
+                                          fill-current
+                                          text-[#789461]">
+                                </i>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="w-11 h-11
+                                rounded-xl
+                                bg-[#f5f1e7]
+                                text-[#9b804e]
+                                flex
+                                items-center
+                                justify-center">
+
+                        <i data-lucide="star"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SHOP STATUS -->
+
+            <div class="bg-[#243522]
+                        text-white
+                        rounded-2xl
+                        p-5
+                        shadow-[0_8px_20px_rgba(35,53,34,0.12)]">
+
+                <div class="flex
+                            items-start
+                            justify-between">
+
+
+                    <div>
+
+                        <p class="text-xs
+                                  text-white/55">
+
+                            Shop Status
+
+                        </p>
+
+
+                        <p class="text-3xl
+                                  font-semibold
+                                  mt-2">
+
+                            Active
+
+                        </p>
+
+
+                        <div class="flex
+                                    items-center
+                                    gap-2
+                                    mt-3">
+
+                            <span class="w-2
+                                         h-2
+                                         rounded-full
+                                         bg-[#9dcc82]">
+                            </span>
+
+                            <span class="text-xs
+                                         text-white/65">
+
+                                Your shop is active
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="w-11 h-11
+                                rounded-xl
+                                bg-white/10
+                                flex
+                                items-center
+                                justify-center">
+
+                        <i data-lucide="shield-check"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             REVIEW SECTION HEADER
+        ================================================= -->
+
+        <div class="bg-white
+                    rounded-2xl
+                    border
+                    border-black/[0.05]
+                    px-6
+                    py-5
+                    mb-4
+                    shadow-[0_3px_12px_rgba(0,0,0,0.02)]">
+
+
+            <div class="flex
+                        flex-col
+                        sm:flex-row
+                        sm:items-center
+                        sm:justify-between
+                        gap-3">
+
+
+                <div>
+
+                    <h2 class="text-xl
+                               font-semibold
+                               tracking-tight">
+
+                        Recent Reviews
+
+                    </h2>
+
+
+                    <p class="text-xs
+                              text-[#8a9288]
+                              mt-1">
+
+                        Customer feedback for your products
+
+                    </p>
+
+                </div>
+
+
+                <div class="inline-flex
+                            items-center
+                            gap-2
+                            text-xs
+                            text-[#64705f]
+                            bg-[#eef4ea]
+                            px-3
+                            py-2
+                            rounded-full
+                            w-fit">
+
+                    <i data-lucide="message-circle"
+                       class="w-3.5 h-3.5">
+                    </i>
+
+                    {{ total_reviews }} Reviews
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MESSAGES
+        ================================================= -->
+
+        {% if messages %}
+
+            <div class="space-y-3 mb-5">
+
+                {% for message in messages %}
+
+                    <div class="flex
+                                items-center
+                                gap-3
+                                px-5
+                                py-4
+                                rounded-2xl
+                                border
+
+                                {% if message.tags == 'success' %}
+
+                                    bg-[#edf7e9]
+                                    border-[#cfe2c8]
+                                    text-[#3e6335]
+
+                                {% elif message.tags == 'error' %}
+
+                                    bg-red-50
+                                    border-red-200
+                                    text-red-800
+
+                                {% else %}
+
+                                    bg-white
+                                    border-black/[0.06]
+                                    text-[#475044]
+
+                                {% endif %}">
+
+
+                        {% if message.tags == 'success' %}
+
+                            <i data-lucide="check-circle"
+                               class="w-5 h-5 shrink-0">
+                            </i>
+
+                        {% elif message.tags == 'error' %}
+
+                            <i data-lucide="alert-circle"
+                               class="w-5 h-5 shrink-0">
+                            </i>
+
+                        {% else %}
+
+                            <i data-lucide="info"
+                               class="w-5 h-5 shrink-0">
+                            </i>
+
+                        {% endif %}
+
+
+                        <p class="text-sm">
+
+                            {{ message }}
+
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- =================================================
+             REVIEW LIST
+        ================================================= -->
+
+        {% if reviews %}
+
+            <div class="space-y-4">
+
+
+                {% for review in reviews %}
+
+                    <article class="review-card
+                                    bg-white
+                                    rounded-2xl
+                                    border
+                                    border-black/[0.05]
+                                    overflow-hidden
+                                    shadow-[0_3px_12px_rgba(0,0,0,0.025)]">
+
+
+                        <!-- ============================
+                             CUSTOMER REVIEW
+                        ============================= -->
+
+                        <div class="p-6">
+
+
+                            <div class="flex
+                                        items-start
+                                        gap-4">
+
+
+                                <!-- AVATAR -->
+
+                                <div class="w-12 h-12
+                                            rounded-full
+                                            bg-[#789461]
+                                            text-white
+                                            flex
+                                            items-center
+                                            justify-center
+                                            font-semibold
+                                            shrink-0">
+
+                                    {% if review.user.name %}
+
+                                        {{ review.user.name|first|upper }}
+
+                                    {% else %}
+
+                                        U
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- CONTENT -->
+
+                                <div class="flex-1
+                                            min-w-0">
+
+
+                                    <!-- NAME + DATE + RATING -->
+
+                                    <div class="flex
+                                                flex-col
+                                                md:flex-row
+                                                md:items-center
+                                                md:justify-between
+                                                gap-3">
+
+
+                                        <div>
+
+                                            <h3 class="font-semibold
+                                                       text-[#172019]">
+
+                                                {{ review.user.name }}
+
+                                            </h3>
+
+
+                                            <p class="text-xs
+                                                      text-[#929990]
+                                                      mt-1">
+
+                                                Customer
+
+                                            </p>
+
+                                        </div>
+
+
+
+                                        <!-- RATING -->
+
+                                        <div class="flex
+                                                    items-center
+                                                    gap-1
+                                                    bg-[#f7f5ed]
+                                                    px-3
+                                                    py-1.5
+                                                    rounded-full
+                                                    w-fit">
+
+
+                                            {% for i in "12345" %}
+
+                                                {% if forloop.counter <= review.rating %}
+
+                                                    <i data-lucide="star"
+                                                       class="w-3.5 h-3.5
+                                                              fill-current
+                                                              text-[#a0844d]">
+                                                    </i>
+
+                                                {% else %}
+
+                                                    <i data-lucide="star"
+                                                       class="w-3.5 h-3.5
+                                                              text-[#d6d4cc]">
+                                                    </i>
+
+                                                {% endif %}
+
+                                            {% endfor %}
+
+
+                                            <span class="text-xs
+                                                         font-medium
+                                                         text-[#6d674f]
+                                                         ml-1">
+
+                                                {{ review.rating }}/5
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- PRODUCT -->
+
+                                    <div class="inline-flex
+                                                items-center
+                                                gap-2
+                                                mt-4
+                                                px-3
+                                                py-2
+                                                rounded-lg
+                                                bg-[#f4f6f2]
+                                                text-xs
+                                                font-medium
+                                                text-[#667063]">
+
+                                        <i data-lucide="package"
+                                           class="w-3.5 h-3.5">
+                                        </i>
+
+                                        {{ review.product.name }}
+
+                                    </div>
+
+
+
+                                    <!-- COMMENT -->
+
+                                    {% if review.comment %}
+
+                                        <p class="mt-4
+                                                  text-sm
+                                                  leading-6
+                                                  text-[#4c534c]">
+
+                                            “{{ review.comment }}”
+
+                                        </p>
+
+                                    {% else %}
+
+                                        <p class="mt-4
+                                                  text-sm
+                                                  italic
+                                                  text-[#999f97]">
+
+                                            No written comment.
+
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ============================
+                             SHOP REPLY
+                        ============================= -->
+
+                        <div class="border-t
+                                    border-black/[0.05]
+                                    bg-[#f8f9f7]
+                                    p-6">
+
+
+                            <div class="flex
+                                        items-center
+                                        gap-3
+                                        mb-4">
+
+
+                                <div class="w-9 h-9
+                                            rounded-full
+                                            bg-[#30472b]
+                                            text-white
+                                            flex
+                                            items-center
+                                            justify-center">
+
+                                    <i data-lucide="store"
+                                       class="w-4 h-4">
+                                    </i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <p class="text-sm
+                                              font-semibold
+                                              text-[#243022]">
+
+                                        Your Response
+
+                                    </p>
+
+
+                                    {% if review.shop_reply %}
+
+                                        <p class="text-xs
+                                                  text-[#648158]
+                                                  mt-0.5">
+
+                                            Reply already added
+
+                                        </p>
+
+                                    {% else %}
+
+                                        <p class="text-xs
+                                                  text-[#8a9188]
+                                                  mt-0.5">
+
+                                            Respond to this customer
+
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- REPLY FORM -->
+
+                            <form method="POST"
+                                  action="{% url 'reply_review' review.id %}">
+
+                                {% csrf_token %}
+
+
+                                <textarea
+                                    name="shop_reply"
+                                    maxlength="1000"
+                                    required
+                                    class="reply-box
+                                           w-full
+                                           rounded-xl
+                                           border
+                                           border-black/[0.08]
+                                           bg-white
+                                           px-4
+                                           py-3.5
+                                           text-sm
+                                           text-[#1d251e]
+                                           transition"
+                                    placeholder="Write your response...">{% if review.shop_reply %}{{ review.shop_reply }}{% endif %}</textarea>
+
+
+
+                                <div class="flex
+                                            flex-col
+                                            sm:flex-row
+                                            sm:items-center
+                                            sm:justify-between
+                                            gap-3
+                                            mt-3">
+
+
+                                    <p class="text-xs
+                                              text-[#929990]">
+
+                                        Maximum 1000 characters
+
+                                    </p>
+
+
+                                    <button
+                                        type="submit"
+                                        class="inline-flex
+                                               items-center
+                                               justify-center
+                                               gap-2
+                                               px-5
+                                               py-2.5
+                                               rounded-xl
+                                               bg-[#30472b]
+                                               text-white
+                                               text-sm
+                                               font-medium
+                                               hover:bg-[#243722]
+                                               transition
+                                               shadow-sm">
+
+
+                                        {% if review.shop_reply %}
+
+                                            <i data-lucide="save"
+                                               class="w-4 h-4">
+                                            </i>
+
+                                            Update Reply
+
+                                        {% else %}
+
+                                            <i data-lucide="send"
+                                               class="w-4 h-4">
+                                            </i>
+
+                                            Send Reply
+
+                                        {% endif %}
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+
+
+        {% else %}
+
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================= -->
+
+            <div class="bg-white
+                        rounded-2xl
+                        border
+                        border-black/[0.05]
+                        text-center
+                        px-6
+                        py-20
+                        shadow-[0_3px_12px_rgba(0,0,0,0.025)]">
+
+
+                <div class="w-16 h-16
+                            mx-auto
+                            rounded-2xl
+                            bg-[#edf3e9]
+                            text-[#617c54]
+                            flex
+                            items-center
+                            justify-center">
+
+                    <i data-lucide="message-square"
+                       class="w-7 h-7">
+                    </i>
+
+                </div>
+
+
+                <h3 class="text-2xl
+                           font-semibold
+                           mt-6
+                           text-[#172019]">
+
+                    No reviews yet
+
+                </h3>
+
+
+                <p class="text-sm
+                          text-[#8b9289]
+                          mt-2
+                          max-w-md
+                          mx-auto
+                          leading-6">
+
+                    When customers review your products,
+                    their feedback will appear here.
+
+                </p>
+
+
+                <a href="{% url 'shop_home' %}"
+                   class="inline-flex
+                          items-center
+                          gap-2
+                          mt-6
+                          px-5
+                          py-3
+                          rounded-xl
+                          bg-[#30472b]
+                          text-white
+                          text-sm
+                          font-medium
+                          hover:bg-[#243722]
+                          transition">
+
+                    <i data-lucide="arrow-left"
+                       class="w-4 h-4">
+                    </i>
+
+                    Go to Dashboard
+
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</main>
+
+
+
+<!-- =========================================================
+     LUCIDE INITIALIZATION
+========================================================= -->
+
+<script>
+
+    lucide.createIcons();
+
+</script>
+
+
+</body>
+
+</html>

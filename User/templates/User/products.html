@@ -1,0 +1,1060 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="MiniShop products">
+
+    <title>MiniShop - Products</title>
+
+
+    <!-- GOOGLE FONT -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- TAILWIND -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- TAILWIND CONFIG -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        sans: [
+                            "Inter",
+                            "sans-serif"
+                        ]
+
+                    },
+
+                    colors: {
+
+                        sage: {
+
+                            50: "#f4f7f4",
+                            100: "#e3eae3",
+                            200: "#c5d5c3",
+                            300: "#a3b899",
+                            400: "#819b77",
+                            500: "#637b5b",
+                            600: "#4a6042",
+                            700: "#35472f",
+                            800: "#212f1f",
+                            900: "#172215"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+    <style>
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        .product-card {
+
+            transition:
+                transform .3s ease,
+                box-shadow .3s ease;
+
+        }
+
+
+        .product-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 20px 45px rgba(23, 34, 21, .10);
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="bg-[#f8f9fa]
+             min-h-screen
+             font-sans
+             flex
+             flex-col">
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="sticky
+               top-0
+               z-50
+               bg-white/95
+               backdrop-blur-md
+               border-b
+               border-gray-200">
+
+    <div class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                h-16
+                flex
+                items-center
+                justify-between">
+
+
+        <!-- LOGO -->
+
+        <a href="{% url 'user_home' %}"
+           class="flex
+                  items-center
+                  gap-2.5
+                  font-semibold">
+
+            <span class="w-9
+                         h-9
+                         rounded-xl
+                         bg-sage-800
+                         text-white
+                         flex
+                         items-center
+                         justify-center
+                         font-bold">
+
+                M
+
+            </span>
+
+
+            MiniShop
+
+        </a>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="hidden
+                    md:flex
+                    items-center
+                    gap-8
+                    text-xs
+                    font-medium">
+
+            <a href="{% url 'user_home' %}"
+               class="text-gray-500
+                      hover:text-sage-800
+                      transition">
+
+                Home
+
+            </a>
+
+
+            <a href="{% url 'user_products' %}"
+               class="text-sage-800
+                      font-semibold">
+
+                Products
+
+            </a>
+
+
+            <a href="{% url 'cart' %}"
+               class="text-gray-500
+                      hover:text-sage-800">
+
+                Cart
+
+            </a>
+
+
+            <a href="{% url 'profile' %}"
+               class="text-gray-500
+                      hover:text-sage-800">
+
+                Profile
+
+            </a>
+
+
+            <a href="{% url 'orders' %}"
+               class="text-gray-500
+                      hover:text-sage-800">
+
+                Orders
+
+            </a>
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <a href="{% url 'user_logout' %}"
+           class="bg-sage-800
+                  hover:bg-sage-900
+                  text-white
+                  text-xs
+                  font-semibold
+                  px-4
+                  py-2.5
+                  rounded-xl
+                  transition">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="bg-sage-900">
+
+    <div class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                py-14">
+
+        <p class="text-sage-300
+                  text-[10px]
+                  uppercase
+                  tracking-[.3em]
+                  font-bold">
+
+            MiniShop Collection
+
+        </p>
+
+
+        <h1 class="text-3xl
+                   sm:text-5xl
+                   font-semibold
+                   text-white
+                   mt-3">
+
+            {{ page_title }}
+
+        </h1>
+
+
+        <p class="text-sm
+                  text-gray-300
+                  mt-3
+                  max-w-2xl">
+
+            {{ page_description }}
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FILTER BAR
+========================================================= -->
+
+<section class="bg-white
+                border-b
+                border-gray-200">
+
+    <div class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                py-6">
+
+
+        <!-- CATEGORY FILTER -->
+
+        <div>
+
+            <div class="flex
+                        items-center
+                        gap-2
+                        mb-3">
+
+                <span class="text-[10px]
+                             uppercase
+                             tracking-[.2em]
+                             font-bold
+                             text-gray-400">
+
+                    Categories
+
+                </span>
+
+            </div>
+
+
+            <div class="flex
+                        flex-wrap
+                        gap-2.5">
+
+
+                <!-- ALL -->
+
+                <a href="{% url 'user_products' %}"
+                   class="px-4
+                          py-2.5
+                          rounded-full
+                          text-xs
+                          font-semibold
+                          border
+                          transition
+
+                          {% if not selected_category and not selected_brand %}
+                              bg-sage-900
+                              text-white
+                              border-sage-900
+                          {% else %}
+                              bg-white
+                              text-gray-600
+                              border-gray-200
+                              hover:border-sage-300
+                              hover:bg-sage-50
+                          {% endif %}">
+
+                    All Products
+
+                </a>
+
+
+                {% for category in categories %}
+
+                <a href="{% url 'user_products' %}?category={{ category.id }}"
+                   class="px-4
+                          py-2.5
+                          rounded-full
+                          text-xs
+                          font-semibold
+                          border
+                          transition
+
+                          {% if selected_category and selected_category.id == category.id %}
+                              bg-sage-900
+                              text-white
+                              border-sage-900
+                          {% else %}
+                              bg-white
+                              text-gray-600
+                              border-gray-200
+                              hover:border-sage-300
+                              hover:bg-sage-50
+                          {% endif %}">
+
+                    {{ category.name }}
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- BRAND FILTER -->
+
+        <div class="mt-5">
+
+            <div class="flex
+                        items-center
+                        gap-2
+                        mb-3">
+
+                <span class="text-[10px]
+                             uppercase
+                             tracking-[.2em]
+                             font-bold
+                             text-gray-400">
+
+                    Brands
+
+                </span>
+
+            </div>
+
+
+            <div class="flex
+                        flex-wrap
+                        gap-2.5">
+
+
+                {% for brand in brands %}
+
+                <a href="{% url 'user_products' %}?brand={{ brand.id }}"
+                   class="px-4
+                          py-2.5
+                          rounded-full
+                          text-xs
+                          font-semibold
+                          border
+                          transition
+
+                          {% if selected_brand and selected_brand.id == brand.id %}
+                              bg-sage-100
+                              text-sage-900
+                              border-sage-300
+                          {% else %}
+                              bg-gray-50
+                              text-gray-600
+                              border-gray-100
+                              hover:bg-sage-50
+                              hover:border-sage-200
+                          {% endif %}">
+
+                    {{ brand.name }}
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVE FILTER -->
+
+        {% if selected_category or selected_brand %}
+
+        <div class="mt-5
+                    flex
+                    flex-wrap
+                    items-center
+                    gap-3">
+
+            <span class="text-[10px]
+                         uppercase
+                         tracking-wider
+                         font-bold
+                         text-gray-400">
+
+                Active filter:
+
+            </span>
+
+
+            {% if selected_category %}
+
+            <span class="inline-flex
+                         items-center
+                         gap-2
+                         px-3
+                         py-2
+                         rounded-full
+                         bg-sage-50
+                         text-sage-800
+                         text-xs
+                         font-semibold">
+
+                Category:
+                {{ selected_category.name }}
+
+            </span>
+
+            {% endif %}
+
+
+            {% if selected_brand %}
+
+            <span class="inline-flex
+                         items-center
+                         gap-2
+                         px-3
+                         py-2
+                         rounded-full
+                         bg-sage-50
+                         text-sage-800
+                         text-xs
+                         font-semibold">
+
+                Brand:
+                {{ selected_brand.name }}
+
+            </span>
+
+            {% endif %}
+
+
+            <a href="{% url 'user_products' %}"
+               class="text-xs
+                      font-semibold
+                      text-red-600
+                      hover:text-red-700">
+
+                Clear Filter
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="max-w-7xl
+             mx-auto
+             px-5
+             sm:px-8
+             py-12
+             flex-1
+             w-full">
+
+
+    <!-- MESSAGES -->
+
+    {% if messages %}
+
+    <div class="mb-8
+                space-y-3">
+
+        {% for message in messages %}
+
+        <div class="bg-green-100
+                    border
+                    border-green-200
+                    text-green-800
+                    px-5
+                    py-3
+                    rounded-xl
+                    text-sm">
+
+            {{ message }}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- RESULT COUNT -->
+
+    <div class="flex
+                items-center
+                justify-between
+                mb-7">
+
+        <div>
+
+            <p class="text-sm
+                      text-gray-500">
+
+                Showing
+
+                <span class="font-semibold
+                             text-gray-900">
+
+                    {{ products|length }}
+
+                </span>
+
+                product{{ products|length|pluralize }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PRODUCTS
+    ====================================================== -->
+
+    {% if products %}
+
+    <div class="grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-3
+                xl:grid-cols-4
+                gap-6">
+
+
+        {% for product in products %}
+
+
+        <!-- PRODUCT CARD -->
+
+        <article class="product-card
+                        bg-white
+                        rounded-3xl
+                        border
+                        border-gray-100
+                        overflow-hidden
+                        flex
+                        flex-col">
+
+
+            <!-- IMAGE -->
+
+            <div class="h-60
+                        bg-gray-100
+                        overflow-hidden
+                        relative">
+
+
+                {% if product.image %}
+
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     class="w-full
+                            h-full
+                            object-cover
+                            hover:scale-105
+                            transition
+                            duration-500">
+
+                {% else %}
+
+                <div class="w-full
+                            h-full
+                            flex
+                            items-center
+                            justify-center">
+
+                    <span class="text-6xl">
+
+                        🛍️
+
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- NEW -->
+
+                <span class="absolute
+                             top-4
+                             right-4
+                             bg-white/90
+                             backdrop-blur
+                             text-sage-800
+                             text-[10px]
+                             font-semibold
+                             px-3
+                             py-1.5
+                             rounded-full">
+
+                    New
+
+                </span>
+
+            </div>
+
+
+
+            <!-- DETAILS -->
+
+            <div class="p-6
+                        flex-1
+                        flex
+                        flex-col">
+
+
+                <!-- CATEGORY + BRAND -->
+
+                <div class="flex
+                            flex-wrap
+                            gap-2
+                            mb-3">
+
+
+                    {% if product.category %}
+
+                    <a href="{% url 'user_products' %}?category={{ product.category.id }}"
+                       class="px-2.5
+                              py-1
+                              rounded-full
+                              bg-sage-50
+                              text-sage-700
+                              text-[9px]
+                              uppercase
+                              tracking-wider
+                              font-bold
+                              hover:bg-sage-100">
+
+                        {{ product.category.name }}
+
+                    </a>
+
+                    {% endif %}
+
+
+                    {% if product.brand %}
+
+                    <a href="{% url 'user_products' %}?brand={{ product.brand.id }}"
+                       class="px-2.5
+                              py-1
+                              rounded-full
+                              bg-gray-50
+                              text-gray-600
+                              text-[9px]
+                              uppercase
+                              tracking-wider
+                              font-bold
+                              hover:bg-sage-50">
+
+                        {{ product.brand.name }}
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <h2 class="text-lg
+                           font-semibold
+                           text-gray-900">
+
+                    {{ product.name }}
+
+                </h2>
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="text-sm
+                          text-gray-500
+                          mt-2
+                          leading-relaxed
+                          line-clamp-3">
+
+                    {{ product.description }}
+
+                </p>
+
+
+                <!-- SHOP -->
+
+                <div class="mt-4
+                            text-xs
+                            text-gray-400">
+
+                    Sold by
+
+                    <span class="font-semibold
+                                 text-gray-600">
+
+                        {{ product.shop.name }}
+
+                    </span>
+
+                </div>
+
+
+
+                <!-- PRICE -->
+
+                <div class="mt-auto
+                            pt-5
+                            border-t
+                            border-gray-100
+                            mt-6">
+
+                    <div class="flex
+                                items-center
+                                justify-between
+                                gap-4">
+
+
+                        <p class="text-xl
+                                  font-bold
+                                  text-sage-800">
+
+                            ₹{{ product.price }}
+
+                        </p>
+
+
+                        <!-- ADD TO CART -->
+
+                        <form method="POST"
+                              action="{% url 'add_to_cart' product.id %}">
+
+                            {% csrf_token %}
+
+                            <input type="hidden"
+                                   name="quantity"
+                                   value="1">
+
+
+                            <button type="submit"
+                                    class="bg-sage-800
+                                           hover:bg-sage-900
+                                           text-white
+                                           text-xs
+                                           font-medium
+                                           px-5
+                                           py-2.5
+                                           rounded-xl
+                                           transition
+                                           active:scale-95">
+
+                                🛒 Add to Cart
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- VIEW -->
+
+                    <a href="{% url 'product_detail' product.id %}"
+                       class="block
+                              text-center
+                              mt-3
+                              border
+                              border-sage-800
+                              text-sage-800
+                              hover:bg-sage-50
+                              text-xs
+                              font-medium
+                              px-4
+                              py-2.5
+                              rounded-xl
+                              transition">
+
+                        View Product
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- =====================================================
+         NO PRODUCTS
+    ====================================================== -->
+
+    <div class="bg-white
+                rounded-3xl
+                border
+                border-gray-100
+                p-16
+                text-center
+                shadow-sm">
+
+
+        <div class="text-6xl mb-5">
+
+            🛍️
+
+        </div>
+
+
+        <h2 class="text-2xl
+                   font-semibold
+                   text-gray-900">
+
+            No Products Found
+
+        </h2>
+
+
+        <p class="text-sm
+                  text-gray-500
+                  mt-2">
+
+            There are no products available
+            for this selection.
+
+        </p>
+
+
+        <a href="{% url 'user_products' %}"
+           class="inline-flex
+                  mt-6
+                  bg-sage-800
+                  hover:bg-sage-900
+                  text-white
+                  text-xs
+                  font-semibold
+                  px-6
+                  py-3
+                  rounded-xl
+                  transition">
+
+            View All Products
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="bg-white
+               border-t
+               border-gray-200
+               py-8">
+
+    <div class="max-w-7xl
+                mx-auto
+                px-5
+                sm:px-8
+                flex
+                flex-col
+                sm:flex-row
+                justify-between
+                items-center
+                gap-4">
+
+        <p class="text-xs
+                  text-gray-400">
+
+            © 2026 MiniShop.
+            All Rights Reserved.
+
+        </p>
+
+
+        <div class="flex
+                    gap-6
+                    text-xs
+                    text-gray-500">
+
+            <a href="{% url 'user_home' %}"
+               class="hover:text-sage-800">
+
+                Home
+
+            </a>
+
+
+            <a href="{% url 'user_products' %}"
+               class="hover:text-sage-800">
+
+                Products
+
+            </a>
+
+
+            <a href="{% url 'cart' %}"
+               class="hover:text-sage-800">
+
+                Cart
+
+            </a>
+
+
+            <a href="{% url 'orders' %}"
+               class="hover:text-sage-800">
+
+                Orders
+
+            </a>
+
+
+            <a href="{% url 'profile' %}"
+               class="hover:text-sage-800">
+
+                Profile
+
+            </a>
+
+        </div>
+
+
+        <p class="text-xs
+                  text-gray-400">
+
+            MiniShop
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
+
