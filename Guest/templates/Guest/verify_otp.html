@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MiniShop - Verify Email</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         TAILWIND CSS
+    ====================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =====================================================
+         TAILWIND CONFIG
+    ====================================================== -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        sans: [
+                            "Inter",
+                            "sans-serif"
+                        ]
+
+                    },
+
+                    colors: {
+
+                        sage: {
+
+                            50: "#f4f7f4",
+                            100: "#e3eae3",
+                            200: "#c5d5c3",
+                            300: "#a3b899",
+                            600: "#4a6042",
+                            800: "#212f1f",
+                            900: "#172215"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    </script>
+
+</head>
+
+
+<body
+    class="bg-[#f8f9fa] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans text-gray-900 antialiased"
+>
+
+
+    <!-- =====================================================
+         MAIN CARD
+    ====================================================== -->
+
+    <div
+        class="w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col md:flex-row my-auto"
+    >
+
+
+        <!-- =================================================
+             LEFT SECTION
+        ================================================== -->
+
+        <div
+            class="md:w-1/2 relative bg-[#212f1f] p-8 md:p-12 flex flex-col justify-between min-h-[320px] md:min-h-[580px] overflow-hidden text-white"
+        >
+
+            <!-- Background -->
+
+            <div class="absolute inset-0 z-0">
+
+                <img
+                    src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1200&auto=format&fit=crop"
+                    alt="MiniShop technology background"
+                    class="w-full h-full object-cover object-center brightness-[0.45] contrast-[1.05] scale-105"
+                >
+
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-[#172215]/95 via-[#212f1f]/80 to-transparent"
+                ></div>
+
+            </div>
+
+
+            <!-- Brand -->
+
+            <div class="relative z-10">
+
+                <a
+                    href="{% url 'index' %}"
+                    class="inline-flex items-center gap-2.5 text-white font-semibold text-base tracking-tight hover:opacity-80 transition"
+                >
+
+                    <span
+                        class="w-7 h-7 rounded-lg bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-bold text-sm border border-white/20"
+                    >
+                        M
+                    </span>
+
+                    <span>
+                        MiniShop
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Hero Content -->
+
+            <div
+                class="relative z-10 space-y-5 my-auto pt-8"
+            >
+
+                <div
+                    class="flex flex-col gap-1 w-7 opacity-80"
+                >
+
+                    <span
+                        class="w-full h-[2px] bg-white rounded-full"
+                    ></span>
+
+                    <span
+                        class="w-2/3 h-[2px] bg-white rounded-full"
+                    ></span>
+
+                </div>
+
+
+                <h1
+                    class="text-3xl md:text-4xl font-medium tracking-tight leading-tight text-white"
+                >
+                    One more step.
+                </h1>
+
+
+                <p
+                    class="text-xs md:text-sm text-gray-300 font-normal leading-relaxed max-w-xs"
+                >
+                    Verify your email address to complete your
+                    MiniShop account registration and keep your
+                    account secure.
+                </p>
+
+
+                <!-- Security Badge -->
+
+                <div
+                    class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl px-3 py-2"
+                >
+
+                    <div
+                        class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center"
+                    >
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="13"
+                            height="13"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <rect
+                                width="18"
+                                height="11"
+                                x="3"
+                                y="11"
+                                rx="2"
+                                ry="2"
+                            ></rect>
+
+                            <path
+                                d="M7 11V7a5 5 0 0 1 10 0v4"
+                            ></path>
+
+                        </svg>
+
+                    </div>
+
+                    <span class="text-[10px] text-gray-300">
+                        Secure email verification
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Bottom -->
+
+            <div
+                class="relative z-10 pt-4 border-t border-white/10 text-[11px] text-gray-400 font-normal"
+            >
+                Authentic electronics with trusted quality.
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT SECTION
+        ================================================== -->
+
+        <div
+            class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white"
+        >
+
+
+            <!-- Email Icon -->
+
+            <div class="mb-5">
+
+                <div
+                    class="w-11 h-11 rounded-2xl bg-sage-50 border border-sage-100 flex items-center justify-center mb-5"
+                >
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="text-sage-800"
+                    >
+
+                        <rect
+                            width="20"
+                            height="16"
+                            x="2"
+                            y="4"
+                            rx="2"
+                            ry="2"
+                        ></rect>
+
+                        <path
+                            d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h2
+                    class="text-2xl font-semibold text-gray-900 tracking-tight"
+                >
+                    Verify your email
+                </h2>
+
+
+                <p
+                    class="text-xs text-gray-500 mt-2 leading-relaxed"
+                >
+                    We've sent a 6-digit verification code to your
+                    email address.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 EMAIL DISPLAY
+            ================================================== -->
+
+            {% if request.session.registration_email %}
+
+                <div
+                    class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-6"
+                >
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center flex-shrink-0"
+                        >
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-gray-500"
+                            >
+
+                                <rect
+                                    width="20"
+                                    height="16"
+                                    x="2"
+                                    y="4"
+                                    rx="2"
+                                    ry="2"
+                                ></rect>
+
+                                <path
+                                    d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                                ></path>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="min-w-0">
+
+                            <p
+                                class="text-[9px] uppercase tracking-wider text-gray-400 font-semibold"
+                            >
+                                Verification email
+                            </p>
+
+                            <p
+                                class="text-xs text-gray-700 font-medium truncate"
+                            >
+                                {{ request.session.registration_email }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 DJANGO MESSAGES
+            ================================================== -->
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div
+                        class="
+                            {% if message.tags == 'success' %}
+                                bg-green-50 border-green-200 text-green-700
+                            {% elif message.tags == 'warning' %}
+                                bg-yellow-50 border-yellow-200 text-yellow-700
+                            {% else %}
+                                bg-red-50 border-red-200 text-red-700
+                            {% endif %}
+                            border text-xs px-4 py-3 rounded-xl mb-5
+                        "
+                    >
+
+                        <div class="flex items-start gap-2">
+
+                            {% if message.tags == "success" %}
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="mt-0.5 flex-shrink-0"
+                                >
+
+                                    <path
+                                        d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
+                                    ></path>
+
+                                    <polyline
+                                        points="22 4 12 14.01 9 11.01"
+                                    ></polyline>
+
+                                </svg>
+
+                            {% elif message.tags == "warning" %}
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="mt-0.5 flex-shrink-0"
+                                >
+
+                                    <path
+                                        d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                                    ></path>
+
+                                    <line
+                                        x1="12"
+                                        y1="9"
+                                        x2="12"
+                                        y2="13"
+                                    ></line>
+
+                                    <line
+                                        x1="12"
+                                        y1="17"
+                                        x2="12.01"
+                                        y2="17"
+                                    ></line>
+
+                                </svg>
+
+                            {% else %}
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="mt-0.5 flex-shrink-0"
+                                >
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                    ></circle>
+
+                                    <line
+                                        x1="12"
+                                        y1="8"
+                                        x2="12"
+                                        y2="12"
+                                    ></line>
+
+                                    <line
+                                        x1="12"
+                                        y1="16"
+                                        x2="12.01"
+                                        y2="16"
+                                    ></line>
+
+                                </svg>
+
+                            {% endif %}
+
+                            <span>
+                                {{ message }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 OTP FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{% url 'verify_otp' %}"
+                id="otpForm"
+                class="space-y-5"
+            >
+
+                {% csrf_token %}
+
+
+                <div>
+
+                    <label
+                        for="otp"
+                        class="block text-xs font-semibold text-gray-700 mb-2"
+                    >
+                        Enter verification code
+                    </label>
+
+
+                    <input
+                        id="otp"
+                        type="text"
+                        name="otp"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        minlength="6"
+                        pattern="[0-9]{6}"
+                        required
+                        autofocus
+                        placeholder="000000"
+                        class="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl text-center text-2xl tracking-[0.45em] font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-300"
+                    >
+
+                    <p
+                        class="text-[10px] text-gray-400 mt-2 text-center"
+                    >
+                        Enter the 6-digit code from your email.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     EXPIRY INFO
+                ================================================== -->
+
+                <div
+                    class="bg-sage-50 border border-sage-100 rounded-xl px-4 py-3"
+                >
+
+                    <div class="flex items-center gap-2">
+
+                        <div
+                            class="w-7 h-7 rounded-lg bg-white border border-sage-100 flex items-center justify-center flex-shrink-0"
+                        >
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-sage-800"
+                            >
+
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                ></circle>
+
+                                <polyline
+                                    points="12 6 12 12 16 14"
+                                ></polyline>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <p
+                                class="text-[10px] font-semibold text-sage-900"
+                            >
+                                OTP expires in 5 minutes
+                            </p>
+
+                            <p
+                                class="text-[9px] text-sage-600 mt-0.5"
+                            >
+                                Check your inbox and spam folder.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     VERIFY BUTTON
+                ================================================== -->
+
+                <button
+                    type="submit"
+                    id="verifyButton"
+                    class="w-full bg-sage-800 hover:bg-sage-900 text-white py-3 rounded-xl font-medium text-xs transition duration-200 shadow-sm hover:shadow active:scale-[0.99] flex items-center justify-center gap-2"
+                >
+
+                    <span id="verifyButtonText">
+                        Verify Email
+                    </span>
+
+                    <span
+                        id="verifyArrow"
+                        class="text-sm"
+                    >
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- =================================================
+                 RESEND OTP
+            ================================================== -->
+
+            <div class="mt-5 text-center">
+
+                <p class="text-xs text-gray-500">
+                    Didn't receive the code?
+                </p>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'resend_otp' %}"
+                    class="inline-block mt-1"
+                    id="resendForm"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        id="resendButton"
+                        class="text-xs text-sage-800 font-semibold hover:underline disabled:text-gray-400 disabled:no-underline"
+                    >
+                        Resend OTP
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- =================================================
+                 BACK TO REGISTER
+            ================================================== -->
+
+            <div
+                class="mt-5 pt-5 border-t border-gray-100"
+            >
+
+                <p class="text-center text-xs text-gray-500">
+
+                    Want to change your email?
+
+                    <a
+                        href="{% url 'register' %}"
+                        class="text-sage-800 font-semibold hover:underline"
+                    >
+                        Go back
+                    </a>
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 SECURITY NOTE
+            ================================================== -->
+
+            <div
+                class="flex items-center justify-center gap-1.5 mt-5 text-[9px] text-gray-400"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="11"
+                    height="11"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <rect
+                        width="18"
+                        height="11"
+                        x="3"
+                        y="11"
+                        rx="2"
+                        ry="2"
+                    ></rect>
+
+                    <path
+                        d="M7 11V7a5 5 0 0 1 10 0v4"
+                    ></path>
+
+                </svg>
+
+                <span>
+                    Your verification code is private and secure.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        // =====================================================
+        // OTP INPUT
+        // =====================================================
+
+        const otpInput = document.getElementById("otp");
+
+        if (otpInput) {
+
+            otpInput.addEventListener(
+                "input",
+                function () {
+
+                    this.value = this.value
+                        .replace(/[^0-9]/g, "")
+                        .substring(0, 6);
+
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // VERIFY FORM
+        // =====================================================
+
+        const otpForm = document.getElementById("otpForm");
+
+        const verifyButton = document.getElementById(
+            "verifyButton"
+        );
+
+        const verifyButtonText = document.getElementById(
+            "verifyButtonText"
+        );
+
+        const verifyArrow = document.getElementById(
+            "verifyArrow"
+        );
+
+
+        if (otpForm) {
+
+            otpForm.addEventListener(
+                "submit",
+                function (event) {
+
+                    if (!otpInput || otpInput.value.length !== 6) {
+
+                        event.preventDefault();
+
+                        return;
+
+                    }
+
+                    verifyButton.disabled = true;
+
+                    verifyButton.classList.add(
+                        "opacity-70",
+                        "cursor-not-allowed"
+                    );
+
+                    verifyButtonText.textContent =
+                        "Verifying...";
+
+                    verifyArrow.textContent = "✓";
+
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // RESEND FORM
+        // =====================================================
+
+        const resendForm = document.getElementById(
+            "resendForm"
+        );
+
+        const resendButton = document.getElementById(
+            "resendButton"
+        );
+
+
+        if (resendForm) {
+
+            resendForm.addEventListener(
+                "submit",
+                function () {
+
+                    resendButton.disabled = true;
+
+                    resendButton.textContent =
+                        "Sending...";
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

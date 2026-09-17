@@ -30,6 +30,10 @@ urlpatterns = [
         name="product_detail"
     ),
 
+    # =====================================================
+    # REVIEWS
+    # =====================================================
+
     path(
         "products/<int:pk>/review/",
         views.submit_review,
@@ -52,12 +56,8 @@ urlpatterns = [
         name="edit_profile"
     ),
 
-    # =====================================================
-    # CHANGE PASSWORD
-    # =====================================================
-
     path(
-        "change-password/",
+        "profile/change-password/",
         views.change_password,
         name="change_password"
     ),
@@ -107,19 +107,19 @@ urlpatterns = [
     ),
 
     # =====================================================
-    # ORDER
+    # ORDERS
     # =====================================================
-
-    path(
-        "order-success/<int:pk>/",
-        views.order_success,
-        name="order_success"
-    ),
 
     path(
         "orders/",
         views.orders,
         name="orders"
+    ),
+
+    path(
+        "orders/success/<int:pk>/",
+        views.order_success,
+        name="order_success"
     ),
 
     # =====================================================
@@ -131,5 +131,4 @@ urlpatterns = [
         views.logout,
         name="user_logout"
     ),
-
 ]
