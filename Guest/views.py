@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from .models import Register
 
@@ -19,75 +20,66 @@ SESSION_TIMEOUT = 7200
 MAX_NAME_LENGTH = 100
 MAX_EMAIL_LENGTH = 254
 MAX_PASSWORD_LENGTH = 128
+MIN_PASSWORD_LENGTH = 8
 
 
 # ============================================================
-# VALIDATION HELPERS
+# PASSWORD VALIDATION
 # ============================================================
 
-def validate_name(name):
-    """
-    Validate user name.
-
-    Requirements:
-    - Minimum 2 characters
-    - Maximum 100 characters
-    - Only letters, spaces, dots, apostrophes and hyphens
-    """
-
-    if not name:
-        return False
-
-    name = name.strip()
-
-    if len(name) < 2 or len(name) > MAX_NAME_LENGTH:
-        return False
-
-    return bool(
-        re.fullmatch(
-            r"^[A-Za-zÀ-ÿ .'-]+$",
-            name
-        )
-    )
-
-
-def validate_password(password):
+def validate_password_strength(password):
     """
     Password requirements:
-    - Minimum 8 characters
-    - Maximum 128 characters
-    - One uppercase letter
-    - One lowercase letter
-    - One number
+
+    Minimum 8 characters
+    Maximum 128 characters
+    At least one uppercase letter
+    At least one lowercase letter
+    At least one number
     """
 
-    if not password:
-        return False
+    if len(password) < MIN_PASSWORD_LENGTH:
+        return False, (
+            "Password must contain at least 8 characters, "
+            "one uppercase letter, one lowercase letter, "
+            "and one number."
+        )
 
-    if len(password) < 8 or len(password) > MAX_PASSWORD_LENGTH:
-        return False
+    if len(password) > MAX_PASSWORD_LENGTH:
+        return False, (
+            f"Password cannot exceed "
+            f"{MAX_PASSWORD_LENGTH} characters."
+        )
 
     if not re.search(r"[A-Z]", password):
-        return False
+        return False, (
+            "Password must contain at least one uppercase letter."
+        )
 
     if not re.search(r"[a-z]", password):
-        return False
+        return False, (
+            "Password must contain at least one lowercase letter."
+        )
 
-    if not re.search(r"[0-9]", password):
-        return False
+    if not re.search(r"\d", password):
+        return False, (
+            "Password must contain at least one number."
+        )
 
-    return True
+    return True, ""
 
 
-def validate_email_address(email):
+# ============================================================
+# EMAIL VALIDATION
+# ============================================================
+
+def validate_user_email(email):
     """
-    Validate email address.
+    Validate email format and length.
     """
 
     if not email:
         return False
-
-    email = email.strip().lower()
 
     if len(email) > MAX_EMAIL_LENGTH:
         return False
@@ -95,18 +87,22 @@ def validate_email_address(email):
     try:
         validate_email(email)
         return True
-
     except ValidationError:
         return False
 
 
 # ============================================================
-# AUTHENTICATION HELPERS
+# SESSION AUTHENTICATION
 # ============================================================
 
 def get_authenticated_user(request):
     """
-    Get currently authenticated MiniShop user.
+    Return the currently logged-in Register object.
+
+    Returns None if:
+    - user_id is not present
+    - user does not exist
+    - account is not approved
     """
 
     user_id = request.session.get("user_id")
@@ -115,9 +111,8 @@ def get_authenticated_user(request):
         return None
 
     try:
-        user = Register.objects.get(
-            id=user_id
-        )
+
+        user = Register.objects.get(id=user_id)
 
     except Register.DoesNotExist:
 
@@ -125,7 +120,7 @@ def get_authenticated_user(request):
 
         return None
 
-    # User must be approved
+    # Only approved accounts can remain authenticated.
     if user.approval_status != "approved":
 
         request.session.flush()
@@ -135,16 +130,16 @@ def get_authenticated_user(request):
     return user
 
 
-def is_authenticated(request):
-    """
-    Check whether the user is authenticated.
-    """
+# ============================================================
+# LOGIN CHECK
+# ============================================================
 
+def is_authenticated(request):
     return get_authenticated_user(request) is not None
 
 
 # ============================================================
-# AUTHORIZATION DECORATORS
+# LOGIN REQUIRED DECORATOR
 # ============================================================
 
 def login_required(view_func):
@@ -163,8 +158,6 @@ def login_required(view_func):
 
             return redirect("login")
 
-        request.current_user = user
-
         return view_func(
             request,
             *args,
@@ -173,6 +166,10 @@ def login_required(view_func):
 
     return wrapper
 
+
+# ============================================================
+# USER ROLE REQUIRED
+# ============================================================
 
 def user_required(view_func):
 
@@ -194,12 +191,10 @@ def user_required(view_func):
 
             messages.error(
                 request,
-                "You are not authorized to access this page."
+                "You do not have permission to access this page."
             )
 
             return redirect("index")
-
-        request.current_user = user
 
         return view_func(
             request,
@@ -209,6 +204,10 @@ def user_required(view_func):
 
     return wrapper
 
+
+# ============================================================
+# SHOP ROLE REQUIRED
+# ============================================================
 
 def shop_required(view_func):
 
@@ -230,23 +229,10 @@ def shop_required(view_func):
 
             messages.error(
                 request,
-                "Only shop accounts can access this page."
+                "Shop account required."
             )
 
             return redirect("index")
-
-        if user.approval_status != "approved":
-
-            request.session.flush()
-
-            messages.error(
-                request,
-                "Your shop account is not approved."
-            )
-
-            return redirect("login")
-
-        request.current_user = user
 
         return view_func(
             request,
@@ -256,6 +242,10 @@ def shop_required(view_func):
 
     return wrapper
 
+
+# ============================================================
+# ADMIN ROLE REQUIRED
+# ============================================================
 
 def admin_required(view_func):
 
@@ -277,23 +267,10 @@ def admin_required(view_func):
 
             messages.error(
                 request,
-                "Administrator access required."
+                "Admin access required."
             )
 
             return redirect("index")
-
-        if user.approval_status != "approved":
-
-            request.session.flush()
-
-            messages.error(
-                request,
-                "Your administrator account is not approved."
-            )
-
-            return redirect("login")
-
-        request.current_user = user
 
         return view_func(
             request,
@@ -305,10 +282,15 @@ def admin_required(view_func):
 
 
 # ============================================================
-# INDEX
+# HOME PAGE
 # ============================================================
 
 def index(request):
+    """
+    Public MiniShop home page.
+
+    Anyone can access this page.
+    """
 
     return render(
         request,
@@ -321,36 +303,48 @@ def index(request):
 # ============================================================
 
 def register(request):
+    """
+    User registration.
+
+    Flow:
+
+    Register form
+        ↓
+    Validate input
+        ↓
+    Check duplicate email
+        ↓
+    Hash password
+        ↓
+    Create Register account
+        ↓
+    Login automatically
+        ↓
+    Redirect to user home
+    """
 
     # --------------------------------------------------------
     # Already logged in
     # --------------------------------------------------------
 
-    current_user = get_authenticated_user(request)
+    existing_user = get_authenticated_user(request)
 
-    if current_user:
+    if existing_user is not None:
 
-        if current_user.role == "user":
-
-            return redirect("user_home")
-
-        elif current_user.role == "shop":
-
+        if existing_user.role == "shop":
             return redirect("shop_home")
 
-        elif current_user.role == "admin":
+        if existing_user.role == "admin":
+            return redirect("admin_home")
 
-            return redirect("admin_dashboard")
+        return redirect("user_home")
+
 
     # --------------------------------------------------------
-    # POST
+    # Only process POST
     # --------------------------------------------------------
 
     if request.method == "POST":
-
-        # ----------------------------------------------------
-        # Get form data
-        # ----------------------------------------------------
 
         name = request.POST.get(
             "name",
@@ -372,49 +366,77 @@ def register(request):
             ""
         )
 
+
         # ----------------------------------------------------
-        # Validate name
+        # NAME VALIDATION
         # ----------------------------------------------------
 
-        if not validate_name(name):
+        if not name:
 
             messages.error(
                 request,
-                "Please enter a valid name."
+                "Name is required."
             )
 
-            return redirect("register")
+            return render(
+                request,
+                "Guest/register.html"
+            )
+
+
+        if len(name) > MAX_NAME_LENGTH:
+
+            messages.error(
+                request,
+                f"Name cannot exceed "
+                f"{MAX_NAME_LENGTH} characters."
+            )
+
+            return render(
+                request,
+                "Guest/register.html"
+            )
+
 
         # ----------------------------------------------------
-        # Validate email
+        # EMAIL VALIDATION
         # ----------------------------------------------------
 
-        if not validate_email_address(email):
+        if not validate_user_email(email):
 
             messages.error(
                 request,
                 "Please enter a valid email address."
             )
 
-            return redirect("register")
+            return render(
+                request,
+                "Guest/register.html"
+            )
+
 
         # ----------------------------------------------------
-        # Validate password
+        # PASSWORD VALIDATION
         # ----------------------------------------------------
 
-        if not validate_password(password):
+        valid_password, password_error = \
+            validate_password_strength(password)
+
+        if not valid_password:
 
             messages.error(
                 request,
-                "Password must contain at least 8 characters, "
-                "one uppercase letter, one lowercase letter, "
-                "and one number."
+                password_error
             )
 
-            return redirect("register")
+            return render(
+                request,
+                "Guest/register.html"
+            )
+
 
         # ----------------------------------------------------
-        # Confirm password
+        # CONFIRM PASSWORD
         # ----------------------------------------------------
 
         if password != confirm_password:
@@ -424,14 +446,18 @@ def register(request):
                 "Passwords do not match."
             )
 
-            return redirect("register")
+            return render(
+                request,
+                "Guest/register.html"
+            )
+
 
         # ----------------------------------------------------
-        # Check existing email
+        # DUPLICATE EMAIL
         # ----------------------------------------------------
 
         if Register.objects.filter(
-            email=email
+            email__iexact=email
         ).exists():
 
             messages.error(
@@ -439,59 +465,67 @@ def register(request):
                 "An account with this email already exists."
             )
 
-            return redirect("register")
+            return render(
+                request,
+                "Guest/register.html"
+            )
 
-        # ====================================================
-        # CREATE ACCOUNT
-        # ====================================================
+
+        # ----------------------------------------------------
+        # CREATE USER
+        # ----------------------------------------------------
 
         try:
 
-            Register.objects.create(
-
+            user = Register.objects.create(
                 name=name,
-
                 email=email,
-
-                # Store hashed password
                 password=make_password(password),
-
-                # Normal registration creates user account
                 role="user",
-
-                # User accounts are automatically approved
-                approval_status="approved",
-
+                approval_status="approved"
             )
 
-        except Exception as error:
-
-            print(
-                "ACCOUNT CREATION ERROR:",
-                error
-            )
+        except Exception:
 
             messages.error(
                 request,
-                "Unable to create your account. "
-                "Please try again."
+                "Unable to create account. Please try again."
             )
 
-            return redirect("register")
+            return render(
+                request,
+                "Guest/register.html"
+            )
+
 
         # ----------------------------------------------------
-        # Registration successful
+        # CREATE SESSION
         # ----------------------------------------------------
+
+        request.session.flush()
+
+        request.session["user_id"] = user.id
+        request.session["user_name"] = user.name
+        request.session["user_email"] = user.email
+        request.session["user_role"] = user.role
+
+        # Compatibility with older code
+        request.session["role"] = user.role
+
+        request.session.set_expiry(
+            SESSION_TIMEOUT
+        )
 
         messages.success(
             request,
-            "Account created successfully. Please login."
+            "Account created successfully."
         )
 
-        return redirect("login")
+        return redirect("user_home")
+
 
     # --------------------------------------------------------
-    # GET
+    # GET REQUEST
     # --------------------------------------------------------
 
     return render(
@@ -505,26 +539,26 @@ def register(request):
 # ============================================================
 
 def login(request):
+    """
+    Session-based login.
+    """
 
     # --------------------------------------------------------
     # Already authenticated
     # --------------------------------------------------------
 
-    current_user = get_authenticated_user(request)
+    existing_user = get_authenticated_user(request)
 
-    if current_user:
+    if existing_user is not None:
 
-        if current_user.role == "user":
-
-            return redirect("user_home")
-
-        elif current_user.role == "shop":
-
+        if existing_user.role == "shop":
             return redirect("shop_home")
 
-        elif current_user.role == "admin":
+        if existing_user.role == "admin":
+            return redirect("admin_home")
 
-            return redirect("admin_dashboard")
+        return redirect("user_home")
+
 
     # --------------------------------------------------------
     # POST
@@ -542,26 +576,54 @@ def login(request):
             ""
         )
 
+
         # ----------------------------------------------------
-        # Validate email
+        # BASIC VALIDATION
         # ----------------------------------------------------
 
-        if not validate_email_address(email):
+        if not email or not password:
+
+            messages.error(
+                request,
+                "Email and password are required."
+            )
+
+            return render(
+                request,
+                "Guest/login.html"
+            )
+
+
+        # ----------------------------------------------------
+        # FIND USER
+        # ----------------------------------------------------
+
+        try:
+
+            user = Register.objects.get(
+                email__iexact=email
+            )
+
+        except Register.DoesNotExist:
 
             messages.error(
                 request,
                 "Invalid email or password."
             )
 
-            return redirect("login")
+            return render(
+                request,
+                "Guest/login.html"
+            )
+
 
         # ----------------------------------------------------
-        # Validate password
+        # PASSWORD CHECK
         # ----------------------------------------------------
 
-        if (
-            not password
-            or len(password) > MAX_PASSWORD_LENGTH
+        if not check_password(
+            password,
+            user.password
         ):
 
             messages.error(
@@ -569,163 +631,79 @@ def login(request):
                 "Invalid email or password."
             )
 
-            return redirect("login")
-
-        # ----------------------------------------------------
-        # Find account
-        # ----------------------------------------------------
-
-        user = Register.objects.filter(
-            email=email
-        ).first()
-
-        # ----------------------------------------------------
-        # Verify password
-        # ----------------------------------------------------
-
-        if (
-            not user
-            or not check_password(
-                password,
-                user.password
-            )
-        ):
-
-            messages.error(
+            return render(
                 request,
-                "Invalid email or password."
+                "Guest/login.html"
             )
 
-            return redirect("login")
 
-        # ====================================================
-        # NORMAL USER
-        # ====================================================
+        # ----------------------------------------------------
+        # APPROVAL CHECK
+        # ----------------------------------------------------
 
-        if user.role == "user":
+        if user.approval_status != "approved":
 
-            if user.approval_status != "approved":
-
-                messages.error(
-                    request,
-                    "Your account is not approved."
-                )
-
-                return redirect("login")
-
-            # ------------------------------------------------
-            # Prevent session fixation
-            # ------------------------------------------------
-
-            request.session.flush()
-
-            request.session["user_id"] = user.id
-
-            request.session["user_name"] = user.name
-
-            request.session["user_email"] = user.email
-
-            request.session["user_role"] = user.role
-
-            # Compatibility
-            request.session["role"] = user.role
-
-            # Session expires after 2 hours
-            request.session.set_expiry(
-                SESSION_TIMEOUT
-            )
-
-            return redirect("user_home")
-
-        # ====================================================
-        # SHOP
-        # ====================================================
-
-        elif user.role == "shop":
-
-            # ------------------------------------------------
-            # Pending shop
-            # ------------------------------------------------
-
-            if user.approval_status == "pending":
-
-                messages.warning(
-                    request,
-                    "Your shop account is waiting "
-                    "for admin approval."
-                )
-
-                return redirect("login")
-
-            # ------------------------------------------------
-            # Rejected shop
-            # ------------------------------------------------
-
-            if user.approval_status == "rejected":
-
-                messages.error(
-                    request,
-                    "Your shop account has been rejected."
-                )
-
-                return redirect("login")
-
-            # ------------------------------------------------
-            # Approved shop
-            # ------------------------------------------------
-
-            if user.approval_status == "approved":
-
-                # Prevent session fixation
-                request.session.flush()
-
-                request.session["user_id"] = user.id
-
-                request.session["user_name"] = user.name
-
-                request.session["user_email"] = user.email
-
-                request.session["user_role"] = user.role
-
-                request.session["role"] = user.role
-
-                request.session.set_expiry(
-                    SESSION_TIMEOUT
-                )
-
-                return redirect("shop_home")
-
-            messages.error(
+            messages.warning(
                 request,
-                "Unable to login to this account."
+                "Your account is not approved yet."
             )
 
-            return redirect("login")
-
-        # ====================================================
-        # ADMIN
-        # ====================================================
-
-        elif user.role == "admin":
-
-            messages.info(
+            return render(
                 request,
-                "Please use the Django Admin login "
-                "for administrator access."
+                "Guest/login.html"
             )
 
-            return redirect("login")
 
-        # ====================================================
-        # UNKNOWN ROLE
-        # ====================================================
+        # ----------------------------------------------------
+        # CREATE SESSION
+        # ----------------------------------------------------
 
-        messages.error(
-            request,
-            "Unable to login to this account."
+        request.session.flush()
+
+        request.session["user_id"] = user.id
+        request.session["user_name"] = user.name
+        request.session["user_email"] = user.email
+        request.session["user_role"] = user.role
+
+        # Compatibility with existing code
+        request.session["role"] = user.role
+
+        request.session.set_expiry(
+            SESSION_TIMEOUT
         )
 
-        return redirect("login")
+
+        # ----------------------------------------------------
+        # ROLE REDIRECTION
+        # ----------------------------------------------------
+
+        if user.role == "shop":
+
+            messages.success(
+                request,
+                f"Welcome back, {user.name}!"
+            )
+
+            return redirect("shop_home")
+
+
+        if user.role == "admin":
+
+            messages.success(
+                request,
+                f"Welcome back, {user.name}!"
+            )
+
+            return redirect("admin_home")
+
+
+        messages.success(
+            request,
+            f"Welcome back, {user.name}!"
+        )
+
+        return redirect("user_home")
+
 
     # --------------------------------------------------------
     # GET
@@ -742,12 +720,25 @@ def login(request):
 # ============================================================
 
 def logout(request):
+    """
+    Logout the current user.
 
+    POST is recommended for logout.
+    """
+
+    if request.method == "POST":
+
+        request.session.flush()
+
+        messages.success(
+            request,
+            "You have been logged out successfully."
+        )
+
+        return redirect("login")
+
+
+    # Allow GET as a fallback for older links.
     request.session.flush()
 
-    messages.success(
-        request,
-        "You have been logged out successfully."
-    )
-
-    return redirect("index")
+    return redirect("login")
