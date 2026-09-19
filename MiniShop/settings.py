@@ -37,9 +37,10 @@ if not SECRET_KEY:
     raise RuntimeError("SECRET_KEY is missing from .env")
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
-
 ALLOWED_HOSTS = [
-"*",
+    "django-demo-web-1.onrender.com",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
