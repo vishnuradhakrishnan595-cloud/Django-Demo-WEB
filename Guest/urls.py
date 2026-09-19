@@ -24,22 +24,7 @@ urlpatterns = [
         name="register"
     ),
 
-    # =====================================================
-    # OTP VERIFICATION
-    # =====================================================
-
-    path(
-        "verify-otp/",
-        views.verify_otp,
-        name="verify_otp"
-    ),
-
-    path(
-        "resend-otp/",
-        views.resend_otp,
-        name="resend_otp"
-    ),
-
+   
     # =====================================================
     # LOGIN / LOGOUT
     # =====================================================

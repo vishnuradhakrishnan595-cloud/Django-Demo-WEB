@@ -3,7 +3,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,24 +64,20 @@
         }
 
     </script>
-    
-
 </head>
 
 <body class="bg-[#f8f9fa] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans text-gray-900 antialiased">
-
-    
-    <!-- =====================================================
+    <!-- =================================================
      MAIN CARD
-====================================================== -->
+================================================== -->
 
     <div
         class="w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col md:flex-row my-auto">
 
 
-        <!-- =====================================================
+        <!-- =================================================
          LEFT SECTION
-    ====================================================== -->
+    ================================================== -->
 
         <div
             class="md:w-1/2 relative bg-[#212f1f] p-8 md:p-12 flex flex-col justify-between min-h-[320px] md:min-h-[580px] overflow-hidden text-white">
@@ -101,9 +96,7 @@
             </div>
 
 
-            <!-- =================================================
-             BRAND
-        ================================================== -->
+            <!-- Brand -->
 
             <div class="relative z-10">
 
@@ -124,11 +117,10 @@
             </div>
 
 
-            <!-- =================================================
-             HERO CONTENT
-        ================================================== -->
+            <!-- Hero Content -->
 
             <div class="relative z-10 space-y-4 my-auto pt-8">
+
 
                 <div class="flex flex-col gap-1 w-7 opacity-80">
 
@@ -160,9 +152,7 @@
             </div>
 
 
-            <!-- =================================================
-             BOTTOM
-        ================================================== -->
+            <!-- Bottom -->
 
             <div class="relative z-10 pt-4 border-t border-white/10 text-[11px] text-gray-400 font-normal">
 
@@ -173,44 +163,17 @@
         </div>
 
 
-        <!-- =====================================================
-         RIGHT SECTION
-    ====================================================== -->
+
+        <!-- ================================================= 
+         RIGHT SECTION 
+    ================================================== -->
 
         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
 
 
-            <!-- =================================================
-             HEADING
-        ================================================== -->
+            <!-- Heading -->
 
             <div class="mb-6">
-
-                <div class="flex items-center gap-2 mb-3">
-
-                    <span class="w-8 h-8 rounded-xl bg-sage-50 border border-sage-100 flex items-center justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-sage-800">
-
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                            </path>
-
-                            <polyline points="22,6 12,13 2,6"></polyline>
-
-                        </svg>
-
-                    </span>
-
-                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
-
-                        Secure Registration
-
-                    </span>
-
-                </div>
-
 
                 <h2 class="text-2xl font-semibold text-gray-900 tracking-tight">
 
@@ -221,66 +184,38 @@
 
                 <p class="text-xs text-gray-500 mt-1">
 
-                    Enter your details and verify your email with OTP.
+                    Create your MiniShop user account.
 
                 </p>
 
             </div>
 
 
-            <!-- =================================================
-             DJANGO MESSAGES
+
+            <!-- ================================================= 
+             DJANGO MESSAGES 
         ================================================== -->
 
             {% if messages %}
 
             {% for message in messages %}
 
-            <div class="
-                        {% if message.tags == 'success' %}
-                            bg-green-50 border-green-200 text-green-700
-                        {% elif message.tags == 'warning' %}
-                            bg-yellow-50 border-yellow-200 text-yellow-700
-                        {% else %}
-                            bg-red-50 border-red-200 text-red-700
-                        {% endif %}
+            <div class=" 
 
-                        border text-xs px-4 py-3 rounded-xl mb-5
-                    ">
+                    {% if message.tags == 'success' %} 
 
-                <div class="flex items-start gap-2">
+                        bg-green-50 border-green-200 text-green-600 
 
-                    {% if message.tags == 'success' %}
+                    {% else %} 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" class="mt-0.5 flex-shrink-0">
+                        bg-red-50 border-red-200 text-red-600 
 
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    {% endif %} 
 
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    border text-xs px-4 py-3 rounded-xl mb-6 
+                ">
 
-                    </svg>
-
-                    {% else %}
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" class="mt-0.5 flex-shrink-0">
-
-                        <circle cx="12" cy="12" r="10"></circle>
-
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-
-                    </svg>
-
-                    {% endif %}
-
-                    <span>
-                        {{ message }}
-                    </span>
-
-                </div>
+                {{ message }}
 
             </div>
 
@@ -289,180 +224,106 @@
             {% endif %}
 
 
-            <!-- =================================================
-             REGISTER FORM
+
+            <!-- ================================================= 
+             REGISTER FORM 
         ================================================== -->
 
-            <form method="POST" action="{% url 'register' %}" class="space-y-4">
+            <form method="POST" action="{% url 'register' %}" class="space-y-3.5">
 
                 {% csrf_token %}
 
 
-                <!-- =================================================
-                 FULL NAME
-            ================================================== -->
+                <!-- Full Name -->
 
                 <div>
 
-                    <label for="name" class="block text-xs font-semibold text-gray-700 mb-1.5">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
 
                         Full Name
 
                     </label>
 
 
-                    <input id="name" type="text" name="name" required autocomplete="name" maxlength="100"
-                        value="{{ request.POST.name|default:'' }}" placeholder="Enter your full name"
+                    <input type="text" name="name" required autocomplete="name" placeholder="Enter your name"
                         class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400">
 
                 </div>
 
 
-                <!-- =================================================
-                 EMAIL
-            ================================================== -->
+
+                <!-- Email -->
 
                 <div>
 
-                    <label for="email" class="block text-xs font-semibold text-gray-700 mb-1.5">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
 
-                        Email Address
+                        Email
 
                     </label>
 
 
-                    <input id="email" type="email" name="email" required autocomplete="email" maxlength="254"
-                        value="{{ request.POST.email|default:'' }}" placeholder="name@example.com"
+                    <input type="email" name="email" required autocomplete="email" placeholder="name@example.com"
                         class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400">
-
-
-                    <p class="text-[10px] text-gray-400 mt-1.5">
-
-                        We'll send a 6-digit verification code to this email.
-
-                    </p>
 
                 </div>
 
 
-                <!-- =================================================
-                 PASSWORD
-            ================================================== -->
+
+                <!-- Password -->
 
                 <div>
 
-                    <label for="password" class="block text-xs font-semibold text-gray-700 mb-1.5">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
 
                         Password
 
                     </label>
 
 
-                    <input id="password" type="password" name="password" required minlength="6"
-                        autocomplete="new-password" placeholder="••••••••"
+                    <input type="password" name="password" required minlength="6" autocomplete="new-password"
+                        placeholder="••••••••"
                         class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400">
-
-
-                    <p class="text-[10px] text-gray-400 mt-1.5">
-
-                        Minimum 6 characters.
-
-                    </p>
 
                 </div>
 
 
-                <!-- =================================================
-                 CONFIRM PASSWORD
-            ================================================== -->
+
+                <!-- Confirm Password -->
 
                 <div>
 
-                    <label for="confirm_password" class="block text-xs font-semibold text-gray-700 mb-1.5">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">
 
                         Confirm Password
 
                     </label>
 
 
-                    <input id="confirm_password" type="password" name="confirm_password" required minlength="6"
-                        autocomplete="new-password" placeholder="••••••••"
+                    <input type="password" name="confirm_password" required minlength="6" autocomplete="new-password"
+                        placeholder="••••••••"
                         class="w-full px-3.5 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-sage-800/20 focus:border-sage-800 transition placeholder-gray-400">
 
                 </div>
 
 
-                <!-- =================================================
-                 EMAIL OTP INFO
-            ================================================== -->
 
-                <div class="bg-sage-50 border border-sage-100 rounded-xl px-4 py-3">
-
-                    <div class="flex items-start gap-3">
-
-                        <div
-                            class="w-7 h-7 rounded-lg bg-white border border-sage-100 flex items-center justify-center flex-shrink-0">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="text-sage-800">
-
-                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-
-                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-
-                            </svg>
-
-                        </div>
-
-
-                        <div>
-
-                            <p class="text-[11px] font-semibold text-sage-900">
-
-                                Email verification required
-
-                            </p>
-
-
-                            <p class="text-[10px] text-sage-600 mt-0.5 leading-relaxed">
-
-                                After submitting this form, we'll send a
-                                6-digit OTP to your email. The OTP will expire
-                                after 5 minutes.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =================================================
-                 SUBMIT
+                <!-- ================================================= 
+                 SUBMIT 
             ================================================== -->
 
                 <button type="submit"
-                    class="w-full bg-sage-800 hover:bg-sage-900 text-white py-3 rounded-xl font-medium text-xs transition duration-200 shadow-sm hover:shadow active:scale-[0.99] flex items-center justify-center gap-2 mt-5">
+                    class="w-full bg-sage-800 hover:bg-sage-900 text-white py-3 rounded-xl font-medium text-xs transition duration-200 shadow-sm hover:shadow active:scale-[0.99] flex items-center justify-center gap-2 mt-4">
 
-                    <span>
-                        Continue to Email Verification
-                    </span>
-
-                    <span class="text-sm">
-                        →
-                    </span>
+                    Create Account →
 
                 </button>
 
             </form>
 
 
-            <!-- =================================================
-             DIVIDER
-        ================================================== -->
+
+            <!-- Divider -->
 
             <div class="relative my-5">
 
@@ -486,9 +347,8 @@
             </div>
 
 
-            <!-- =================================================
-             LOGIN
-        ================================================== -->
+
+            <!-- Login -->
 
             <p class="text-center text-xs text-gray-500">
 
@@ -502,32 +362,9 @@
 
             </p>
 
-
-            <!-- =================================================
-             SECURITY NOTE
-        ================================================== -->
-
-            <div class="flex items-center justify-center gap-1.5 mt-5 text-[9px] text-gray-400">
-
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-
-                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-
-                </svg>
-
-                <span>
-                    Your information is securely protected.
-                </span>
-
-            </div>
-
         </div>
 
     </div>
-
 </body>
 
 </html>
