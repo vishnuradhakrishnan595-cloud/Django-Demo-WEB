@@ -44,6 +44,10 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://django-demo-web-1.onrender.com",
+]
+
 
 # Google / django-allauth
 SITE_ID = 1
