@@ -1,3 +1,4 @@
+
 """
 Django settings for MiniShop project.
 
@@ -31,8 +32,9 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 if not SECRET_KEY:
-    raise RuntimeError("SECRET_KEY is missing from environment variables")
-
+    raise RuntimeError(
+        "SECRET_KEY is missing from environment variables"
+    )
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
@@ -100,6 +102,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
 
     "django.middleware.security.SecurityMiddleware",
+
+    # WhiteNoise serves static files on Render
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
 
@@ -178,15 +183,11 @@ WSGI_APPLICATION = "MiniShop.wsgi.application"
 # DATABASE
 # =========================================================
 #
-# LOCAL COMPUTER
-# ----------------
-# If DATABASE_URL does not exist:
-#     SQLite -> db.sqlite3
+# LOCAL:
+#     If DATABASE_URL does not exist -> SQLite
 #
-# RENDER
-# ----------------
-# If DATABASE_URL exists:
-#     PostgreSQL
+# RENDER:
+#     If DATABASE_URL exists -> PostgreSQL
 #
 # =========================================================
 
@@ -259,6 +260,9 @@ USE_TZ = True
 # =========================================================
 # STATIC FILES
 # =========================================================
+# =========================================================
+# STATIC FILES
+# =========================================================
 
 STATIC_URL = "/static/"
 
@@ -266,7 +270,15 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # =========================================================
-# MEDIA FILES
+# WHITENOISE
+# =========================================================
+
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
+# =========================================================
+# MEDIA / UPLOADED FILES
 # =========================================================
 
 MEDIA_URL = "/media/"
@@ -281,14 +293,19 @@ MEDIA_ROOT = BASE_DIR / "media"
 SITE_ID = 1
 
 
-# Normal Django login redirect
+# ---------------------------------------------------------
+# Normal Django login/logout
+# ---------------------------------------------------------
+
 LOGIN_REDIRECT_URL = "/user/"
 
-# Normal Django logout redirect
 LOGOUT_REDIRECT_URL = "/login/"
 
 
+# ---------------------------------------------------------
 # django-allauth redirects
+# ---------------------------------------------------------
+
 ACCOUNT_LOGIN_REDIRECT_URL = "/user/"
 
 ACCOUNT_SIGNUP_REDIRECT_URL = "/user/"
@@ -302,7 +319,9 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 
 SOCIALACCOUNT_PROVIDERS = {
+
     "google": {
+
         "SCOPE": [
             "profile",
             "email",
@@ -342,9 +361,10 @@ if not DEBUG:
     # Redirect HTTP -> HTTPS
     SECURE_SSL_REDIRECT = True
 
-    # Secure cookies
+    # Secure session cookie
     SESSION_COOKIE_SECURE = True
 
+    # Secure CSRF cookie
     CSRF_COOKIE_SECURE = True
 
 else:
@@ -360,26 +380,35 @@ else:
 # =========================================================
 
 LOGGING = {
+
     "version": 1,
 
     "disable_existing_loggers": False,
 
     "handlers": {
+
         "console": {
             "class": "logging.StreamHandler",
         },
     },
 
     "loggers": {
+
         "django": {
+
             "handlers": ["console"],
+
             "level": "ERROR",
+
             "propagate": False,
         },
 
         "django.server": {
+
             "handlers": ["console"],
+
             "level": "ERROR",
+
             "propagate": False,
         },
     },
