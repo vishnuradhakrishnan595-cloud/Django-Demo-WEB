@@ -84,7 +84,7 @@ INSTALLED_APPS = [
     "cloudinary_storage",
 
     # -----------------------------------------------------
-    # MiniShop applications
+    # MiniShop Apps
     # -----------------------------------------------------
 
     "Guest",
@@ -110,7 +110,7 @@ MIDDLEWARE = [
 
     "django.middleware.security.SecurityMiddleware",
 
-    # WhiteNoise serves static files
+    # WhiteNoise for static files
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -142,8 +142,10 @@ ROOT_URLCONF = "MiniShop.urls"
 # =========================================================
 
 TEMPLATES = [
+
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "BACKEND":
+            "django.template.backends.django.DjangoTemplates",
 
         "DIRS": [
             BASE_DIR / "templates",
@@ -152,6 +154,7 @@ TEMPLATES = [
         "APP_DIRS": True,
 
         "OPTIONS": {
+
             "context_processors": [
 
                 "django.template.context_processors.request",
@@ -184,20 +187,28 @@ if DATABASE_URL:
     import dj_database_url
 
     DATABASES = {
+
         "default": dj_database_url.parse(
             DATABASE_URL,
             conn_max_age=600,
             ssl_require=True,
         )
+
     }
 
 else:
 
     DATABASES = {
+
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+
+            "ENGINE":
+                "django.db.backends.sqlite3",
+
+            "NAME":
+                BASE_DIR / "db.sqlite3",
         }
+
     }
 
 
@@ -250,23 +261,35 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+
+# Make sure this directory exists locally.
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
 
 # =========================================================
-# WHITENOISE
+# STORAGE
 # =========================================================
 
 STORAGES = {
 
+    # -----------------------------------------------------
+    # User uploaded files → Cloudinary
+    # -----------------------------------------------------
+
     "default": {
+
         "BACKEND":
             "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
 
+    # -----------------------------------------------------
+    # CSS / JS / Static files → WhiteNoise
+    # -----------------------------------------------------
+
     "staticfiles": {
+
         "BACKEND":
             "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
@@ -289,6 +312,8 @@ CLOUDINARY_API_SECRET = os.getenv(
     "CLOUDINARY_API_SECRET"
 )
 
+
+# Make sure all Cloudinary variables exist
 
 if not all([
     CLOUDINARY_CLOUD_NAME,
@@ -324,14 +349,14 @@ CLOUDINARY_STORAGE = {
 SITE_ID = 1
 
 
-# Normal Django login/logout
+# Normal Django login
 
 LOGIN_REDIRECT_URL = "/user/"
 
 LOGOUT_REDIRECT_URL = "/login/"
 
 
-# Django Allauth redirects
+# Django Allauth
 
 ACCOUNT_LOGIN_REDIRECT_URL = "/user/"
 
@@ -355,7 +380,9 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
 
         "AUTH_PARAMS": {
-            "access_type": "online",
+
+            "access_type":
+                "online",
         },
     },
 }
@@ -375,7 +402,7 @@ SESSION_COOKIE_HTTPONLY = True
 
 
 # =========================================================
-# RENDER / HTTPS SECURITY
+# HTTPS / RENDER SECURITY
 # =========================================================
 
 if not DEBUG:
@@ -411,7 +438,9 @@ LOGGING = {
     "handlers": {
 
         "console": {
-            "class": "logging.StreamHandler",
+
+            "class":
+                "logging.StreamHandler",
         },
     },
 
@@ -423,9 +452,11 @@ LOGGING = {
                 "console"
             ],
 
-            "level": "ERROR",
+            "level":
+                "ERROR",
 
-            "propagate": False,
+            "propagate":
+                False,
         },
 
         "django.server": {
@@ -434,9 +465,11 @@ LOGGING = {
                 "console"
             ],
 
-            "level": "ERROR",
+            "level":
+                "ERROR",
 
-            "propagate": False,
+            "propagate":
+                False,
         },
     },
 }
