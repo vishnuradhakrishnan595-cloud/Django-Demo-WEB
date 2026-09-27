@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ENVIRONMENT VARIABLES
 # =========================================================
 
+# Load .env file from project root
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -103,7 +104,7 @@ MIDDLEWARE = [
 
     "django.middleware.security.SecurityMiddleware",
 
-    # WhiteNoise serves static files on Render
+    # WhiteNoise for static files
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -124,21 +125,7 @@ MIDDLEWARE = [
 
 
 # =========================================================
-# AUTHENTICATION BACKENDS
-# =========================================================
-
-AUTHENTICATION_BACKENDS = [
-
-    # Normal Django authentication
-    "django.contrib.auth.backends.ModelBackend",
-
-    # django-allauth authentication
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
-
-
-# =========================================================
-# ROOT URL CONFIGURATION
+# URL CONFIGURATION
 # =========================================================
 
 ROOT_URLCONF = "MiniShop.urls"
@@ -181,14 +168,6 @@ WSGI_APPLICATION = "MiniShop.wsgi.application"
 
 # =========================================================
 # DATABASE
-# =========================================================
-#
-# LOCAL:
-#     If DATABASE_URL does not exist -> SQLite
-#
-# RENDER:
-#     If DATABASE_URL exists -> PostgreSQL
-#
 # =========================================================
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -260,13 +239,15 @@ USE_TZ = True
 # =========================================================
 # STATIC FILES
 # =========================================================
-# =========================================================
-# STATIC FILES
-# =========================================================
 
 STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Optional project-level static directory
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 
 # =========================================================
@@ -276,6 +257,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
+
 
 # =========================================================
 # MEDIA / UPLOADED FILES
@@ -316,7 +298,6 @@ ACCOUNT_SIGNUP_REDIRECT_URL = "/user/"
 # =========================================================
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
-
 
 SOCIALACCOUNT_PROVIDERS = {
 
